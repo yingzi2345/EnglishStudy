@@ -1,0 +1,164 @@
+/* 打卡页样式 — pages/checkin/checkin.wxss */
+
+.checkin-card {
+  padding: 48rpx 24rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #f5f7fa, #e8ecf1);
+}
+
+.checkin-card.checked {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+
+.checkin-circle {
+  width: 220rpx;
+  height: 220rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4A90D9, #357ABD);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8rpx 32rpx rgba(74, 144, 217, 0.3);
+  transition: all 0.3s;
+}
+
+.checkin-circle.checked {
+  background: linear-gradient(135deg, #52c41a, #389e0d);
+  box-shadow: 0 8rpx 32rpx rgba(82, 196, 26, 0.3);
+}
+
+.checkin-circle:active {
+  transform: scale(0.95);
+}
+
+.checkin-day-label {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.9);
+}
+
+.checkin-date {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 4rpx;
+}
+
+.checkin-icon {
+  font-size: 48rpx;
+  color: #fff;
+  margin-top: 8rpx;
+}
+
+.streak-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.streak-item {
+  flex: 1;
+  text-align: center;
+}
+
+.streak-num {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.streak-label {
+  font-size: 22rpx;
+  color: #999;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.streak-divider {
+  width: 2rpx;
+  height: 48rpx;
+  background: #e8e8e8;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.study-item {
+  text-align: center;
+  flex: 1;
+}
+
+.study-value {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.study-label {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.month-picker {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.arrow {
+  font-size: 24rpx;
+  color: #4A90D9;
+  padding: 8rpx;
+}
+
+.month-text {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.weekday-row {
+  display: flex;
+  justify-content: space-around;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.weekday {
+  width: 14.28%;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.date-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.date-cell {
+  width: 14.28%;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+}
+
+.date-cell.empty {
+  visibility: hidden;
+}
+
+.date-cell.checked {
+  background: #4A90D9;
+  border-radius: 50%;
+  color: #fff;
+}
+
+.date-cell.today {
+  border: 2rpx solid #4A90D9;
+  border-radius: 50%;
+}

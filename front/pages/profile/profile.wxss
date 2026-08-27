@@ -1,0 +1,174 @@
+/* 个人中心页样式 — pages/profile/profile.wxss */
+
+.profile-header {
+  text-align: center;
+  padding: 48rpx 24rpx;
+  background: linear-gradient(135deg, #4A90D9, #357ABD);
+  color: #fff;
+}
+
+.profile-avatar {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255,255,255,0.4);
+}
+
+.profile-name {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.profile-stats {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.85);
+}
+
+.data-grid {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.data-item {
+  flex: 1;
+}
+
+.data-value {
+  font-size: 44rpx;
+  font-weight: 700;
+  display: block;
+}
+
+.data-label {
+  font-size: 22rpx;
+  color: #999;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.menu-list {
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.menu-item {
+  margin-bottom: 2rpx;
+  border-radius: 0;
+  padding: 32rpx 24rpx;
+  font-size: 30rpx;
+}
+
+.menu-item:first-child {
+  border-radius: 16rpx 16rpx 0 0;
+}
+
+.menu-item:last-child {
+  border-radius: 0 0 16rpx 16rpx;
+  margin-bottom: 0;
+}
+
+.menu-item:active {
+  background: #f9f9f9;
+}
+
+.arrow {
+  color: #ccc;
+  font-size: 28rpx;
+}
+
+/* 登录日志弹窗 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 640rpx;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx 32rpx 24rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 36rpx;
+  color: #999;
+  padding: 8rpx;
+}
+
+.modal-body {
+  max-height: 60vh;
+  padding: 0 24rpx;
+}
+
+.modal-empty {
+  padding: 80rpx 0;
+  text-align: center;
+}
+
+.log-item {
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.log-item:last-child {
+  border-bottom: none;
+  padding-bottom: 32rpx;
+}
+
+.log-time {
+  font-size: 26rpx;
+  color: #4A90D9;
+  margin-bottom: 16rpx;
+}
+
+.log-row {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.log-label {
+  width: 140rpx;
+  font-size: 24rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.log-value {
+  font-size: 24rpx;
+  color: #555;
+  flex: 1;
+  word-break: break-all;
+  line-height: 1.6;
+}
+
+.log-abnormal {
+  margin-top: 8rpx;
+  padding: 8rpx 16rpx;
+  background: #fff2f0;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+}

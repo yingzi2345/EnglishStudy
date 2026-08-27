@@ -1,0 +1,49 @@
+<!-- 排行榜页 — pages/leaderboard/leaderboard.wxml -->
+<view class="container">
+  <!-- 时间段切换 -->
+  <view class="period-tabs flex-row card">
+    <view class="period-tab {{activePeriod === 'daily' ? 'active' : ''}}"
+          bindtap="switchPeriod" data-period="daily">日榜</view>
+    <view class="period-tab {{activePeriod === 'weekly' ? 'active' : ''}}"
+          bindtap="switchPeriod" data-period="weekly">周榜</view>
+    <view class="period-tab {{activePeriod === 'monthly' ? 'active' : ''}}"
+          bindtap="switchPeriod" data-period="monthly">月榜</view>
+    <view class="period-tab {{activePeriod === 'alltime' ? 'active' : ''}}"
+          bindtap="switchPeriod" data-period="alltime">总榜</view>
+  </view>
+
+  <!-- 我的排名 -->
+  <view class="my-rank card mt-24 flex-between" wx:if="{{myRank}}">
+    <view class="flex-row">
+      <view class="rank-badge">{{myRank.rank}}</view>
+      <image class="rank-avatar ml-16" src="{{myRank.avatar_url || '/images/default-avatar.png'}}" />
+      <view class="ml-16">
+        <text class="rank-name">{{myRank.nickname}}</text>
+        <text class="rank-stats text-gray ml-16">{{myRank.words_count}}词 / {{myRank.days_count}}天</text>
+      </view>
+    </view>
+    <text class="text-primary">我的排名</text>
+  </view>
+
+  <!-- 排行榜列表 -->
+  <view class="rank-list mt-24">
+    <view class="rank-item card flex-between {{item.rank <= 3 ? 'top-' + item.rank : ''}}"
+          wx:for="{{rankList}}" wx:key="user_id">
+      <view class="flex-row">
+        <view class="rank-num {{item.rank === 1 ? 'gold' : (item.rank === 2 ? 'silver' : (item.rank === 3 ? 'bronze' : ''))}}">
+          {{item.rank}}
+        </view>
+        <image class="rank-avatar ml-16" src="{{item.avatar_url || '/images/default-avatar.png'}}" />
+        <view class="ml-16">
+          <text class="rank-name">{{item.nickname}}</text>
+          <text class="rank-detail text-gray ml-16">{{item.words_count}}词</text>
+        </view>
+      </view>
+      <text class="rank-days">打卡{{item.days_count}}天</text>
+    </view>
+  </view>
+
+  <view class="empty-tip" wx:if="{{rankList.length === 0}}">
+    <text>暂无排行数据</text>
+  </view>
+</view>

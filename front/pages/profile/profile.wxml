@@ -1,0 +1,88 @@
+<!-- 个人中心页 — pages/profile/profile.wxml -->
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="profile-header card">
+    <image class="profile-avatar" src="{{userInfo.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill" />
+    <view class="profile-name mt-16">{{userInfo.nickname || '微信用户'}}</view>
+    <view class="profile-stats mt-16">
+      <text>已坚持打卡 <text class="text-primary">{{userInfo.total_days || 0}}</text> 天</text>
+    </view>
+  </view>
+
+  <!-- 学习数据概览 -->
+  <view class="card mt-24">
+    <view class="card-title">学习概览</view>
+    <view class="data-grid mt-16">
+      <view class="data-item">
+        <text class="data-value text-primary">{{userInfo.total_words || 0}}</text>
+        <text class="data-label">累计单词</text>
+      </view>
+      <view class="data-item">
+        <text class="data-value text-success">{{userInfo.total_days || 0}}</text>
+        <text class="data-label">打卡天数</text>
+      </view>
+      <view class="data-item">
+        <text class="data-value text-warning">{{userInfo.max_continuous || 0}}</text>
+        <text class="data-label">最长连续</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-list mt-24">
+    <view class="menu-item card flex-between" bindtap="goToRecords">
+      <text>打卡记录</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item card flex-between" bindtap="goToWords">
+      <text>单词本</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item card flex-between" bindtap="goToMyProgress">
+      <text>学习进度</text>
+      <text class="arrow">></text>
+    </view>
+    <view class="menu-item card flex-between" bindtap="goToLoginLogs">
+      <text>登录日志(IP溯源)</text>
+      <text class="arrow">></text>
+    </view>
+  </view>
+
+  <!-- 登录日志弹窗 -->
+  <view class="modal-overlay" wx:if="{{showLoginLogs}}" bindtap="closeLoginLogs">
+    <view class="modal-content" catchtap="noop">
+      <view class="modal-header">
+        <text class="modal-title">登录设备与IP信息</text>
+        <text class="modal-close" bindtap="closeLoginLogs">✕</text>
+      </view>
+      <scroll-view class="modal-body" scroll-y wx:if="{{loginLogs.length > 0}}">
+        <view class="log-item" wx:for="{{loginLogs}}" wx:key="id">
+          <view class="log-time">{{item.login_time}}</view>
+          <view class="log-row">
+            <text class="log-label">IP地址</text>
+            <text class="log-value">{{item.ip_address || '未知'}}</text>
+          </view>
+          <view class="log-row">
+            <text class="log-label">归属地</text>
+            <text class="log-value">{{item.location || '未知'}}</text>
+          </view>
+          <view class="log-row">
+            <text class="log-label">设备信息</text>
+            <text class="log-value">{{item.device_info || '未知'}}</text>
+          </view>
+          <view class="log-abnormal" wx:if="{{item.is_abnormal}}">
+            <text class="text-danger">异常登录: {{item.abnormal_reason}}</text>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="modal-empty" wx:else>
+        <text class="text-gray">暂无登录记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="mt-48">
+    <button class="btn-outline" bindtap="handleLogout">退出登录</button>
+  </view>
+</view>

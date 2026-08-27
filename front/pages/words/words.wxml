@@ -1,0 +1,44 @@
+<!-- 单词列表页 — pages/words/words.wxml -->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar card">
+    <input class="search-input" placeholder="搜索单词..." value="{{keyword}}"
+           bindinput="onSearchInput" bindconfirm="onSearch" />
+    <text class="search-btn" bindtap="onSearch">搜索</text>
+  </view>
+
+  <!-- 分类标签 -->
+  <scroll-view class="category-scroll" scroll-x>
+    <view class="category-tag {{activeCategory === item ? 'active' : ''}}"
+          wx:for="{{categories}}" wx:key="*this" bindtap="onCategoryTap" data-cat="{{item}}">
+      {{item}}
+    </view>
+  </scroll-view>
+
+  <!-- 单词列表 -->
+  <view class="word-list mt-16">
+    <view class="word-item card flex-between" wx:for="{{words}}" wx:key="id"
+          bindtap="goToDetail" data-id="{{item.id}}">
+      <view>
+        <view class="flex-row">
+          <text class="word-text">{{item.word}}</text>
+          <text class="phonetic ml-16">{{item.phonetic}}</text>
+        </view>
+        <text class="meaning mt-8">{{item.meaning}}</text>
+      </view>
+      <view class="word-status">
+        <text class="{{item.is_mastered ? 'text-success' : (item.is_learned ? 'text-primary' : 'text-gray')}}">
+          {{item.is_mastered ? '已掌握' : (item.is_learned ? '已学' : '未学')}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more mt-24" wx:if="{{hasMore}}">
+    <text class="text-gray" bindtap="loadMore">加载更多</text>
+  </view>
+  <view class="load-more mt-24" wx:else>
+    <text class="text-gray">— 没有更多了 —</text>
+  </view>
+</view>

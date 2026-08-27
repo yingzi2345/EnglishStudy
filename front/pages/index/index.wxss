@@ -1,0 +1,111 @@
+/* 首页样式 — pages/index/index.wxss */
+
+.header-card {
+  background: linear-gradient(135deg, #4A90D9, #357ABD);
+  color: #fff;
+}
+
+.header-card .avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255,255,255,0.4);
+}
+
+.header-card .nickname {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.header-card .text-gray {
+  color: rgba(255,255,255,0.8);
+  font-size: 26rpx;
+}
+
+.header-card .text-primary {
+  color: #ffd700;
+}
+
+.checkin-badge {
+  background: rgba(255,255,255,0.3);
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1rpx solid rgba(255,255,255,0.2);
+  padding-top: 20rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4rpx;
+}
+
+.section-title {
+  padding: 24rpx 0;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.word-list .word-item {
+  border-left: 6rpx solid #4A90D9;
+}
+
+.word-text {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.phonetic-text {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.meaning-text {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.action-item {
+  text-align: center;
+  padding: 32rpx 16rpx;
+}
+
+.action-icon {
+  font-size: 52rpx;
+  display: block;
+}
+
+.action-text {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 80rpx 0;
+  color: #ccc;
+}

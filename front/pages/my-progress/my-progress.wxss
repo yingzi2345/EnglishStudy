@@ -1,0 +1,174 @@
+/* 学习进度页样式 — pages/my-progress/my-progress.wxss */
+
+.loading-box {
+  text-align: center;
+  padding: 120rpx 0;
+}
+
+/* 进度概览 */
+.progress-overview {
+  text-align: center;
+  padding: 36rpx 24rpx;
+}
+
+.overview-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+/* 进度环 */
+.progress-ring-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.progress-ring {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  background: conic-gradient(#4A90D9 0deg, #4A90D9 var(--pct, 0deg), #e8e8e8 var(--pct, 0deg), #e8e8e8 360deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 降级方案：纯色圆环 */
+.progress-ring {
+  background: #e8f4fd;
+  border: 8rpx solid #4A90D9;
+}
+
+.ring-percent {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #4A90D9;
+}
+
+.ring-label {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+/* 进度条 */
+.progress-bar {
+  height: 12rpx;
+  background: #e8e8e8;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4A90D9, #357ABD);
+  border-radius: 6rpx;
+  transition: width 0.5s ease;
+}
+
+/* 数据统计 */
+.stats-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+/* 学习记录列表 */
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.progress-list {
+  margin-top: 8rpx;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.progress-item:last-child {
+  border-bottom: none;
+}
+
+.progress-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.word-text {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  display: block;
+}
+
+.word-meaning {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.tag {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.tag-learned {
+  background: #e6f7ff;
+  color: #4A90D9;
+}
+
+.tag-mastered {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.learn-time {
+  font-size: 20rpx;
+  color: #ccc;
+  margin-top: 4rpx;
+}
+
+/* 空状态 */
+.empty-box {
+  text-align: center;
+  padding: 80rpx 0;
+}

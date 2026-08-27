@@ -1,0 +1,87 @@
+/* 排行榜页样式 — pages/leaderboard/leaderboard.wxss */
+
+.period-tabs {
+  justify-content: space-around;
+  padding: 8rpx;
+}
+
+.period-tab {
+  padding: 12rpx 32rpx;
+  border-radius: 28rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.period-tab.active {
+  background: #4A90D9;
+  color: #fff;
+}
+
+.my-rank {
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  border-left: 6rpx solid #4A90D9;
+}
+
+.rank-badge {
+  background: #4A90D9;
+  color: #fff;
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.rank-avatar {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+}
+
+.rank-name {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.rank-stats {
+  font-size: 24rpx;
+}
+
+.rank-item.top-1 { border-left: 6rpx solid #ffd700; }
+.rank-item.top-2 { border-left: 6rpx solid #c0c0c0; }
+.rank-item.top-3 { border-left: 6rpx solid #cd7f32; }
+
+.rank-num {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 700;
+  background: #f0f0f0;
+  color: #666;
+}
+
+.rank-num.gold   { background: #ffd700; color: #fff; }
+.rank-num.silver { background: #c0c0c0; color: #fff; }
+.rank-num.bronze { background: #cd7f32; color: #fff; }
+
+.rank-detail {
+  font-size: 24rpx;
+}
+
+.rank-days {
+  font-size: 24rpx;
+  color: #4A90D9;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #ccc;
+}

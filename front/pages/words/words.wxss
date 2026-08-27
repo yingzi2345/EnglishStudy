@@ -1,0 +1,55 @@
+/* 单词列表页样式 — pages/words/words.wxss */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.search-input {
+  flex: 1;
+  height: 68rpx;
+  background: #f5f5f5;
+  border-radius: 34rpx;
+  padding: 0 28rpx;
+  font-size: 28rpx;
+}
+
+.search-btn {
+  color: #4A90D9;
+  font-size: 28rpx;
+  padding: 8rpx 16rpx;
+}
+
+.category-scroll {
+  white-space: nowrap;
+  padding: 16rpx 0;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 10rpx 28rpx;
+  margin-right: 16rpx;
+  background: #f0f0f0;
+  border-radius: 28rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.category-tag.active {
+  background: #4A90D9;
+  color: #fff;
+}
+
+.word-list .word-item:active {
+  background: #f9f9f9;
+}
+
+.word-status {
+  font-size: 24rpx;
+}
+
+.load-more {
+  text-align: center;
+  padding: 24rpx;
+}

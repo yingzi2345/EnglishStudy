@@ -1,0 +1,63 @@
+/* 打卡记录页样式 — pages/records/records.wxss */
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-box {
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 48rpx;
+  font-weight: 700;
+}
+
+.stat-label {
+  display: block;
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.record-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.record-item:last-child {
+  border-bottom: none;
+}
+
+.record-date-box {
+  width: 72rpx;
+  text-align: center;
+}
+
+.record-day {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333;
+  display: block;
+}
+
+.record-month {
+  font-size: 20rpx;
+  color: #999;
+}
+
+.record-word {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.record-duration {
+  font-size: 24rpx;
+}
+
+.empty-tip {
+  text-align: center;
+  padding: 80rpx 0;
+  color: #ccc;
+}

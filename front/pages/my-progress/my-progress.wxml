@@ -1,0 +1,68 @@
+<!-- 学习进度页 — pages/my-progress/my-progress.wxml -->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-box" wx:if="{{loading}}">
+    <text class="text-gray">加载中...</text>
+  </view>
+
+  <block wx:else>
+    <!-- 进度概览卡片 -->
+    <view class="card progress-overview">
+      <view class="overview-title">学习概览</view>
+      <!-- 进度环 -->
+      <view class="progress-ring-wrap">
+        <view class="progress-ring">
+          <text class="ring-percent">{{progress.progress_percent}}%</text>
+          <text class="ring-label">学习进度</text>
+        </view>
+      </view>
+      <!-- 进度条 -->
+      <view class="progress-bar mt-16">
+        <view class="progress-fill" style="width: {{progress.progress_percent}}%"></view>
+      </view>
+      <!-- 数据统计 -->
+      <view class="stats-row mt-24">
+        <view class="stat-item">
+          <text class="stat-value text-primary">{{progress.total_words || 0}}</text>
+          <text class="stat-label">总单词</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value text-success">{{progress.learned_words || 0}}</text>
+          <text class="stat-label">已学习</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value text-warning">{{progress.mastered_words || 0}}</text>
+          <text class="stat-label">已掌握</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value text-gray">{{progress.total_words - progress.learned_words || 0}}</text>
+          <text class="stat-label">未学习</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 最近学习记录 -->
+    <view class="card mt-24" wx:if="{{progress.recent_progress && progress.recent_progress.length > 0}}">
+      <view class="section-title">最近学习</view>
+      <view class="progress-list">
+        <view class="progress-item" wx:for="{{progress.recent_progress}}" wx:key="id">
+          <view class="progress-left">
+            <text class="word-text">{{item.word_name}}</text>
+            <text class="word-meaning">{{item.word_meaning}}</text>
+          </view>
+          <view class="progress-right">
+            <text class="tag {{item.is_mastered ? 'tag-mastered' : 'tag-learned'}}">
+              {{item.is_mastered ? '已掌握' : '已学'}}
+            </text>
+            <text class="learn-time" wx:if="{{item.learned_at}}">{{item.learned_at}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-box mt-48" wx:if="{{!progress.recent_progress || progress.recent_progress.length === 0}}">
+      <text class="text-gray">还没有学习记录，去首页学习新单词吧</text>
+    </view>
+  </block>
+</view>

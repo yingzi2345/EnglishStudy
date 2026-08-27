@@ -1,0 +1,70 @@
+<!-- 打卡页 — pages/checkin/checkin.wxml -->
+<view class="container">
+  <!-- 打卡状态卡片 -->
+  <view class="checkin-card card {{todayChecked ? 'checked' : ''}}">
+    <view class="checkin-circle {{todayChecked ? 'checked' : ''}}" bindtap="doCheckin">
+      <text class="checkin-day-label">{{todayChecked ? '已打卡' : '今日打卡'}}</text>
+      <text class="checkin-date">{{currentDate}}</text>
+      <text class="checkin-icon">{{todayChecked ? '✓' : '☀'}}</text>
+    </view>
+
+    <view class="streak-info mt-24">
+      <view class="streak-item">
+        <text class="streak-num">{{streakData.continuous_days || 0}}</text>
+        <text class="streak-label">连续打卡</text>
+      </view>
+      <view class="streak-divider"></view>
+      <view class="streak-item">
+        <text class="streak-num">{{streakData.total_days || 0}}</text>
+        <text class="streak-label">累计打卡</text>
+      </view>
+      <view class="streak-divider"></view>
+      <view class="streak-item">
+        <text class="streak-num">{{streakData.max_continuous || 0}}</text>
+        <text class="streak-label">最长连续</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日学习统计 -->
+  <view class="card mt-24">
+    <view class="card-title">今日学习</view>
+    <view class="flex-between mt-16">
+      <view class="study-item">
+        <view class="study-value text-primary">{{todayWords}}</view>
+        <view class="study-label">学习单词</view>
+      </view>
+      <view class="study-item">
+        <view class="study-value text-primary">{{todayMinutes}}</view>
+        <view class="study-label">学习时长(分)</view>
+      </view>
+      <view class="study-item">
+        <view class="study-value text-primary">{{progressPercent}}%</view>
+        <view class="study-label">今日完成度</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 打卡日历 -->
+  <view class="card mt-24">
+    <view class="card-title flex-between">
+      <text>打卡日历</text>
+      <view class="month-picker">
+        <text class="arrow" bindtap="prevMonth">◀</text>
+        <text class="month-text">{{calendarYear}}年{{calendarMonth}}月</text>
+        <text class="arrow" bindtap="nextMonth">▶</text>
+      </view>
+    </view>
+    <view class="calendar mt-16">
+      <view class="weekday-row">
+        <text class="weekday" wx:for="{{weekdays}}" wx:key="*this">{{item}}</text>
+      </view>
+      <view class="date-grid">
+        <view class="date-cell {{item.isChecked ? 'checked' : ''}} {{item.isToday ? 'today' : ''}} {{item.isEmpty ? 'empty' : ''}}"
+              wx:for="{{calendarGrid}}" wx:key="index">
+          <text wx:if="{{!item.isEmpty}}" class="date-num">{{item.day}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

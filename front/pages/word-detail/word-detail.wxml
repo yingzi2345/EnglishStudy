@@ -1,0 +1,51 @@
+<!-- 单词详情页 — pages/word-detail/word-detail.wxml -->
+<view class="container">
+  <view class="word-hero card" wx:if="{{word}}">
+    <view class="word-main tap-pronounce" hover-class="tap-active" bindtap="playAudio">{{word.word}}</view>
+    <view class="phonetic mt-8 tap-pronounce" hover-class="tap-active" bindtap="playAudio">{{word.phonetic}}</view>
+    <view class="meaning mt-16">{{word.meaning}}</view>
+
+    <view class="accent-row mt-24 flex-center">
+      <view class="accent-switch">
+        <text class="accent-tag {{accent === 'us' ? 'accent-active' : ''}}" bindtap="toggleAccent" data-accent="us">🇺🇸 美音</text>
+        <text class="accent-tag {{accent === 'uk' ? 'accent-active' : ''}}" bindtap="toggleAccent" data-accent="uk">🇬🇧 英音</text>
+      </view>
+      <view class="audio-btn flex-center" bindtap="playAudio">
+        <text>🔊 播放</text>
+      </view>
+    </view>
+
+    <view class="example-box mt-24" wx:if="{{word.example_en}}">
+      <view class="example-title">例句</view>
+      <view class="example-en mt-8">{{word.example_en}}</view>
+      <view class="example-zh mt-8">{{word.example_zh}}</view>
+    </view>
+
+    <view class="word-meta mt-24 flex-between">
+      <text class="meta-text">难度: {{word.level === 1 ? '初级' : (word.level === 2 ? '中级' : '高级')}}</text>
+      <text class="meta-text">分类: {{word.category}}</text>
+    </view>
+  </view>
+
+  <!-- 学习状态操作 -->
+  <view class="action-card card mt-24">
+    <view class="flex-between">
+      <text>学习状态</text>
+      <text class="{{word.is_mastered ? 'text-success' : (word.is_learned ? 'text-primary' : 'text-gray')}}">
+        {{word.is_mastered ? '已掌握' : (word.is_learned ? '已学习' : '未学习')}}
+      </text>
+    </view>
+
+    <view class="action-buttons mt-24">
+      <button class="btn-outline" bindtap="markLearned" wx:if="{{!word.is_learned}}">标记为已学</button>
+      <button class="btn-primary" bindtap="markMastered" wx:if="{{!word.is_mastered}}">标记为已掌握</button>
+      <button class="btn-outline btn-undo" bindtap="unmarkLearned" wx:if="{{word.is_learned || word.is_mastered}}">撤销学习状态</button>
+    </view>
+  </view>
+
+  <!-- 加载中 / 加载失败 -->
+  <view class="empty-state" wx:if="{{!word}}">
+    <text wx:if="{{loadError}}">单词数据加载失败，请返回重试</text>
+    <text wx:else>单词数据加载中...</text>
+  </view>
+</view>
