@@ -3,63 +3,51 @@
 毕业设计项目：基于微信小程序的英语学习打卡系统设计与实现
 桂林电子科技大学 · 网络工程专业 · 导师：徐凯
 
----
+> **后端已迁移至 Java/Spring Boot：当前主后端为 `backend-java/`。`backend/` 是旧 Django 实现，仅保留作论文对照，不要再修改。** 详细说明见 `backend-java/README.md`。
 
-## 技术栈
+## 技术栈（当前主后端）
 
 | 层 | 技术 | 说明 |
 |---|---|---|
-| 后端框架 | Django 4.2+ / DRF | 当前运行 Django 6.0.6 |
-| 数据库 | MySQL 8.0 | utf8mb4，数据库名 `english_checkin` |
-| 认证 | SimpleJWT | access 2h / refresh 7d，自定义认证后端 |
-| 后台管理 | Django Admin + simpleui | 美化主题，`simpleui` 在 INSTALLED_APPS 首位 |
-| API 文档 | drf-yasg | `/swagger/` 和 `/redoc/` |
-| 前端 | 微信小程序 | 9 个页面，4 个 tab |
-| 部署 | Nginx 反向代理 | HTTPS + 限流 + 安全头 |
+| 后端框架 | Spring Boot 4.1.1（JDK 21） | 主后端 `backend-java/` |
+| ORM | MyBatis-Plus 3.5.17 | `mybatis-plus-spring-boot4-starter` + `mybatis-plus-jsqlparser`（分页） |
+| 数据库 | MySQL（`english_checkin`，utf8mb4） | 表结构与 Django 版完全一致 |
+| 认证 | JWT（jjwt 0.13.0，HS256） | access 2h / refresh 7d，`Bearer <token>` |
+| 工具 | Lombok、spring-security-crypto | 管理员密码 BCrypt（`$2b$` 兼容 Django 侧哈希） |
+| 前端 | 微信小程序（9 页 4 tab） | 接口零改动兼容 |
 
 ## 目录结构
 
 ```
-D:\毕业设计\
-├── backend/                  # Django 后端
-│   ├── apps/
-│   │   ├── users/            # 用户模块（User, LoginLog, Admin）
-│   │   ├── words/            # 单词模块（Word, WordProgress）
-│   │   ├── checkin/          # 打卡模块（Checkin）
-│   │   └── leaderboard/      # 排行榜（无模型，聚合查询）
-│   ├── config/               # Django 配置（settings, urls, wsgi）
-│   ├── middleware/            # 自定义中间件（IP 溯源）
-│   ├── utils/                # 工具（JWT 认证后端, 异常处理, api_response）
-│   └── manage.py
-├── front/                    # 微信小程序
-│   ├── pages/                # 9 个页面
-│   └── utils/api.js          # 所有 API 请求封装
-├── database/                 # SQL 建表 + 种子数据 + ER 图
-├── docs/                     # 毕业论文
-├── ppt/                      # 答辩 PPT
-└── .venv/                    # Python 虚拟环境
+D:\yingzi\Documents\项目\毕业设计\
+├── backend-java/               # ★ 当前主后端（Spring Boot）
+│   ├── pom.xml
+│   ├── src/main/java/com/guet/englishcheckin/
+│   │   ├── common/             # ApiResponse 统一响应 / BusinessException / 全局异常
+│   │   ├── config/             # MybatisPlusConfig / WebConfig(CORS+拦截器) / JwtProperties / JacksonConfig
+│   │   ├── security/           # JwtUtil / JwtAuthInterceptor / TrailingSlashFilter / IpUtil
+│   │   ├── entity/ mapper/ dto/ vo/ service/ controller/
+│   │   └── resources/application.yml   # 数据源 / JWT secret / Jackson(SNAKE_CASE) 配置
+│   ├── smoke_test.ps1          # 接口冒烟测试（28 个接口）
+│   └── detail_test.py          # 字段命名/编码/时区兼容性验证（需 venv Python + requests）
+├── backend/                    # 旧 Django 后端（论文对照，勿改）
+├── front/                      # 微信小程序
+├── database/                   # SQL 建表 + 种子数据 + ER 图
+├── docs/ ppt/                  # 毕业论文 / 答辩 PPT
+└── .venv/                      # 已删除（原 Django 虚拟环境，不再使用）
 ```
 
-## 虚拟环境
-
-**必须使用 venv 运行项目。** venv 位于 `backend\.venv\`，Python 路径：
-
-```
-D:\毕业设计\backend\.venv\Scripts\python.exe
-```
-
-启动服务：
+## 构建与启动（主后端）
 
 ```bash
-cd D:/毕业设计/backend
-.venv/Scripts/python.exe manage.py runserver 0.0.0.0:8000
+cd D:\yingzi\Documents\项目\毕业设计\backend-java
+mvn package -DskipTests
+java -jar target\english-checkin-backend-1.0.0.jar    # 监听 8000，与小程序 baseUrl 一致
 ```
 
-安装新包时必须加版本约束，否则 pip 可能自动拉取不兼容的最新版（如 Django 6.0）：
-
-```bash
-.venv/Scripts/pip.exe install "django>=4.2,<5.0" "djangorestframework>=3.14,<3.16"
-```
+- 改代码后快速检查：`mvn -q compile`
+- 改接口后跑 `smoke_test.ps1`（PowerShell 原生）或 `detail_test.py`（标准库，`D:\python\python3.12.4\python.exe`，无需第三方包）验证；测试会创建临时 mock 用户，验证后须清理（参照 `cleanup_test_data.sql`）
+- 旧 Django 版启动（如需）：`backend\.venv\Scripts\python.exe manage.py runserver 0.0.0.0:8000`（两版端口冲突，勿同时运行）
 
 ## 数据库
 
@@ -73,7 +61,7 @@ cd D:/毕业设计/backend
 
 **导入 SQL**：从 MySQL CLI 内用 `source` 命令，路径用正斜杠。含中文默认值的 SQL 可能报 1067，需在文件开头加 `SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION';`
 
-**Django Admin 登录**：`admin` / `admin123`
+**管理员登录**：`admin` / `admin123`（数据库密码与 JWT secret 见 `backend-java/src/main/resources/application.yml`）
 
 ## 数据模型关系
 
@@ -86,77 +74,63 @@ User (tb_user)
 Word (tb_word)
  └── 1:N → WordProgress (tb_word_progress)
 
-Admin (tb_admin) — 独立表，bcrypt 密码
-tb_system_config — 仅 SQL 层，无 Django 模型
+Admin (tb_admin) — 独立表，bcrypt 密码（实体映射：entity/ 包，Mapper 继承 BaseMapper）
+tb_system_config — 仅 SQL 层，无实体类
 ```
 
 ## API 设计规范
 
 ### 响应格式
 
-所有接口统一返回 `{code, message, data}`。成功 `code=200`。
-
-```python
-from utils.exceptions import api_response
-return api_response(data={...})                           # 成功
-return api_response(message='参数错误', code=400)          # 业务错误
-```
+所有接口统一返回 `{code, message, data}`，成功 `code=200`。**业务错误返回 HTTP 200 + body.code=4xx**（前端只判断 body.code）；**认证失败返回 HTTP 401**（前端据此清 token 跳登录页）。字段命名一律下划线风格（`is_learned` / `avatar_url`…，Jackson 全局 SNAKE_CASE 自动转换），**不要改前端字段名**。
 
 ### 认证
 
-- 微信小程序：POST `/api/auth/wechat-login/` 换取 JWT，后续请求带 `Authorization: Bearer <token>`
-- 管理员：POST `/api/auth/admin-login/` 获取身份信息
+- 微信登录：POST `/api/auth/wechat-login/` → `{token:{access,refresh}, user}`；微信接口失败时生成 `mock_openid_{code前16位}` 兜底（开发模式）
+- 管理员登录：POST `/api/auth/admin-login/`（BCrypt 校验，返回 `{id, username, role}`）
+- 受保护接口：请求头 `Authorization: Bearer <access>`；`JwtAuthInterceptor` 解析 token 的 `user_id` 查 `tb_user` 且 `status=1`，用户对象放入 request attribute `"currentUser"`
+- 公开路径：`/api/auth/wechat-login`、`/api/auth/admin-login`、`/api/admin-users/login`（在 `config/WebConfig.java` 维护）
+- 尾斜杠：前端所有 URL 以 `/` 结尾，`TrailingSlashFilter` 自动去尾斜杠再路由，Controller 的 `@RequestMapping` 一律写无尾斜杠路径
 
-### 自定义 JWT 认证后端
+### 新增/修改接口要点
 
-`utils/authentication.py` — 因为 User 模型未继承 `AbstractUser`，需要自定义认证后端从 token 的 `user_id` 查找 `tb_user` 记录。User 模型必须提供 `is_authenticated` 和 `is_anonymous` 属性以通过 DRF `IsAuthenticated` 权限检查。
+- 时间：库内统一存 UTC（`TimeUtil.nowUtc()`），响应自动带 `Z`；`checkin_date` 用东八区日期（`TimeUtil.todayShanghai()`）
+- 排行榜时间窗口：东八区 0 点换算为 UTC 时刻（`TimeUtil.shanghaiMidnightToUtc`），聚合 SQL 在 `mapper/LeaderboardStatsMapper.java`
+- 分页：MyBatis-Plus `Page` + 分页插件；Controller 参数 `@RequestParam(name="page_size", defaultValue="20")`（前端传 `page_size`）
 
-## Django ORM 踩坑记录
+## 踩坑记录（Java 版）
 
-**DateTimeField__date 在 MySQL+USE_TZ=True 下不可用**
-
-Django 将 `DateTimeField__date` 翻译为 `DATE(CONVERT_TZ(...))`，在 MySQL 中可能返回空。**必须用以下方式替代：**
-
-```python
-from django.utils import timezone
-
-# 错误写法
-Model.objects.filter(created_at__date=today)
-
-# 正确写法
-day_start = timezone.make_aware(datetime.combine(today, time.min))
-day_end = timezone.make_aware(datetime.combine(today, time.max))
-Model.objects.filter(created_at__gte=day_start, created_at__lt=day_end)
-```
-
-**日期聚合**：用 `RawSQL('DATE(field)', ())` 代替 `DateTimeField__date`。
+- **Jackson 3 与 Jackson 2 类名不同**：Boot 4 默认 Jackson 3（`tools.jackson.*`）。`JsonSerializer`→`ValueSerializer`、`SerializerProvider`→`SerializationContext`、`Module`→`JacksonModule`；序列化方法不声明受检 `IOException`
+- **分页插件缺失**：`PaginationInnerInterceptor` 自 MP 3.5.9 拆到 `mybatis-plus-jsqlparser` 模块，pom 必须显式引入，starter 不带
+- **jjwt 序列化器**：用 `jjwt-gson`（`jjwt-jackson` 依赖 Jackson 2，与 Boot 4 的 Jackson 3 冲突）
+- **selectCount 不支持 groupBy**：分组/去重统计用自定义 `@Select` SQL（见 LeaderboardStatsMapper）或 `selectList` + stream
+- **PowerShell 转义**：`$` 在双引号内会被变量展开，含 `$2b$` 的 bcrypt 哈希写库用 SQL 文件 + `cmd /c "mysql ... < file.sql"` 执行；PowerShell 不支持 `<` 重定向
+- **超长字段截断**：MySQL 严格模式下 VARCHAR 超长直接 500（如微信开发者工具 UA 超 256 字符）。入库前须截断——参照 `UserService.truncate()`（device_info/nickname/avatar_url 等）
+- 改 `application.yml` 后需重新 `mvn package`（配置打进 jar）
 
 ## 排行榜逻辑
 
-日榜/周榜/月榜基于 `WordProgress` 统计（`is_learned=1, learned_at__gte=时间窗口起点`），总榜用 `User.total_words`。
+日榜/周榜/月榜基于 `tb_word_progress` 统计（`is_learned=1 AND learned_at >= 窗口起点`，`days_count` 用 `COUNT(DISTINCT DATE(learned_at))` 避免日期函数时区问题），总榜用 `tb_user.total_words` 排序。
 
 ## 微信小程序
 
 - 单词发音：优先用后台 `audio_url`，兜底用有道 TTS（`dict.youdao.com/dictvoice?audio=WORD&type=0` 美音 / `type=1` 英音），通过 `wx.createInnerAudioContext()` 播放
-- API 封装在 `front/utils/api.js`，所有请求自动带 token，401 自动跳转登录页
+- API 封装在 `front/utils/api.js`，所有请求自动带 token，401 自动跳转登录页；baseUrl `http://127.0.0.1:8000/api`
 
 ## Windows 环境注意事项
 
-- Python 命令用 `python`，不是 `python3`
-- Git Bash 下中文路径文件操作（如 Pillow `open()`）可能失败，先存到临时目录再 cp
-- `taskkill /PID` 在 Git Bash 下可能因编码乱码失败，改用 `powershell -Command "Stop-Process -Id PID -Force"`
+- Java 命令：`java -version` / `mvn`（本机 JDK 21 + Maven 3.9.16）
+- 中文路径：Python 脚本处理中文路径文件（如 Pillow）可能失败，先存临时目录再拷贝
+- 杀进程：`taskkill /PID` 在 Git Bash 下可能乱码失败，用 `powershell -Command "Stop-Process -Id PID -Force"`
 
-## 依赖项
+## 依赖（backend-java/pom.xml）
 
 ```
-Django==4.2.30          # 当前实际运行 6.0.6
-djangorestframework     # 需跟随 Django 版本，6.0 需 3.17+
-django-cors-headers
-django-filter
-djangorestframework-simplejwt
-drf-yasg
-django-simpleui
-mysqlclient
-bcrypt
-PyJWT
+spring-boot-starter-parent 4.1.1（parent，管理版本）
+spring-boot-starter-web / spring-boot-starter-validation
+mybatis-plus-spring-boot4-starter 3.5.17 + mybatis-plus-jsqlparser 3.5.17
+mysql-connector-j（版本由 Boot BOM 管理）
+jjwt-api / jjwt-impl / jjwt-gson 0.13.0
+spring-security-crypto（仅 BCrypt）
+lombok（optional）
 ```

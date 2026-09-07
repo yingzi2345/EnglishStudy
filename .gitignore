@@ -1,0 +1,16 @@
+# Java / Maven 构建产物
+backend-java/target/
+
+# 运行日志
+*.log
+
+# Python 虚拟环境与缓存
+backend_python/.venv/
+__pycache__/
+*.py[cod]
+
+# IDE 本地配置
+.idea/
+
+# 临时调试文件
+backend-java/error_screenshot.png

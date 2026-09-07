@@ -40,7 +40,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.5.0",
+  "libVersion": "3.16.1",
   "appid": "wx54d2b6fdc41d76e2",
   "projectname": "english-checkin",
   "condition": {},

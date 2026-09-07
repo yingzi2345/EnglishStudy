@@ -85,26 +85,39 @@ Page({
   },
 
   // 播放发音：优先使用后台音频地址，兜底使用有道 TTS 在线发音
+  // 使用页面级单例，连续点击时先打断上一次播放，避免多个实例叠加播放
   playAudio() {
     const word = this.data.word;
     if (!word) return;
 
-    const innerAudioContext = wx.createInnerAudioContext();
+    if (!this.audioCtx) {
+      this.audioCtx = wx.createInnerAudioContext();
+      this.audioCtx.onError((err) => {
+        console.error('发音播放失败:', err);
+        wx.showToast({ title: '发音播放失败', icon: 'none' });
+      });
+    }
 
-    innerAudioContext.onError((err) => {
-      console.error('发音播放失败:', err);
-      wx.showToast({ title: '发音播放失败', icon: 'none' });
-    });
+    // 先停止当前正在播放的音频，再播放新的
+    this.audioCtx.stop();
 
     if (word.audio_url) {
-      innerAudioContext.src = word.audio_url;
-      innerAudioContext.play();
+      this.audioCtx.src = word.audio_url;
+      this.audioCtx.play();
     } else {
       // 有道 TTS：type=0 美音，type=1 英音
       const type = this.data.accent === 'uk' ? 1 : 0;
       const ttsUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word.word)}&type=${type}`;
-      innerAudioContext.src = ttsUrl;
-      innerAudioContext.play();
+      this.audioCtx.src = ttsUrl;
+      this.audioCtx.play();
+    }
+  },
+
+  // 页面卸载时销毁播放实例，避免资源泄漏
+  onUnload() {
+    if (this.audioCtx) {
+      this.audioCtx.destroy();
+      this.audioCtx = null;
     }
   },
 
