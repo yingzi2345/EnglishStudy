@@ -309,11 +309,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 120rpx 32rpx 140rpx;
+  box-sizing: border-box;
 }
 
 .poster-modal {
   position: relative;
-  width: 640rpx;
+  width: 580rpx;
 }
 
 .poster-box {
@@ -326,7 +328,7 @@
 
 .poster-canvas {
   width: 100%;
-  height: 1108rpx;
+  height: 1005rpx;
   display: block;
   background: #6B8A9E;
 }
@@ -342,7 +344,7 @@
 
 .poster-actions {
   gap: 20rpx;
-  margin-top: 32rpx;
+  margin-top: 28rpx;
 }
 
 .poster-btn {
@@ -351,12 +353,13 @@
 
 .poster-close {
   position: absolute;
-  top: -88rpx;
-  right: 0;
-  width: 64rpx;
-  height: 64rpx;
+  top: 20rpx;
+  right: 20rpx;
+  width: 56rpx;
+  height: 56rpx;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.3);
   color: #fff;
-  font-size: 30rpx;
+  font-size: 28rpx;
+  z-index: 10;
 }

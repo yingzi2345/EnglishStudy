@@ -6,7 +6,7 @@ App({
   globalData: {
     userInfo: null,
     token: null,
-    baseUrl: 'http://127.0.0.1:8000/api', // 后端API地址
+    baseUrl: 'http://192.168.9.175:8000/api', // 后端API地址（真机预览用局域网IP，开发者工具可用127.0.0.1）
   },
 
   onLaunch() {

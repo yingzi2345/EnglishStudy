@@ -102,12 +102,12 @@
         <view class="poster-loading" wx:if="{{posterGenerating}}">
           <text class="text-gray">海报生成中...</text>
         </view>
+        <view class="poster-close flex-center" catchtap="closePoster">✕</view>
       </view>
       <view class="poster-actions flex-row">
         <button class="poster-btn btn-primary flex-1" disabled="{{posterGenerating}}" bindtap="savePoster">保存到相册</button>
         <button class="poster-btn btn-outline flex-1" disabled="{{posterGenerating}}" bindtap="shareToTimeline">分享朋友圈</button>
       </view>
-      <view class="poster-close flex-center" bindtap="closePoster">✕</view>
     </view>
   </view>
 </view>

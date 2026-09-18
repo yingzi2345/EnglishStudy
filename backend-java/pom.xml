@@ -15,7 +15,7 @@
     <artifactId>english-checkin-backend</artifactId>
     <version>1.0.0</version>
     <name>english-checkin-backend</name>
-    <description>基于微信小程序的英语学习打卡系统 — Spring Boot 后端（原 Django 版迁移）</description>
+    <description>基于微信小程序的英语学习打卡系统 — Spring Boot 后端</description>
 
     <properties>
         <java.version>21</java.version>
