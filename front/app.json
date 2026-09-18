@@ -8,7 +8,10 @@
     "pages/records/records",
     "pages/my-progress/my-progress",
     "pages/leaderboard/leaderboard",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/study/study",
+    "pages/quiz/quiz",
+    "pages/wrong-words/wrong-words"
   ],
   "window": {
     "backgroundTextStyle": "dark",

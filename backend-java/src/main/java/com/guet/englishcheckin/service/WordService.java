@@ -373,6 +373,9 @@ public class WordService {
         vo.setIsMastered(p.getIsMastered());
         vo.setLearnedAt(p.getLearnedAt());
         vo.setReviewCount(p.getReviewCount());
+        vo.setWrongCount(p.getWrongCount());
+        vo.setIsWrong(p.getIsWrong());
+        vo.setIntervalLevel(p.getIntervalLevel());
         vo.setCreatedAt(p.getCreatedAt());
         vo.setUpdatedAt(p.getUpdatedAt());
         Word word = wordMapper.selectById(p.getWordId());

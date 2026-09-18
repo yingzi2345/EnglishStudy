@@ -116,6 +116,34 @@ const statsApi = {
   getAnalytics: () => request('/stats/analytics/'),
 };
 
+// ──── 学习系统相关 ────
+const studyApi = {
+  /** 今日学习任务（待复习+新词） */
+  getTodayTasks: (reviewCount = 10, newCount = 10) =>
+    request(`/study/today/?review_count=${reviewCount}&new_count=${newCount}`),
+
+  /** 提交学习结果 */
+  submitRecord: (wordId, known) =>
+    request('/study/record/', 'POST', { word_id: wordId, known }),
+
+  /** 获取测验题目 */
+  getQuiz: (count = 10) => request(`/study/quiz/?count=${count}`),
+
+  /** 提交测验答案 */
+  submitQuiz: (answers) => request('/study/quiz/submit/', 'POST', { answers }),
+
+  /** 错词本列表 */
+  getWrongWords: (page = 1, pageSize = 20) =>
+    request(`/study/wrong-words/?page=${page}&page_size=${pageSize}`),
+
+  /** 从错词本移除 */
+  removeWrongWord: (wordId) =>
+    request('/study/wrong-words/remove/', 'POST', { word_id: wordId }),
+
+  /** 今日学习统计 */
+  getStudyStats: () => request('/study/stats/'),
+};
+
 // ──── 工具函数 ────
 const buildQuery = (params) => {
   return Object.keys(params)
@@ -130,4 +158,5 @@ module.exports = {
   checkinApi,
   leaderboardApi,
   statsApi,
+  studyApi,
 };

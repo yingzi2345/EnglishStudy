@@ -148,11 +148,56 @@
   color: #C9A9A6;
 }
 
+/* 今日学习横幅 */
+.study-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28rpx 28rpx;
+  margin-bottom: 24rpx;
+  background: linear-gradient(135deg, #EDF1F4, #E2E8ED);
+  border-left: 6rpx solid #7B9EB0;
+}
+
+.study-banner-left {
+  flex: 1;
+}
+
+.study-banner-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #4A4A4A;
+}
+
+.study-banner-sub {
+  font-size: 24rpx;
+  color: #8A8A8A;
+  margin-top: 6rpx;
+}
+
+.study-banner-sub .dot {
+  margin: 0 8rpx;
+  color: #C5BFB5;
+}
+
+.study-banner-btn {
+  background: linear-gradient(135deg, #8BA4B5, #6B8A9E);
+  color: #fff;
+  font-size: 26rpx;
+  padding: 14rpx 28rpx;
+  border-radius: 32rpx;
+  white-space: nowrap;
+}
+
+.study-banner:active {
+  opacity: 0.9;
+}
+
 /* 快速入口 */
 .quick-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20rpx;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16rpx;
 }
 
 .action-item {
@@ -179,6 +224,8 @@
 .action-icon-circle.bg-blue   { background: #E0EAF0; }
 .action-icon-circle.bg-yellow { background: #F0EAD8; }
 .action-icon-circle.bg-green  { background: #E4EBE2; }
+.action-icon-circle.bg-purple { background: #E8E2EE; }
+.action-icon-circle.bg-orange { background: #F0E4D4; }
 
 .action-icon {
   font-size: 40rpx;

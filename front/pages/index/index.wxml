@@ -35,6 +35,20 @@
     </view>
   </view>
 
+  <!-- 今日学习横幅 -->
+  <view class="study-banner card" bindtap="goToStudy">
+    <view class="study-banner-left">
+      <view class="study-banner-title">今日学习</view>
+      <view class="study-banner-sub">
+        <text wx:if="{{studyStats.due_review > 0}}">{{studyStats.due_review}} 个待复习</text>
+        <text wx:else>暂无待复习</text>
+        <text class="dot">·</text>
+        <text>{{studyStats.wrong_count}} 个错词</text>
+      </view>
+    </view>
+    <view class="study-banner-btn">开始学习 ›</view>
+  </view>
+
   <!-- 每日单词推荐 -->
   <view class="section-title flex-between">
     <text>今日推荐单词</text>
@@ -59,29 +73,41 @@
 
   <!-- 快速入口 -->
   <view class="quick-actions mt-24">
-    <view class="action-item card" bindtap="goToCheckin">
+    <view class="action-item card" bindtap="goToStudy">
+      <view class="action-icon-circle bg-blue">
+        <text class="action-icon">📚</text>
+      </view>
+      <text class="action-text">单词学习</text>
+    </view>
+    <view class="action-item card" bindtap="goToQuiz">
+      <view class="action-icon-circle bg-purple">
+        <text class="action-icon">✏️</text>
+      </view>
+      <text class="action-text">单词测验</text>
+    </view>
+    <view class="action-item card" bindtap="goToWrongWords">
       <view class="action-icon-circle bg-pink">
+        <text class="action-icon">📕</text>
+      </view>
+      <text class="action-text">错词本</text>
+    </view>
+    <view class="action-item card" bindtap="goToCheckin">
+      <view class="action-icon-circle bg-yellow">
         <text class="action-icon">📝</text>
       </view>
       <text class="action-text">每日打卡</text>
     </view>
     <view class="action-item card" bindtap="goToWords">
-      <view class="action-icon-circle bg-blue">
+      <view class="action-icon-circle bg-green">
         <text class="action-icon">📖</text>
       </view>
       <text class="action-text">单词本</text>
     </view>
     <view class="action-item card" bindtap="goToLeaderboard">
-      <view class="action-icon-circle bg-yellow">
+      <view class="action-icon-circle bg-orange">
         <text class="action-icon">🏆</text>
       </view>
       <text class="action-text">排行榜</text>
-    </view>
-    <view class="action-item card" bindtap="goToRecords">
-      <view class="action-icon-circle bg-green">
-        <text class="action-icon">📊</text>
-      </view>
-      <text class="action-text">打卡记录</text>
     </view>
   </view>
 </view>

@@ -19,6 +19,16 @@ public class WordProgressVO {
     private Integer isMastered;
     private LocalDateTime learnedAt;
     private Integer reviewCount;
+
+    /** 答错次数 */
+    private Integer wrongCount;
+
+    /** 是否在错词本 */
+    private Integer isWrong;
+
+    /** 艾宾浩斯间隔等级 */
+    private Integer intervalLevel;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

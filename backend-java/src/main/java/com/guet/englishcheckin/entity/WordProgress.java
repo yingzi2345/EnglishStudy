@@ -33,6 +33,21 @@ public class WordProgress {
     /** 复习次数 */
     private Integer reviewCount;
 
+    /** 下次复习时间（UTC） */
+    private LocalDateTime nextReviewAt;
+
+    /** 艾宾浩斯间隔等级：0=1天,1=2天,2=4天,3=7天,4=15天,5=30天(已掌握) */
+    private Integer intervalLevel;
+
+    /** 答错次数 */
+    private Integer wrongCount;
+
+    /** 是否在错词本：0否,1是 */
+    private Integer isWrong;
+
+    /** 上次学习时间（UTC） */
+    private LocalDateTime lastStudyAt;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

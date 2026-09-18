@@ -1,0 +1,270 @@
+/* 卡片式学习页 — pages/study/study.wxss（莫兰迪） */
+
+.study-page {
+  min-height: 100vh;
+  background: #F0EDE8;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.loading-box {
+  text-align: center;
+  padding: 200rpx 0;
+  color: #B5B0A8;
+}
+
+/* ────────── 进度条 ────────── */
+.progress-bar {
+  height: 8rpx;
+  background: #E0DCD4;
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin: 16rpx 0 12rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8BA4B5, #6B8A9E);
+  border-radius: 4rpx;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 24rpx;
+  color: #8A8A8A;
+  margin-bottom: 32rpx;
+}
+
+/* ────────── 翻转卡片 ────────── */
+.card-wrap {
+  perspective: 1200rpx;
+  height: 560rpx;
+  margin-bottom: 48rpx;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 24rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  box-sizing: border-box;
+  box-shadow: 0 8rpx 32rpx rgba(92, 122, 138, 0.12);
+}
+
+.card-front {
+  background: linear-gradient(145deg, #FFFFFF, #F5F2ED);
+}
+
+.card-back {
+  background: linear-gradient(145deg, #EDF1F4, #E2E8ED);
+  transform: rotateY(180deg);
+}
+
+.task-tag {
+  position: absolute;
+  top: 28rpx;
+  left: 28rpx;
+  font-size: 22rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 20rpx;
+}
+
+.tag-new {
+  background: #F0E0DE;
+  color: #C9A9A6;
+}
+
+.tag-review {
+  background: #E0EAF0;
+  color: #7B9EB0;
+}
+
+.word-big {
+  font-size: 72rpx;
+  font-weight: 700;
+  color: #4A4A4A;
+  letter-spacing: 4rpx;
+}
+
+.word-small {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: #5C7A8A;
+  margin-bottom: 20rpx;
+}
+
+.phonetic {
+  font-size: 30rpx;
+  color: #8A8A8A;
+  margin-top: 16rpx;
+}
+
+.audio-btn {
+  margin-top: 32rpx;
+  padding: 14rpx 40rpx;
+  background: #E8EFF3;
+  border-radius: 32rpx;
+  font-size: 26rpx;
+  color: #7B9EB0;
+}
+
+.audio-btn:active {
+  opacity: 0.7;
+}
+
+.meaning-text {
+  font-size: 34rpx;
+  color: #4A4A4A;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 28rpx;
+}
+
+.example-box {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.example-en {
+  font-size: 26rpx;
+  color: #5C7A8A;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.example-zh {
+  font-size: 24rpx;
+  color: #8A8A8A;
+  margin-top: 8rpx;
+  line-height: 1.5;
+}
+
+.flip-hint {
+  position: absolute;
+  bottom: 28rpx;
+  font-size: 22rpx;
+  color: #B5B0A8;
+}
+
+/* ────────── 操作按钮 ────────── */
+.action-buttons {
+  display: flex;
+  gap: 24rpx;
+}
+
+.btn-known {
+  background: linear-gradient(135deg, #A8BBA0, #8BA084);
+  color: #fff;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  padding: 24rpx;
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(155, 175, 155, 0.3);
+}
+
+.btn-known::after { border: none; }
+
+.btn-known:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+.btn-unknown {
+  background: #fff;
+  color: #C9A9A6;
+  border: 2rpx solid #D4B8B5;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  padding: 24rpx;
+}
+
+.btn-unknown::after { border: none; }
+
+.btn-unknown:active {
+  background: #F8F0EF;
+}
+
+/* ────────── 总结页 ────────── */
+.summary-card {
+  text-align: center;
+  padding: 60rpx 32rpx 40rpx;
+  margin-top: 80rpx;
+}
+
+.summary-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.summary-title {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #4A4A4A;
+  margin-bottom: 40rpx;
+}
+
+.summary-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 32rpx;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #4A4A4A;
+}
+
+.summary-num.text-green { color: #9BAF9B; }
+.summary-num.text-pink { color: #C9A9A6; }
+
+.summary-label {
+  font-size: 24rpx;
+  color: #8A8A8A;
+  margin-top: 4rpx;
+}
+
+.summary-tip {
+  font-size: 24rpx;
+  color: #B5B0A8;
+  margin-bottom: 40rpx;
+  line-height: 1.5;
+}
+
+.summary-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 28rpx;
+}
+
+.summary-back {
+  font-size: 26rpx;
+  color: #B5B0A8;
+  padding: 16rpx;
+}

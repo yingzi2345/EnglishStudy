@@ -1,0 +1,263 @@
+/* 测验页 — pages/quiz/quiz.wxss（莫兰迪） */
+
+.quiz-page {
+  min-height: 100vh;
+  background: #F0EDE8;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.loading-box {
+  text-align: center;
+  padding: 200rpx 0;
+  color: #B5B0A8;
+}
+
+/* ────────── 进度 ────────── */
+.quiz-progress {
+  margin-bottom: 24rpx;
+}
+
+.progress-bar {
+  height: 8rpx;
+  background: #E0DCD4;
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8BA4B5, #6B8A9E);
+  border-radius: 4rpx;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  display: block;
+  text-align: center;
+  font-size: 24rpx;
+  color: #8A8A8A;
+  margin-top: 12rpx;
+}
+
+/* ────────── 题型标签 ────────── */
+.type-tag {
+  text-align: center;
+  font-size: 28rpx;
+  color: #7B9EB0;
+  font-weight: 500;
+  margin-bottom: 24rpx;
+}
+
+/* ────────── 题目卡片 ────────── */
+.question-card {
+  padding: 48rpx 32rpx;
+  margin-bottom: 40rpx;
+}
+
+.audio-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+  margin-bottom: 32rpx;
+}
+
+.audio-icon {
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.audio-text {
+  font-size: 26rpx;
+  color: #8A8A8A;
+}
+
+.question-word {
+  font-size: 64rpx;
+  font-weight: 700;
+  color: #4A4A4A;
+  text-align: center;
+  letter-spacing: 4rpx;
+}
+
+.question-phonetic {
+  font-size: 28rpx;
+  color: #8A8A8A;
+  text-align: center;
+  margin-top: 12rpx;
+  margin-bottom: 32rpx;
+}
+
+.spelling-meaning {
+  font-size: 34rpx;
+  color: #4A4A4A;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 40rpx;
+  padding: 0 16rpx;
+}
+
+.spelling-input {
+  width: 100%;
+  height: 88rpx;
+  background: #F5F2ED;
+  border-radius: 16rpx;
+  padding: 0 28rpx;
+  font-size: 32rpx;
+  color: #4A4A4A;
+  box-sizing: border-box;
+  border: 2rpx solid #E0DCD4;
+}
+
+.spelling-input:focus {
+  border-color: #7B9EB0;
+}
+
+/* ────────── 选项 ────────── */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.option-item {
+  padding: 28rpx 24rpx;
+  background: #F5F2ED;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: #4A4A4A;
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.option-item:active {
+  transform: scale(0.98);
+}
+
+.option-item.selected {
+  background: #E8EFF3;
+  border-color: #7B9EB0;
+  color: #5C7A8A;
+  font-weight: 500;
+}
+
+/* ────────── 提交按钮 ────────── */
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #8BA4B5, #6B8A9E);
+  color: #fff;
+  border-radius: 48rpx;
+  font-size: 30rpx;
+  padding: 24rpx;
+  border: none;
+  box-shadow: 0 6rpx 20rpx rgba(123, 158, 176, 0.3);
+}
+
+.submit-btn::after { border: none; }
+
+.submit-btn:active {
+  opacity: 0.85;
+}
+
+/* ────────── 结果页 ────────── */
+.result-card {
+  text-align: center;
+  padding: 56rpx 32rpx 40rpx;
+  margin-top: 40rpx;
+}
+
+.result-score {
+  font-size: 96rpx;
+  font-weight: 700;
+  color: #7B9EB0;
+  line-height: 1;
+}
+
+.score-unit {
+  font-size: 32rpx;
+  color: #8A8A8A;
+  margin-left: 8rpx;
+}
+
+.result-title {
+  font-size: 32rpx;
+  color: #6A6A6A;
+  margin-top: 12rpx;
+  margin-bottom: 40rpx;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 36rpx;
+  padding: 28rpx 0;
+  background: #FAF8F5;
+  border-radius: 16rpx;
+}
+
+.result-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #4A4A4A;
+}
+
+.result-num.text-green { color: #9BAF9B; }
+.result-num.text-pink { color: #C9A9A6; }
+
+.result-label {
+  font-size: 22rpx;
+  color: #8A8A8A;
+  margin-top: 4rpx;
+}
+
+/* 答题详情 */
+.detail-list {
+  text-align: left;
+  margin-bottom: 36rpx;
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #EDE8E0;
+}
+
+.detail-word {
+  flex: 1;
+  font-size: 28rpx;
+  color: #4A4A4A;
+  font-weight: 500;
+}
+
+.detail-result {
+  font-size: 28rpx;
+  font-weight: 700;
+  margin-left: 16rpx;
+}
+
+.detail-result.correct { color: #9BAF9B; }
+.detail-result.wrong { color: #C9A9A6; }
+
+.detail-answer {
+  width: 100%;
+  font-size: 22rpx;
+  color: #C9A9A6;
+  margin-top: 4rpx;
+  padding-left: 0;
+}
+
+.result-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.result-back {
+  font-size: 26rpx;
+  color: #B5B0A8;
+  padding: 12rpx;
+}

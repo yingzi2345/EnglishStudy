@@ -1,0 +1,36 @@
+<!-- 错词本页 — pages/wrong-words/wrong-words.wxml -->
+<view class="wrong-page">
+  <!-- 加载中 -->
+  <view class="loading-box" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-box" wx:elif="{{list.length === 0}}">
+    <view class="empty-icon">📚</view>
+    <view class="empty-title">错词本是空的</view>
+    <view class="empty-desc">学习或测验中答错的单词会自动收集到这里</view>
+    <button class="btn-primary empty-btn" bindtap="goStudy">去学习</button>
+  </view>
+
+  <!-- 错词列表 -->
+  <view wx:else>
+    <view class="wrong-header">
+      <text class="wrong-count">共 {{total}} 个错词</text>
+      <text class="wrong-tip">答错的词会在明天自动安排复习</text>
+    </view>
+
+    <view class="wrong-list">
+      <view class="wrong-item card" wx:for="{{list}}" wx:key="id">
+        <view class="wrong-main" bindtap="goDetail" data-id="{{item.word}}">
+          <view class="wrong-word">{{item.word_name}}</view>
+          <view class="wrong-meaning">{{item.word_meaning}}</view>
+        </view>
+        <view class="wrong-meta">
+          <view class="wrong-count-tag">错{{item.wrong_count || 1}}次</view>
+          <view class="remove-btn" catchtap="removeWord" data-id="{{item.word}}" data-word="{{item.word_name}}">移除</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

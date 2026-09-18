@@ -1,0 +1,78 @@
+<!-- 卡片式学习页 — pages/study/study.wxml -->
+<view class="study-page">
+  <!-- 加载中 -->
+  <view class="loading-box" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 学习完成总结 -->
+  <view class="summary-card card" wx:elif="{{finished}}">
+    <view class="summary-icon">🎉</view>
+    <view class="summary-title">本组学习完成</view>
+    <view class="summary-stats">
+      <view class="summary-item">
+        <view class="summary-num">{{total}}</view>
+        <view class="summary-label">总学习</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-num text-green">{{knownCount}}</view>
+        <view class="summary-label">认识</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-num text-pink">{{unknownCount}}</view>
+        <view class="summary-label">不认识</view>
+      </view>
+    </view>
+    <view class="summary-tip" wx:if="{{unknownCount > 0}}">
+      {{unknownCount}} 个不认识的词已加入错词本，明天会自动安排复习
+    </view>
+    <view class="summary-actions">
+      <button class="btn-primary flex-1" bindtap="goQuiz">去测验</button>
+      <button class="btn-outline flex-1" bindtap="studyAgain">再学一组</button>
+    </view>
+    <view class="summary-back" bindtap="goBack">返回首页</view>
+  </view>
+
+  <!-- 学习卡片 -->
+  <view class="study-content" wx:else>
+    <!-- 进度条 -->
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{(currentIndex / total) * 100}}%"></view>
+    </view>
+    <view class="progress-text">{{currentIndex + 1}} / {{total}} · {{currentTask.task_type === 'review' ? '复习' : '新词'}}</view>
+
+    <!-- 卡片 -->
+    <view class="card-wrap" bindtap="flipCard">
+      <view class="flip-card {{isFlipped ? 'flipped' : ''}}">
+        <!-- 正面：单词 -->
+        <view class="card-face card-front">
+          <view class="task-tag {{currentTask.task_type === 'review' ? 'tag-review' : 'tag-new'}}">
+            {{currentTask.task_type === 'review' ? '复习' : '新词'}}
+          </view>
+          <view class="word-big">{{currentTask.word}}</view>
+          <view class="phonetic">{{currentTask.phonetic}}</view>
+          <view class="audio-btn" catchtap="playAudio">
+            <text>🔊 发音</text>
+          </view>
+          <view class="flip-hint">点击卡片查看释义</view>
+        </view>
+        <!-- 背面：释义+例句 -->
+        <view class="card-face card-back">
+          <view class="word-small">{{currentTask.word}}</view>
+          <view class="meaning-text">{{currentTask.meaning}}</view>
+          <view class="example-box" wx:if="{{currentTask.example_en}}">
+            <view class="example-en">{{currentTask.example_en}}</view>
+            <view class="example-zh">{{currentTask.example_zh}}</view>
+          </view>
+          <view class="flip-hint">点击卡片返回</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn-unknown flex-1" bindtap="markUnknown">不认识</button>
+      <button class="btn-known flex-1" bindtap="markKnown">认识</button>
+    </view>
+  </view>
+</view>

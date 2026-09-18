@@ -1,0 +1,104 @@
+<!-- 测验页 — pages/quiz/quiz.wxml -->
+<view class="quiz-page">
+  <!-- 加载中 -->
+  <view class="loading-box" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 测验结果 -->
+  <view class="result-card card" wx:elif="{{finished}}">
+    <view class="result-score">{{result.score}}<text class="score-unit">分</text></view>
+    <view class="result-title">{{result.score >= 80 ? '太棒了！' : result.score >= 60 ? '继续加油！' : '多多练习哦'}}</view>
+    <view class="result-stats">
+      <view class="result-item">
+        <view class="result-num">{{result.total}}</view>
+        <view class="result-label">总题数</view>
+      </view>
+      <view class="result-item">
+        <view class="result-num text-green">{{result.correct}}</view>
+        <view class="result-label">答对</view>
+      </view>
+      <view class="result-item">
+        <view class="result-num text-pink">{{result.wrong}}</view>
+        <view class="result-label">答错</view>
+      </view>
+    </view>
+
+    <!-- 答题详情 -->
+    <view class="detail-list" wx:if="{{result.details.length > 0}}">
+      <view class="detail-item" wx:for="{{result.details}}" wx:key="word_id">
+        <view class="detail-word">{{item.word}}</view>
+        <view class="detail-result {{item.correct ? 'correct' : 'wrong'}}">
+          {{item.correct ? '✓' : '✗'}}
+        </view>
+        <view class="detail-answer" wx:if="{{!item.correct}}">
+          正确答案: {{item.correct_answer}}
+        </view>
+      </view>
+    </view>
+
+    <view class="result-actions">
+      <button class="btn-primary flex-1" bindtap="retryQuiz">再测一次</button>
+      <button class="btn-outline flex-1" wx:if="{{result.wrong > 0}}" bindtap="goWrongWords">查看错词本</button>
+    </view>
+    <view class="result-back" bindtap="goBack">返回</view>
+  </view>
+
+  <!-- 答题中 -->
+  <view class="quiz-content" wx:else>
+    <!-- 进度 -->
+    <view class="quiz-progress">
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{(currentIndex / questions.length) * 100}}%"></view>
+      </view>
+      <text class="progress-text">第 {{currentIndex + 1}} / {{questions.length}} 题</text>
+    </view>
+
+    <!-- 题型标签 -->
+    <view class="type-tag">
+      <text wx:if="{{currentQuestion.question_type === 'listening'}}">🎧 听音选词</text>
+      <text wx:elif="{{currentQuestion.question_type === 'meaning'}}">📖 看词选义</text>
+      <text wx:else>✍️ 看义拼写</text>
+    </view>
+
+    <!-- 听音选词 -->
+    <view class="question-card card" wx:if="{{currentQuestion.question_type === 'listening'}}">
+      <view class="audio-player" bindtap="playAudio">
+        <text class="audio-icon">🔊</text>
+        <text class="audio-text">点击播放发音</text>
+      </view>
+      <view class="options-list">
+        <view class="option-item {{selectedAnswer === item ? 'selected' : ''}}"
+              wx:for="{{currentQuestion.options}}" wx:key="*this"
+              data-answer="{{item}}" bindtap="selectOption">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 看词选义 -->
+    <view class="question-card card" wx:elif="{{currentQuestion.question_type === 'meaning'}}">
+      <view class="question-word">{{currentQuestion.word}}</view>
+      <view class="question-phonetic">{{currentQuestion.phonetic}}</view>
+      <view class="options-list">
+        <view class="option-item {{selectedAnswer === item ? 'selected' : ''}}"
+              wx:for="{{currentQuestion.options}}" wx:key="*this"
+              data-answer="{{item}}" bindtap="selectOption">
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 看义拼写 -->
+    <view class="question-card card" wx:else>
+      <view class="spelling-meaning">{{currentQuestion.meaning}}</view>
+      <input class="spelling-input" placeholder="请输入单词" value="{{spellingInput}}"
+             bindinput="onSpellingInput" confirm-type="done" />
+    </view>
+
+    <!-- 下一题按钮 -->
+    <button class="btn-primary submit-btn" bindtap="nextQuestion">
+      {{currentIndex === questions.length - 1 ? '提交测验' : '下一题'}}
+    </button>
+  </view>
+</view>
