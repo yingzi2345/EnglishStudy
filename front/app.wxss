@@ -1,12 +1,37 @@
 /* ──────────────────────────────────────────────
-   英语学习打卡系统 — 全局样式
+   英语学习打卡系统 — 全局样式（莫兰迪色系）
    app.wxss
    ────────────────────────────────────────────── */
 
 page {
-  background-color: #f5f5f5;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #333;
+  /* 莫兰迪设计 token */
+  --color-primary: #7B9EB0;
+  --color-primary-dark: #5C7A8A;
+  --color-primary-light: #C5D5DE;
+  --color-primary-bg: #E8EFF3;
+  --color-accent-pink: #C9A9A6;
+  --color-accent-green: #9BAF9B;
+  --color-accent-yellow: #D4C5A0;
+  --color-accent-purple: #A69BB5;
+  --color-success: #9BAF9B;
+  --color-warning: #D4A574;
+  --color-danger: #C48B8B;
+  --color-bg: #F0EDE8;
+  --color-card: #FFFFFF;
+  --color-bg-soft: #FAF8F5;
+  --color-text: #4A4A4A;
+  --color-text-sub: #8A8A8A;
+  --color-text-weak: #B5B0A8;
+  --color-border: #E8E4DE;
+  --radius-sm: 12rpx;
+  --radius-md: 20rpx;
+  --radius-lg: 28rpx;
+  --shadow-card: 0 4rpx 20rpx rgba(92, 122, 138, 0.08);
+  --shadow-float: 0 8rpx 32rpx rgba(92, 122, 138, 0.12);
+
+  background-color: var(--color-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif;
+  color: var(--color-text);
   font-size: 28rpx;
   line-height: 1.6;
 }
@@ -20,45 +45,52 @@ page {
 
 /* 卡片样式 */
 .card {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 24rpx;
+  background: var(--color-card);
+  border-radius: var(--radius-md);
+  padding: 28rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-card);
 }
 
 /* 按钮 */
 .btn-primary {
-  background: linear-gradient(135deg, #4A90D9, #357ABD);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: #fff;
   border-radius: 44rpx;
   padding: 20rpx 48rpx;
   text-align: center;
-  font-size: 32rpx;
+  font-size: 30rpx;
   font-weight: 500;
   border: none;
+  box-shadow: 0 6rpx 20rpx rgba(123, 158, 176, 0.35);
 }
 
 .btn-primary:active {
   opacity: 0.85;
+  transform: scale(0.98);
 }
 
 .btn-outline {
   background: #fff;
-  color: #4A90D9;
-  border: 2rpx solid #4A90D9;
+  color: var(--color-primary);
+  border: 2rpx solid var(--color-primary);
   border-radius: 44rpx;
   padding: 18rpx 48rpx;
   text-align: center;
   font-size: 28rpx;
 }
 
+.btn-outline:active {
+  background: var(--color-primary-bg);
+}
+
 /* 文字样式 */
-.text-primary { color: #4A90D9; }
-.text-success { color: #52c41a; }
-.text-warning { color: #faad14; }
-.text-danger  { color: #f5222d; }
-.text-gray    { color: #999; }
+.text-primary { color: var(--color-primary); }
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-danger  { color: var(--color-danger); }
+.text-gray    { color: var(--color-text-sub); }
+.text-weak    { color: var(--color-text-weak); }
 .text-center  { text-align: center; }
 
 /* 布局 */
@@ -83,5 +115,9 @@ page {
 .mt-8  { margin-top: 8rpx; }
 .mt-16 { margin-top: 16rpx; }
 .mt-24 { margin-top: 24rpx; }
+.mt-32 { margin-top: 32rpx; }
+.mt-48 { margin-top: 48rpx; }
 .mb-16 { margin-bottom: 16rpx; }
 .mb-24 { margin-bottom: 24rpx; }
+.ml-8  { margin-left: 8rpx; }
+.ml-16 { margin-left: 16rpx; }

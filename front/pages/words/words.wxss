@@ -16,7 +16,7 @@
 }
 
 .search-btn {
-  color: #4A90D9;
+  color: #7B9EB0;
   font-size: 28rpx;
   padding: 8rpx 16rpx;
 }
@@ -37,7 +37,7 @@
 }
 
 .category-tag.active {
-  background: #4A90D9;
+  background: #7B9EB0;
   color: #fff;
 }
 

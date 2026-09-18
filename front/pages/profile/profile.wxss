@@ -3,7 +3,7 @@
 .profile-header {
   text-align: center;
   padding: 48rpx 24rpx;
-  background: linear-gradient(135deg, #4A90D9, #357ABD);
+  background: linear-gradient(135deg, #7B9EB0, #5C7A8A);
   color: #fff;
 }
 
@@ -141,7 +141,7 @@
 
 .log-time {
   font-size: 26rpx;
-  color: #4A90D9;
+  color: #7B9EB0;
   margin-bottom: 16rpx;
 }
 

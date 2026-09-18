@@ -28,7 +28,7 @@
   width: 200rpx;
   height: 200rpx;
   border-radius: 50%;
-  background: conic-gradient(#4A90D9 0deg, #4A90D9 var(--pct, 0deg), #e8e8e8 var(--pct, 0deg), #e8e8e8 360deg);
+  background: conic-gradient(#7B9EB0 0deg, #7B9EB0 var(--pct, 0deg), #e8e8e8 var(--pct, 0deg), #e8e8e8 360deg);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,13 +38,13 @@
 /* 降级方案：纯色圆环 */
 .progress-ring {
   background: #e8f4fd;
-  border: 8rpx solid #4A90D9;
+  border: 8rpx solid #7B9EB0;
 }
 
 .ring-percent {
   font-size: 44rpx;
   font-weight: 700;
-  color: #4A90D9;
+  color: #7B9EB0;
 }
 
 .ring-label {
@@ -63,7 +63,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4A90D9, #357ABD);
+  background: linear-gradient(90deg, #7B9EB0, #5C7A8A);
   border-radius: 6rpx;
   transition: width 0.5s ease;
 }
@@ -152,13 +152,13 @@
 }
 
 .tag-learned {
-  background: #e6f7ff;
-  color: #4A90D9;
+  background: #E8EFF3;
+  color: #7B9EB0;
 }
 
 .tag-mastered {
-  background: #f6ffed;
-  color: #52c41a;
+  background: #E8EDE6;
+  color: #9BAF9B;
 }
 
 .learn-time {
@@ -197,14 +197,14 @@
 }
 
 .heat-cell.today {
-  box-shadow: 0 0 0 3rpx #fff, 0 0 0 5rpx #4A90D9;
+  box-shadow: 0 0 0 3rpx #fff, 0 0 0 5rpx #7B9EB0;
 }
 
-.heat-cell.level-0 { background: #f0f0f0; }
-.heat-cell.level-1 { background: #d6eaff; }
-.heat-cell.level-2 { background: #9ecbff; }
-.heat-cell.level-3 { background: #4A90D9; }
-.heat-cell.level-4 { background: #24598f; }
+.heat-cell.level-0 { background: #EDE8E0; }
+.heat-cell.level-1 { background: #D5DEE4; }
+.heat-cell.level-2 { background: #A8BCC8; }
+.heat-cell.level-3 { background: #7B9EB0; }
+.heat-cell.level-4 { background: #5C7A8A; }
 
 .heatmap-footer {
   align-items: center;
@@ -227,11 +227,11 @@
   border-radius: 4rpx;
 }
 
-.legend-cell.level-0 { background: #f0f0f0; }
-.legend-cell.level-1 { background: #d6eaff; }
-.legend-cell.level-2 { background: #9ecbff; }
-.legend-cell.level-3 { background: #4A90D9; }
-.legend-cell.level-4 { background: #24598f; }
+.legend-cell.level-0 { background: #EDE8E0; }
+.legend-cell.level-1 { background: #D5DEE4; }
+.legend-cell.level-2 { background: #A8BCC8; }
+.legend-cell.level-3 { background: #7B9EB0; }
+.legend-cell.level-4 { background: #5C7A8A; }
 
 .heat-stats {
   font-size: 22rpx;
@@ -280,11 +280,11 @@
 }
 
 .trend-bar.has-data {
-  background: linear-gradient(180deg, #6db3f2, #4A90D9);
+  background: linear-gradient(180deg, #A3BCC9, #7B9EB0);
 }
 
 .trend-bar-item:active .trend-bar.has-data {
-  background: #24598f;
+  background: #5C7A8A;
 }
 
 .trend-axis-x {

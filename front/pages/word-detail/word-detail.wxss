@@ -3,7 +3,7 @@
 .word-hero {
   text-align: center;
   padding: 48rpx 24rpx;
-  background: linear-gradient(135deg, #4A90D9, #6CB3F5);
+  background: linear-gradient(135deg, #7B9EB0, #A3BCC9);
   color: #fff;
 }
 
@@ -55,13 +55,13 @@
 
 .accent-active {
   background: rgba(255,255,255,0.95);
-  color: #4A90D9;
+  color: #7B9EB0;
   font-weight: 600;
 }
 
 .audio-btn {
   font-size: 28rpx;
-  color: #ffd700;
+  color: #F0E6C8;
   padding: 12rpx 20rpx;
 }
 
@@ -107,8 +107,8 @@
 }
 
 .action-buttons .btn-undo {
-  border-color: #f0ad4e;
-  color: #f0ad4e;
+  border-color: #D4A574;
+  color: #D4A574;
 }
 
 .empty-state {

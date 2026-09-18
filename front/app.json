@@ -11,17 +11,17 @@
     "pages/profile/profile"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#4A90D9",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F0EDE8",
     "navigationBarTitleText": "英语学习打卡",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#f5f5f5"
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F0EDE8"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#4A90D9",
-    "backgroundColor": "#ffffff",
-    "borderStyle": "black",
+    "color": "#B5B0A8",
+    "selectedColor": "#7B9EB0",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/index/index",

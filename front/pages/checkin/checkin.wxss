@@ -1,13 +1,14 @@
-/* 打卡页样式 — pages/checkin/checkin.wxss */
+/* 打卡页样式 — pages/checkin/checkin.wxss（莫兰迪） */
 
 .checkin-card {
-  padding: 48rpx 24rpx;
+  padding: 48rpx 24rpx 36rpx;
   text-align: center;
-  background: linear-gradient(135deg, #f5f7fa, #e8ecf1);
+  background: linear-gradient(135deg, #EDF1F4, #E2E8ED);
+  border-radius: 24rpx;
 }
 
 .checkin-card.checked {
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  background: linear-gradient(135deg, #E8EDE6, #D8E2D6);
 }
 
 .checkin-circle {
@@ -16,18 +17,18 @@
   height: 220rpx;
   margin: 0 auto;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4A90D9, #357ABD);
+  background: linear-gradient(135deg, #8BA4B5, #6B8A9E);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 8rpx 32rpx rgba(74, 144, 217, 0.3);
+  box-shadow: 0 10rpx 36rpx rgba(123, 158, 176, 0.35);
   transition: all 0.3s;
 }
 
 .checkin-circle.checked {
-  background: linear-gradient(135deg, #52c41a, #389e0d);
-  box-shadow: 0 8rpx 32rpx rgba(82, 196, 26, 0.3);
+  background: linear-gradient(135deg, #A8BBA0, #8BA084);
+  box-shadow: 0 10rpx 36rpx rgba(155, 175, 155, 0.35);
 }
 
 .checkin-circle:active {
@@ -67,12 +68,12 @@
 .streak-num {
   font-size: 44rpx;
   font-weight: 700;
-  color: #333;
+  color: #4A4A4A;
 }
 
 .streak-label {
   font-size: 22rpx;
-  color: #999;
+  color: #8A8A8A;
   display: block;
   margin-top: 4rpx;
 }
@@ -80,13 +81,13 @@
 .streak-divider {
   width: 2rpx;
   height: 48rpx;
-  background: #e8e8e8;
+  background: #D8D2C8;
 }
 
 .card-title {
   font-size: 30rpx;
   font-weight: 600;
-  color: #333;
+  color: #4A4A4A;
 }
 
 .study-item {
@@ -101,7 +102,7 @@
 
 .study-label {
   font-size: 22rpx;
-  color: #999;
+  color: #8A8A8A;
   margin-top: 4rpx;
 }
 
@@ -113,27 +114,27 @@
 
 .arrow {
   font-size: 24rpx;
-  color: #4A90D9;
+  color: #7B9EB0;
   padding: 8rpx;
 }
 
 .month-text {
   font-size: 28rpx;
-  color: #333;
+  color: #4A4A4A;
 }
 
 .weekday-row {
   display: flex;
   justify-content: space-around;
   padding: 12rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
+  border-bottom: 1rpx solid #EDE8E0;
 }
 
 .weekday {
   width: 14.28%;
   text-align: center;
   font-size: 24rpx;
-  color: #999;
+  color: #B5B0A8;
 }
 
 .date-grid {
@@ -148,6 +149,7 @@
   justify-content: center;
   align-items: center;
   font-size: 24rpx;
+  color: #6A6A6A;
 }
 
 .date-cell.empty {
@@ -155,31 +157,30 @@
 }
 
 .date-cell.checked {
-  background: #4A90D9;
   border-radius: 50%;
   color: #fff;
 }
 
 .date-cell.today {
-  border: 2rpx solid #4A90D9;
+  border: 2rpx solid #7B9EB0;
   border-radius: 50%;
 }
 
-/* ────────── 日历火焰等级 ────────── */
+/* ────────── 日历火焰等级（莫兰迪暖调） ────────── */
 .date-cell.checked.fire-1 {
-  background: #fff3e0;
-  color: #ef8b2c;
+  background: #E8D5C4;
+  color: #B08968;
 }
 .date-cell.checked.fire-2 {
-  background: #ffd8a8;
-  color: #e8590c;
+  background: #D4A574;
+  color: #fff;
 }
 .date-cell.checked.fire-3 {
-  background: #ffa94d;
+  background: #C48B5A;
   color: #fff;
 }
 .date-cell.checked.fire-4 {
-  background: linear-gradient(135deg, #ff6b2c, #f03e3e);
+  background: linear-gradient(135deg, #C48B8B, #B07070);
   color: #fff;
 }
 
@@ -202,7 +203,7 @@
 
 .legend-label {
   font-size: 20rpx;
-  color: #999;
+  color: #B5B0A8;
   margin-right: 8rpx;
 }
 
@@ -212,20 +213,19 @@
   border-radius: 6rpx;
 }
 
-.legend-cell.fire-1 { background: #fff3e0; }
-.legend-cell.fire-2 { background: #ffd8a8; }
-.legend-cell.fire-3 { background: #ffa94d; }
-.legend-cell.fire-4 { background: #f03e3e; }
+.legend-cell.fire-1 { background: #E8D5C4; }
+.legend-cell.fire-2 { background: #D4A574; }
+.legend-cell.fire-3 { background: #C48B5A; }
+.legend-cell.fire-4 { background: #B07070; }
 
 .legend-text {
   font-size: 20rpx;
-  color: #bbb;
+  color: #C5BFB5;
   margin-left: 8rpx;
 }
 
 /* ────────── 打卡庆祝动画 ────────── */
 
-/* 圆环弹跳 */
 .checkin-circle.celebrate {
   animation: ring-pop 0.6s ease;
 }
@@ -236,7 +236,6 @@
   100% { transform: scale(1); }
 }
 
-/* 对勾弹出 */
 .checkin-icon.pop {
   animation: check-pop 0.7s ease 0.15s both;
 }
@@ -247,7 +246,6 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* 粒子爆花 */
 .particle-wrap {
   position: absolute;
   left: 50%;
@@ -265,18 +263,17 @@
   width: 12rpx;
   height: 12rpx;
   border-radius: 50%;
-  background: #ffd700;
   animation: particle-burst 0.9s ease-out forwards;
 }
 
-.particle:nth-child(1) { --dx: -110rpx; --dy: -70rpx;  background: #ffd700; }
-.particle:nth-child(2) { --dx: 110rpx;  --dy: -70rpx;  background: #ffa94d; }
-.particle:nth-child(3) { --dx: -70rpx;  --dy: -110rpx; background: #ff6b2c; }
-.particle:nth-child(4) { --dx: 70rpx;   --dy: -110rpx; background: #ffd700; }
-.particle:nth-child(5) { --dx: -130rpx; --dy: 10rpx;   background: #ffa94d; }
-.particle:nth-child(6) { --dx: 130rpx;  --dy: 10rpx;   background: #ffd700; }
-.particle:nth-child(7) { --dx: -90rpx;  --dy: 60rpx;   background: #ff6b2c; }
-.particle:nth-child(8) { --dx: 90rpx;   --dy: 60rpx;   background: #ffa94d; }
+.particle:nth-child(1) { --dx: -110rpx; --dy: -70rpx;  background: #D4C5A0; }
+.particle:nth-child(2) { --dx: 110rpx;  --dy: -70rpx;  background: #D4A574; }
+.particle:nth-child(3) { --dx: -70rpx;  --dy: -110rpx; background: #C9A9A6; }
+.particle:nth-child(4) { --dx: 70rpx;   --dy: -110rpx; background: #D4C5A0; }
+.particle:nth-child(5) { --dx: -130rpx; --dy: 10rpx;   background: #D4A574; }
+.particle:nth-child(6) { --dx: 130rpx;  --dy: 10rpx;   background: #D4C5A0; }
+.particle:nth-child(7) { --dx: -90rpx;  --dy: 60rpx;   background: #C9A9A6; }
+.particle:nth-child(8) { --dx: 90rpx;   --dy: 60rpx;   background: #D4A574; }
 
 .particle.p2, .particle.p5, .particle.p8 { animation-delay: 0.05s; }
 .particle.p3, .particle.p6 { animation-delay: 0.1s; }
@@ -290,12 +287,12 @@
 /* ────────── 打卡海报入口 ────────── */
 .poster-entry {
   display: inline-block;
-  background: linear-gradient(135deg, #ff9a3d, #ff6b2c);
+  background: linear-gradient(135deg, #D4A574, #C48B5A);
   color: #fff;
   font-size: 26rpx;
-  padding: 12rpx 36rpx;
+  padding: 14rpx 40rpx;
   border-radius: 40rpx;
-  box-shadow: 0 6rpx 20rpx rgba(255, 107, 44, 0.35);
+  box-shadow: 0 6rpx 20rpx rgba(212, 165, 116, 0.35);
 }
 
 .poster-entry:active {
@@ -307,7 +304,7 @@
 .poster-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(60, 55, 50, 0.6);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -324,14 +321,14 @@
   width: 100%;
   border-radius: 24rpx;
   overflow: hidden;
-  box-shadow: 0 16rpx 60rpx rgba(0, 0, 0, 0.4);
+  box-shadow: 0 16rpx 60rpx rgba(60, 55, 50, 0.35);
 }
 
 .poster-canvas {
   width: 100%;
-  height: 1108rpx; /* 300:520 比例 */
+  height: 1108rpx;
   display: block;
-  background: #24598F;
+  background: #6B8A9E;
 }
 
 .poster-loading {
@@ -359,7 +356,7 @@
   width: 64rpx;
   height: 64rpx;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   color: #fff;
   font-size: 30rpx;
 }

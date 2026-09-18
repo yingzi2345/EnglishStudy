@@ -1,19 +1,28 @@
 <!-- 登录页 — pages/login/login.wxml -->
-<view class="container login-container">
-  <view class="logo-area">
-    <image class="logo" src="/images/logo.png" mode="aspectFit" />
-    <view class="app-name">英语学习打卡</view>
-    <view class="app-desc">坚持每天学习，遇见更好的自己</view>
-  </view>
+<view class="login-page">
+  <!-- 背景装饰圆 -->
+  <view class="bg-decor decor-1"></view>
+  <view class="bg-decor decor-2"></view>
+  <view class="bg-decor decor-3"></view>
 
-  <view class="login-form">
-    <button class="btn-primary wechat-btn" bindtap="handleWechatLogin"
-            loading="{{loading}}" disabled="{{loading}}">
-      <text wx:if="{{!loading}}">微信一键登录</text>
-      <text wx:else>登录中...</text>
-    </button>
-    <view class="privacy-tip mt-24 text-gray text-center">
-      登录即表示同意《用户协议》和《隐私政策》
+  <view class="login-content">
+    <view class="logo-area">
+      <view class="logo-wrap">
+        <image class="logo" src="/images/logo.png" mode="aspectFit" />
+      </view>
+      <view class="app-name">英语学习打卡</view>
+      <view class="app-desc">坚持每天学习，遇见更好的自己</view>
+    </view>
+
+    <view class="login-form">
+      <button class="wechat-btn" bindtap="handleWechatLogin"
+              loading="{{loading}}" disabled="{{loading}}">
+        <text wx:if="{{!loading}}">微信一键登录</text>
+        <text wx:else>登录中...</text>
+      </button>
+      <view class="privacy-tip">
+        登录即表示同意《用户协议》和《隐私政策》
+      </view>
     </view>
   </view>
 </view>

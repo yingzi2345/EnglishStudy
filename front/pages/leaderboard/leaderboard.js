@@ -5,6 +5,8 @@ Page({
   data: {
     activePeriod: 'daily',
     rankList: [],
+    topThree: [],
+    restList: [],
     myRank: null,
   },
 
@@ -28,8 +30,11 @@ Page({
       else res = await leaderboardApi.getAlltime();
 
       if (res.code === 200) {
+        const list = res.data.list || [];
         this.setData({
-          rankList: res.data.list || [],
+          rankList: list,
+          topThree: list.slice(0, 3),
+          restList: list.slice(3),
           myRank: res.data.my_rank || null,
         });
       }
