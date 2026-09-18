@@ -72,6 +72,10 @@
   background: #f9f9f9;
 }
 
+.menu-hover {
+  background: #f5f3f0 !important;
+}
+
 .arrow {
   color: #ccc;
   font-size: 28rpx;

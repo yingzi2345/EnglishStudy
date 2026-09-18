@@ -49,23 +49,23 @@
 
   <!-- 功能菜单 -->
   <view class="menu-list mt-24">
-    <view class="menu-item card flex-between" bindtap="goToRecords">
+    <view class="menu-item card flex-between" bindtap="goToRecords" hover-class="menu-hover">
       <text>打卡记录</text>
       <text class="arrow">></text>
     </view>
-    <view class="menu-item card flex-between" bindtap="goToWords">
+    <view class="menu-item card flex-between" bindtap="goToWords" hover-class="menu-hover">
       <text>单词本</text>
       <text class="arrow">></text>
     </view>
-    <view class="menu-item card flex-between" bindtap="goToMyProgress">
+    <view class="menu-item card flex-between" bindtap="goToMyProgress" hover-class="menu-hover">
       <text>学习进度</text>
       <text class="arrow">></text>
     </view>
-    <view class="menu-item card flex-between" bindtap="openGoalPicker">
+    <view class="menu-item card flex-between" bindtap="openGoalPicker" hover-class="menu-hover">
       <text>每日学习目标</text>
       <text class="goal-value">{{userInfo.daily_goal || 20}} 词/天 ›</text>
     </view>
-    <view class="menu-item card flex-between" bindtap="goToLoginLogs">
+    <view class="menu-item card flex-between" bindtap="goToLoginLogs" hover-class="menu-hover">
       <text>登录日志(IP溯源)</text>
       <text class="arrow">></text>
     </view>

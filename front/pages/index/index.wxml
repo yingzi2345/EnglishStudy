@@ -36,7 +36,7 @@
   </view>
 
   <!-- 今日学习横幅 -->
-  <view class="study-banner card" bindtap="goToStudy">
+  <view class="study-banner card" bindtap="goToStudy" hover-class="card-hover">
     <view class="study-banner-left">
       <view class="study-banner-title">今日学习</view>
       <view class="study-banner-sub">
@@ -63,7 +63,7 @@
   </view>
 
   <view class="word-list">
-    <view class="word-item card" wx:for="{{dailyWords}}" wx:key="id" bindtap="goToWordDetail" data-id="{{item.id}}">
+    <view class="word-item card" wx:for="{{dailyWords}}" wx:key="id" bindtap="goToWordDetail" data-id="{{item.id}}" hover-class="card-hover">
       <view class="flex-between">
         <view>
           <text class="word-text">{{item.word}}</text>
@@ -80,43 +80,43 @@
 
   <!-- 快速入口 -->
   <view class="quick-actions mt-24">
-    <view class="action-item card" bindtap="goToStudy">
+    <view class="action-item card" bindtap="goToStudy" hover-class="card-hover">
       <view class="action-icon-circle bg-blue">
         <text class="action-icon">📚</text>
       </view>
       <text class="action-text">单词学习</text>
     </view>
-    <view class="action-item card" bindtap="goToQuiz">
+    <view class="action-item card" bindtap="goToQuiz" hover-class="card-hover">
       <view class="action-icon-circle bg-purple">
         <text class="action-icon">✏️</text>
       </view>
       <text class="action-text">单词测验</text>
     </view>
-    <view class="action-item card" bindtap="goToWrongWords">
+    <view class="action-item card" bindtap="goToWrongWords" hover-class="card-hover">
       <view class="action-icon-circle bg-pink">
         <text class="action-icon">📕</text>
       </view>
       <text class="action-text">错词本</text>
     </view>
-    <view class="action-item card" bindtap="goToCheckin">
+    <view class="action-item card" bindtap="goToCheckin" hover-class="card-hover">
       <view class="action-icon-circle bg-yellow">
         <text class="action-icon">📝</text>
       </view>
       <text class="action-text">每日打卡</text>
     </view>
-    <view class="action-item card" bindtap="goToWords">
+    <view class="action-item card" bindtap="goToWords" hover-class="card-hover">
       <view class="action-icon-circle bg-green">
         <text class="action-icon">📖</text>
       </view>
       <text class="action-text">单词本</text>
     </view>
-    <view class="action-item card" bindtap="goToLeaderboard">
+    <view class="action-item card" bindtap="goToLeaderboard" hover-class="card-hover">
       <view class="action-icon-circle bg-orange">
         <text class="action-icon">🏆</text>
       </view>
       <text class="action-text">排行榜</text>
     </view>
-    <view class="action-item card" bindtap="goToVocabTest">
+    <view class="action-item card" bindtap="goToVocabTest" hover-class="card-hover">
       <view class="action-icon-circle bg-purple">
         <text class="action-icon">📊</text>
       </view>

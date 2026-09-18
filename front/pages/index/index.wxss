@@ -271,3 +271,10 @@
   padding: 80rpx 0;
   color: #B5B0A8;
 }
+
+/* 点击反馈 */
+.card-hover {
+  opacity: 0.85;
+  transform: scale(0.98);
+  transition: all 0.1s;
+}
