@@ -2,10 +2,21 @@
 <view class="container">
   <!-- 打卡状态卡片 -->
   <view class="checkin-card card {{todayChecked ? 'checked' : ''}}">
-    <view class="checkin-circle {{todayChecked ? 'checked' : ''}}" bindtap="doCheckin">
+    <view class="checkin-circle {{todayChecked ? 'checked' : ''}} {{celebrate ? 'celebrate' : ''}}" bindtap="doCheckin">
+      <!-- 庆祝粒子 -->
+      <view class="particle-wrap" wx:if="{{celebrate}}">
+        <view class="particle p1"></view>
+        <view class="particle p2"></view>
+        <view class="particle p3"></view>
+        <view class="particle p4"></view>
+        <view class="particle p5"></view>
+        <view class="particle p6"></view>
+        <view class="particle p7"></view>
+        <view class="particle p8"></view>
+      </view>
       <text class="checkin-day-label">{{todayChecked ? '已打卡' : '今日打卡'}}</text>
       <text class="checkin-date">{{currentDate}}</text>
-      <text class="checkin-icon">{{todayChecked ? '✓' : '☀'}}</text>
+      <text class="checkin-icon {{celebrate ? 'pop' : ''}}">{{todayChecked ? '✓' : '☀'}}</text>
     </view>
 
     <view class="streak-info mt-24">
@@ -23,6 +34,11 @@
         <text class="streak-num">{{streakData.max_continuous || 0}}</text>
         <text class="streak-label">最长连续</text>
       </view>
+    </view>
+
+    <!-- 打卡海报入口（今日已打卡后出现） -->
+    <view class="poster-entry mt-24" wx:if="{{todayChecked}}" bindtap="showPoster">
+      <text class="poster-entry-text">🎉 生成打卡海报</text>
     </view>
   </view>
 
@@ -60,11 +76,38 @@
         <text class="weekday" wx:for="{{weekdays}}" wx:key="*this">{{item}}</text>
       </view>
       <view class="date-grid">
-        <view class="date-cell {{item.isChecked ? 'checked' : ''}} {{item.isToday ? 'today' : ''}} {{item.isEmpty ? 'empty' : ''}}"
+        <view class="date-cell {{item.isChecked ? 'checked fire-' + item.fireLevel : ''}} {{item.isToday ? 'today' : ''}} {{item.isEmpty ? 'empty' : ''}}"
               wx:for="{{calendarGrid}}" wx:key="index">
           <text wx:if="{{!item.isEmpty}}" class="date-num">{{item.day}}</text>
+          <text wx:if="{{!item.isEmpty && item.fireLevel === 4}}" class="fire-emoji">🔥</text>
         </view>
       </view>
+    </view>
+    <!-- 火焰图例 -->
+    <view class="fire-legend flex-row mt-16">
+      <text class="legend-label">连续打卡强度</text>
+      <view class="legend-cell fire-1"></view>
+      <view class="legend-cell fire-2"></view>
+      <view class="legend-cell fire-3"></view>
+      <view class="legend-cell fire-4"></view>
+      <text class="legend-text">1天 · 2-3天 · 4-6天 · 7天+</text>
+    </view>
+  </view>
+
+  <!-- 打卡海报弹层 -->
+  <view class="poster-overlay" wx:if="{{showPoster}}" bindtap="closePoster">
+    <view class="poster-modal" catchtap="noop">
+      <view class="poster-box">
+        <canvas type="2d" id="posterCanvas" class="poster-canvas"></canvas>
+        <view class="poster-loading" wx:if="{{posterGenerating}}">
+          <text class="text-gray">海报生成中...</text>
+        </view>
+      </view>
+      <view class="poster-actions flex-row">
+        <button class="poster-btn btn-primary flex-1" disabled="{{posterGenerating}}" bindtap="savePoster">保存到相册</button>
+        <button class="poster-btn btn-outline flex-1" disabled="{{posterGenerating}}" bindtap="shareToTimeline">分享朋友圈</button>
+      </view>
+      <view class="poster-close flex-center" bindtap="closePoster">✕</view>
     </view>
   </view>
 </view>

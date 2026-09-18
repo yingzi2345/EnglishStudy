@@ -110,6 +110,12 @@ const leaderboardApi = {
   getStats: () => request('/leaderboard/stats/'),
 };
 
+// ──── 数据统计相关 ────
+const statsApi = {
+  /** 最近 30 天学习数据（热力图 + 每日学习趋势） */
+  getAnalytics: () => request('/stats/analytics/'),
+};
+
 // ──── 工具函数 ────
 const buildQuery = (params) => {
   return Object.keys(params)
@@ -123,4 +129,5 @@ module.exports = {
   wordApi,
   checkinApi,
   leaderboardApi,
+  statsApi,
 };

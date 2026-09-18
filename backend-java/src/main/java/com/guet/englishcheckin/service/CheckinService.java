@@ -113,20 +113,30 @@ public class CheckinService {
         int m = month == null ? now.getMonthValue() : month;
         int days = YearMonth.of(y, m).lengthOfMonth();
 
-        List<String> checkinDates = checkinMapper.selectList(new LambdaQueryWrapper<Checkin>()
-                        .eq(Checkin::getUserId, userId)
-                        .ge(Checkin::getCheckinDate, LocalDate.of(y, m, 1))
-                        .le(Checkin::getCheckinDate, LocalDate.of(y, m, days))
-                        .select(Checkin::getCheckinDate))
-                .stream()
+        List<Checkin> checkins = checkinMapper.selectList(new LambdaQueryWrapper<Checkin>()
+                .eq(Checkin::getUserId, userId)
+                .ge(Checkin::getCheckinDate, LocalDate.of(y, m, 1))
+                .le(Checkin::getCheckinDate, LocalDate.of(y, m, days)));
+
+        List<String> checkinDates = checkins.stream()
                 .map(c -> c.getCheckinDate().format(DATE_FMT))
                 .collect(Collectors.toList());
+
+        // 打卡详情（含连续天数/单词数），供前端日历火焰等级使用
+        List<Map<String, Object>> checkinDetails = checkins.stream().map(c -> {
+            Map<String, Object> item = new LinkedHashMap<>();
+            item.put("date", c.getCheckinDate().format(DATE_FMT));
+            item.put("continuous_days", c.getContinuousDays() == null ? 0 : c.getContinuousDays());
+            item.put("word_count", c.getWordCount() == null ? 0 : c.getWordCount());
+            return item;
+        }).collect(Collectors.toList());
 
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("year", y);
         data.put("month", m);
         data.put("days", days);
         data.put("checkin_dates", checkinDates);
+        data.put("checkin_details", checkinDetails);
         return data;
     }
 

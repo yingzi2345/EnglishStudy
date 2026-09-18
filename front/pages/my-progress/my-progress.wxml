@@ -41,6 +41,63 @@
       </view>
     </view>
 
+    <!-- 30 天打卡热力图 -->
+    <view class="card mt-24" wx:if="{{heatmapGrid.length > 0}}">
+      <view class="section-title flex-between">
+        <text>30 天打卡热力图</text>
+        <text class="heatmap-range text-gray">{{heatmapRange}}</text>
+      </view>
+      <view class="heatmap-grid">
+        <view class="heat-cell level-{{item.level}} {{item.isToday ? 'today' : ''}}"
+              wx:for="{{heatmapGrid}}" wx:key="date"
+              bindtap="onHeatTap" data-date="{{item.date}}" data-level="{{item.level}}">
+        </view>
+      </view>
+      <!-- 图例与统计 -->
+      <view class="heatmap-footer flex-between mt-16">
+        <view class="heat-legend flex-row">
+          <text class="legend-label">少</text>
+          <view class="legend-cell level-0"></view>
+          <view class="legend-cell level-1"></view>
+          <view class="legend-cell level-2"></view>
+          <view class="legend-cell level-3"></view>
+          <view class="legend-cell level-4"></view>
+          <text class="legend-label">多</text>
+        </view>
+        <view class="heat-stats text-gray">
+          打卡 {{heatTotal}} 天 · 共 {{heatTotalWords}} 词
+        </view>
+      </view>
+    </view>
+
+    <!-- 30 天学习趋势 -->
+    <view class="card mt-24" wx:if="{{trendBars.length > 0}}">
+      <view class="section-title flex-between">
+        <text>30 天学习趋势</text>
+        <text class="text-gray">峰值 {{trendMax}} 词</text>
+      </view>
+      <view class="trend-chart">
+        <view class="trend-axis-y">
+          <text>{{trendMax}}</text>
+          <text>{{trendHalf}}</text>
+          <text>0</text>
+        </view>
+        <view class="trend-bars">
+          <view class="trend-bar-item"
+                wx:for="{{trendBars}}" wx:key="date"
+                bindtap="onTrendTap" data-date="{{item.date}}" data-words="{{item.words}}">
+            <view class="trend-bar {{item.words > 0 ? 'has-data' : ''}}"
+                  style="height: {{item.height}}%"></view>
+          </view>
+        </view>
+      </view>
+      <view class="trend-axis-x flex-between mt-8">
+        <text wx:if="{{trendLabels.length > 0}}">{{trendLabels[0]}}</text>
+        <text wx:if="{{trendLabels.length > 1}}">{{trendLabels[1]}}</text>
+        <text wx:if="{{trendLabels.length > 2}}">{{trendLabels[2]}}</text>
+      </view>
+    </view>
+
     <!-- 最近学习记录 -->
     <view class="card mt-24" wx:if="{{progress.recent_progress && progress.recent_progress.length > 0}}">
       <view class="section-title">最近学习</view>

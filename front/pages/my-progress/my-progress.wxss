@@ -172,3 +172,122 @@
   text-align: center;
   padding: 80rpx 0;
 }
+
+/* ────────── 30 天打卡热力图 ────────── */
+.heatmap-range {
+  font-size: 22rpx;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 8rpx;
+  margin-top: 12rpx;
+}
+
+.heat-cell {
+  aspect-ratio: 1;
+  border-radius: 6rpx;
+  background: #f0f0f0;
+  transition: transform 0.15s;
+}
+
+.heat-cell:active {
+  transform: scale(1.15);
+}
+
+.heat-cell.today {
+  box-shadow: 0 0 0 3rpx #fff, 0 0 0 5rpx #4A90D9;
+}
+
+.heat-cell.level-0 { background: #f0f0f0; }
+.heat-cell.level-1 { background: #d6eaff; }
+.heat-cell.level-2 { background: #9ecbff; }
+.heat-cell.level-3 { background: #4A90D9; }
+.heat-cell.level-4 { background: #24598f; }
+
+.heatmap-footer {
+  align-items: center;
+}
+
+.heat-legend {
+  gap: 6rpx;
+  align-items: center;
+}
+
+.legend-label {
+  font-size: 20rpx;
+  color: #999;
+  margin: 0 4rpx;
+}
+
+.legend-cell {
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 4rpx;
+}
+
+.legend-cell.level-0 { background: #f0f0f0; }
+.legend-cell.level-1 { background: #d6eaff; }
+.legend-cell.level-2 { background: #9ecbff; }
+.legend-cell.level-3 { background: #4A90D9; }
+.legend-cell.level-4 { background: #24598f; }
+
+.heat-stats {
+  font-size: 22rpx;
+}
+
+/* ────────── 30 天学习趋势（柱状图） ────────── */
+.trend-chart {
+  display: flex;
+  margin-top: 16rpx;
+}
+
+.trend-axis-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 18rpx;
+  color: #bbb;
+  width: 48rpx;
+  padding-bottom: 0;
+}
+
+.trend-bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  height: 260rpx;
+  gap: 4rpx;
+  border-bottom: 2rpx solid #eee;
+  padding-left: 8rpx;
+}
+
+.trend-bar-item {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+.trend-bar {
+  width: 100%;
+  min-height: 6rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx 4rpx 0 0;
+  transition: background 0.2s;
+}
+
+.trend-bar.has-data {
+  background: linear-gradient(180deg, #6db3f2, #4A90D9);
+}
+
+.trend-bar-item:active .trend-bar.has-data {
+  background: #24598f;
+}
+
+.trend-axis-x {
+  font-size: 18rpx;
+  color: #bbb;
+}
