@@ -55,7 +55,7 @@ java -jar target\english-checkin-backend-1.0.0.jar    # 监听 8000，与小程�
 |---|---|
 | Host | 127.0.0.1:3306 |
 | 用户 | root |
-| 密码 | 144312 |
+| 密码 | YfQGEP9Pk8HMHoFNm8q7 |
 | 数据库 | english_checkin |
 | 字符集 | utf8mb4 |
 
