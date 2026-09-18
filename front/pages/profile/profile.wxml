@@ -28,6 +28,25 @@
     </view>
   </view>
 
+  <!-- 成就徽章墙 -->
+  <view class="card mt-24">
+    <view class="card-title flex-between">
+      <text>成就徽章</text>
+      <text class="badge-count">{{unlockedCount}}/{{achievements.length}}</text>
+    </view>
+    <view class="badge-grid mt-16">
+      <view class="badge-item {{item.unlocked ? '' : 'badge-locked'}}" wx:for="{{achievements}}" wx:key="id">
+        <view class="badge-icon">{{item.icon}}</view>
+        <view class="badge-name">{{item.name}}</view>
+        <view class="badge-desc">{{item.description}}</view>
+        <view class="badge-progress-bar" wx:if="{{!item.unlocked}}">
+          <view class="badge-progress-fill" style="width: {{item.progress / item.condition_value * 100}}%;"></view>
+        </view>
+        <view class="badge-unlocked-tag" wx:if="{{item.unlocked}}">已解锁</view>
+      </view>
+    </view>
+  </view>
+
   <!-- 功能菜单 -->
   <view class="menu-list mt-24">
     <view class="menu-item card flex-between" bindtap="goToRecords">
@@ -41,6 +60,10 @@
     <view class="menu-item card flex-between" bindtap="goToMyProgress">
       <text>学习进度</text>
       <text class="arrow">></text>
+    </view>
+    <view class="menu-item card flex-between" bindtap="openGoalPicker">
+      <text>每日学习目标</text>
+      <text class="goal-value">{{userInfo.daily_goal || 20}} 词/天 ›</text>
     </view>
     <view class="menu-item card flex-between" bindtap="goToLoginLogs">
       <text>登录日志(IP溯源)</text>
@@ -77,6 +100,24 @@
       </scroll-view>
       <view class="modal-empty" wx:else>
         <text class="text-gray">暂无登录记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 每日目标弹窗 -->
+  <view class="modal-overlay" wx:if="{{showGoalPicker}}" bindtap="closeGoalPicker">
+    <view class="modal-content modal-sm" catchtap="noop">
+      <view class="modal-header">
+        <text class="modal-title">设置每日学习目标</text>
+        <text class="modal-close" bindtap="closeGoalPicker">✕</text>
+      </view>
+      <view class="goal-options">
+        <view class="goal-option {{userInfo.daily_goal === item ? 'goal-active' : ''}}"
+              wx:for="{{goalOptions}}" wx:key="*this"
+              bindtap="selectGoal" data-goal="{{item}}">
+          <text class="goal-num">{{item}}</text>
+          <text class="goal-unit">词/天</text>
+        </view>
       </view>
     </view>
   </view>

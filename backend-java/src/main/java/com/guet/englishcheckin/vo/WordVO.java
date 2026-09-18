@@ -20,6 +20,18 @@ public class WordVO {
     private Integer level;
     private String category;
 
+    /** 词根词缀 */
+    private String root;
+
+    /** 近义词 */
+    private String synonyms;
+
+    /** 反义词 */
+    private String antonyms;
+
+    /** 单词变形 */
+    private String wordForms;
+
     /** 当前用户是否已学 */
     private Boolean isLearned;
 

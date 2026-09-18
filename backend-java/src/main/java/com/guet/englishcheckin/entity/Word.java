@@ -41,6 +41,18 @@ public class Word {
     /** 分类标签：CET-4 / CET-6 等 */
     private String category;
 
+    /** 词根词缀 */
+    private String root;
+
+    /** 近义词（逗号分隔） */
+    private String synonyms;
+
+    /** 反义词（逗号分隔） */
+    private String antonyms;
+
+    /** 单词变形（逗号分隔） */
+    private String wordForms;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

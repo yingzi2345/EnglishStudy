@@ -11,7 +11,8 @@
     "pages/profile/profile",
     "pages/study/study",
     "pages/quiz/quiz",
-    "pages/wrong-words/wrong-words"
+    "pages/wrong-words/wrong-words",
+    "pages/vocab-test/vocab-test"
   ],
   "window": {
     "backgroundTextStyle": "dark",

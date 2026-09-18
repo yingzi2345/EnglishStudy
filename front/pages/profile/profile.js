@@ -1,5 +1,5 @@
 // 个人中心页 — pages/profile/profile.js
-const { userApi } = require('../../utils/api');
+const { userApi, achievementApi } = require('../../utils/api');
 const app = getApp();
 
 Page({
@@ -7,10 +7,15 @@ Page({
     userInfo: {},
     showLoginLogs: false,
     loginLogs: [],
+    showGoalPicker: false,
+    goalOptions: [10, 20, 30, 50],
+    achievements: [],
+    unlockedCount: 0,
   },
 
   onShow() {
     this.loadUserInfo();
+    this.loadAchievements();
   },
 
   async loadUserInfo() {
@@ -21,6 +26,20 @@ Page({
       }
     } catch (err) {
       console.log('获取用户信息失败:', err);
+    }
+  },
+
+  // 加载徽章
+  async loadAchievements() {
+    try {
+      const res = await achievementApi.getUserAchievements();
+      if (res.code === 200) {
+        const list = res.data || [];
+        const unlocked = list.filter(a => a.unlocked).length;
+        this.setData({ achievements: list, unlockedCount: unlocked });
+      }
+    } catch (err) {
+      console.log('获取徽章失败:', err);
     }
   },
 
@@ -61,6 +80,35 @@ Page({
 
   // 空函数，防止弹窗内容点击穿透
   noop() {},
+
+  // 打开每日目标选择
+  openGoalPicker() {
+    this.setData({ showGoalPicker: true });
+  },
+
+  // 关闭每日目标选择
+  closeGoalPicker() {
+    this.setData({ showGoalPicker: false });
+  },
+
+  // 选择每日目标
+  async selectGoal(e) {
+    const goal = e.currentTarget.dataset.goal;
+    try {
+      wx.showLoading({ title: '保存中...' });
+      const res = await userApi.updateProfile({ daily_goal: goal });
+      wx.hideLoading();
+      if (res.code === 200) {
+        this.setData({ userInfo: res.data, showGoalPicker: false });
+        wx.showToast({ title: '已更新', icon: 'success' });
+      } else {
+        wx.showToast({ title: res.message || '更新失败', icon: 'none' });
+      }
+    } catch (err) {
+      wx.hideLoading();
+      wx.showToast({ title: '更新失败', icon: 'none' });
+    }
+  },
 
   // 退出登录
   handleLogout() {

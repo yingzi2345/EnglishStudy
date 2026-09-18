@@ -7,7 +7,8 @@ Page({
     dailyWords: [],
     continuousDays: 0,
     todayChecked: false,
-    studyStats: { due_review: 0, wrong_count: 0, mastered_count: 0 },
+    studyStats: { due_review: 0, wrong_count: 0, mastered_count: 0, today_learned: 0 },
+    dailyGoal: 20,
   },
 
   onLoad() {
@@ -29,7 +30,10 @@ Page({
     try {
       const res = await userApi.getProfile();
       if (res.code === 200) {
-        this.setData({ userInfo: res.data });
+        this.setData({
+          userInfo: res.data,
+          dailyGoal: res.data.daily_goal || 20,
+        });
       }
     } catch (err) {
       console.log('获取用户信息失败:', err);
@@ -107,5 +111,9 @@ Page({
 
   goToWrongWords() {
     wx.navigateTo({ url: '/pages/wrong-words/wrong-words' });
+  },
+
+  goToVocabTest() {
+    wx.navigateTo({ url: '/pages/vocab-test/vocab-test' });
   },
 });

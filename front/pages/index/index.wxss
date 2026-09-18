@@ -180,6 +180,34 @@
   color: #C5BFB5;
 }
 
+/* 今日目标进度条 */
+.goal-progress {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.goal-progress-bar {
+  flex: 1;
+  height: 12rpx;
+  background: #E8E4DD;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.goal-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9BAF9B, #7B9EB0);
+  border-radius: 6rpx;
+  transition: width 0.3s;
+}
+
+.goal-progress-text {
+  font-size: 22rpx;
+  color: #8A8A8A;
+  white-space: nowrap;
+}
+
 .study-banner-btn {
   background: linear-gradient(135deg, #8BA4B5, #6B8A9E);
   color: #fff;

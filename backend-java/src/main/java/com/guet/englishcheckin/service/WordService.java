@@ -345,6 +345,10 @@ public class WordService {
         vo.setAudioUrl(word.getAudioUrl());
         vo.setLevel(word.getLevel());
         vo.setCategory(word.getCategory());
+        vo.setRoot(word.getRoot());
+        vo.setSynonyms(word.getSynonyms());
+        vo.setAntonyms(word.getAntonyms());
+        vo.setWordForms(word.getWordForms());
         vo.setCreatedAt(word.getCreatedAt());
         vo.setIsLearned(false);
         vo.setIsMastered(false);

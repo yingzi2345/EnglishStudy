@@ -13,4 +13,7 @@ public class UpdateProfileRequest {
     private String avatarUrl;
 
     private Integer gender;
+
+    /** 每日学习目标单词数 */
+    private Integer dailyGoal;
 }

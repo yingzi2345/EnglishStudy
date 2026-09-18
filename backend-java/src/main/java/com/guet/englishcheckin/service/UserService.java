@@ -202,6 +202,7 @@ public class UserService {
         vo.setTotalWords(user.getTotalWords());
         vo.setTotalDays(user.getTotalDays());
         vo.setMaxContinuous(user.getMaxContinuous());
+        vo.setDailyGoal(user.getDailyGoal() == null ? 20 : user.getDailyGoal());
         vo.setContinuousDays(calcContinuousDays(userId, TimeUtil.todayShanghai()));
         vo.setLastLoginAt(user.getLastLoginAt());
         return vo;
@@ -220,6 +221,9 @@ public class UserService {
         }
         if (req.getGender() != null) {
             user.setGender(req.getGender());
+        }
+        if (req.getDailyGoal() != null && req.getDailyGoal() > 0) {
+            user.setDailyGoal(req.getDailyGoal());
         }
         user.setUpdatedAt(TimeUtil.nowUtc());
         userMapper.updateById(user);
@@ -350,6 +354,7 @@ public class UserService {
         m.put("total_words", user.getTotalWords());
         m.put("total_days", user.getTotalDays());
         m.put("max_continuous", user.getMaxContinuous());
+        m.put("daily_goal", user.getDailyGoal() == null ? 20 : user.getDailyGoal());
         m.put("continuous_days", calcContinuousDays(user.getId(), TimeUtil.todayShanghai()));
         m.put("last_login_at", user.getLastLoginAt());
         m.put("is_new_user", isNewUser);

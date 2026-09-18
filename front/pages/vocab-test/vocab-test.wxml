@@ -1,0 +1,64 @@
+<!-- 词汇量测试页 — pages/vocab-test/vocab-test.wxml -->
+<view class="container">
+
+  <!-- 介绍页 -->
+  <view class="intro-card card" wx:if="{{phase === 'intro'}}">
+    <view class="intro-icon">📊</view>
+    <view class="intro-title">词汇量测试</view>
+    <view class="intro-desc">共 {{questions.length}} 道题，根据不同难度的单词评估你的词汇量水平</view>
+    <view class="intro-tips">
+      <text>· 看词选义，无需拼写</text>
+      <text>· 约 3-5 分钟完成</text>
+      <text>· 结果仅供参考</text>
+    </view>
+    <button class="btn-primary mt-32" bindtap="startTest">开始测试</button>
+  </view>
+
+  <!-- 答题页 -->
+  <view wx:if="{{phase === 'quiz'}}">
+    <view class="quiz-header">
+      <view class="progress-text">{{currentIndex + 1}} / {{questions.length}}</view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{(currentIndex + 1) / questions.length * 100}}%;"></view>
+      </view>
+    </view>
+
+    <view class="question-card card">
+      <view class="question-word">{{questions[currentIndex].word}}</view>
+      <view class="question-phonetic">{{questions[currentIndex].phonetic}}</view>
+      <view class="question-hint">请选择正确的中文释义</view>
+    </view>
+
+    <view class="options-list">
+      <view class="option-item {{selectedOption === item ? 'option-selected' : ''}}"
+            wx:for="{{questions[currentIndex].options}}" wx:key="*this"
+            bindtap="selectOption" data-option="{{item}}">
+        <text class="option-text">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 结果页 -->
+  <view class="result-card card" wx:if="{{phase === 'result'}}">
+    <view class="result-icon">🎯</view>
+    <view class="result-label">你的预估词汇量</view>
+    <view class="result-vocab">{{result.vocab_size}}</view>
+    <view class="result-level">{{result.level}}</view>
+
+    <view class="result-stats">
+      <view class="result-stat">
+        <text class="result-stat-value">{{result.correct}}/{{result.total}}</text>
+        <text class="result-stat-label">答对题数</text>
+      </view>
+      <view class="result-stat">
+        <text class="result-stat-value">{{result.accuracy}}%</text>
+        <text class="result-stat-label">正确率</text>
+      </view>
+    </view>
+
+    <view class="result-actions">
+      <button class="btn-outline" bindtap="restart">再测一次</button>
+      <button class="btn-primary" bindtap="goBack">返回</button>
+    </view>
+  </view>
+</view>

@@ -87,6 +87,52 @@
   color: rgba(255,255,255,0.85);
 }
 
+/* 词根词缀/近义反义区块 */
+.enrich-box {
+  background: rgba(255,255,255,0.12);
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+}
+
+.enrich-title {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 10rpx;
+}
+
+.enrich-content {
+  font-size: 28rpx;
+  color: #fff;
+  line-height: 1.6;
+}
+
+.enrich-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.enrich-tag {
+  font-size: 24rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 20rpx;
+}
+
+.tag-synonym {
+  background: rgba(155, 175, 155, 0.3);
+  color: #D8E5D4;
+}
+
+.tag-antonym {
+  background: rgba(201, 169, 166, 0.3);
+  color: #F0D8D5;
+}
+
+.tag-form {
+  background: rgba(212, 197, 160, 0.3);
+  color: #F0E8D0;
+}
+
 .word-meta {
   font-size: 24rpx;
 }

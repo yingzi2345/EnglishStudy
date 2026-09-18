@@ -144,6 +144,20 @@ const studyApi = {
   getStudyStats: () => request('/study/stats/'),
 };
 
+// ──── 词汇量测试 ────
+const vocabTestApi = {
+  /** 获取测试题目 */
+  getQuestions: (count = 30) => request(`/vocab-test/questions?count=${count}`),
+  /** 提交答案 */
+  submit: (answers) => request('/vocab-test/submit', 'POST', { answers }),
+};
+
+// ──── 成就徽章 ────
+const achievementApi = {
+  /** 获取用户徽章列表（含未解锁） */
+  getUserAchievements: () => request('/achievements/'),
+};
+
 // ──── 工具函数 ────
 const buildQuery = (params) => {
   return Object.keys(params)
@@ -159,4 +173,6 @@ module.exports = {
   leaderboardApi,
   statsApi,
   studyApi,
+  achievementApi,
+  vocabTestApi,
 };

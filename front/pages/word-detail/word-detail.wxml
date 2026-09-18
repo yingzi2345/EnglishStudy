@@ -21,6 +21,36 @@
       <view class="example-zh mt-8">{{word.example_zh}}</view>
     </view>
 
+    <!-- 词根词缀 -->
+    <view class="enrich-box mt-24" wx:if="{{word.root}}">
+      <view class="enrich-title">词根词缀</view>
+      <view class="enrich-content">{{word.root}}</view>
+    </view>
+
+    <!-- 近义词 -->
+    <view class="enrich-box mt-16" wx:if="{{word.synonyms}}">
+      <view class="enrich-title">近义词</view>
+      <view class="enrich-tags">
+        <text class="enrich-tag tag-synonym" wx:for="{{word.synonyms.split(',')}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 反义词 -->
+    <view class="enrich-box mt-16" wx:if="{{word.antonyms}}">
+      <view class="enrich-title">反义词</view>
+      <view class="enrich-tags">
+        <text class="enrich-tag tag-antonym" wx:for="{{word.antonyms.split(',')}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
+    <!-- 单词变形 -->
+    <view class="enrich-box mt-16" wx:if="{{word.word_forms}}">
+      <view class="enrich-title">单词变形</view>
+      <view class="enrich-tags">
+        <text class="enrich-tag tag-form" wx:for="{{word.word_forms.split(',')}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+
     <view class="word-meta mt-24 flex-between">
       <text class="meta-text">难度: {{word.level === 1 ? '初级' : (word.level === 2 ? '中级' : '高级')}}</text>
       <text class="meta-text">分类: {{word.category}}</text>

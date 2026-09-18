@@ -41,6 +41,9 @@ public class User {
     /** 最长连续打卡天数 */
     private Integer maxContinuous;
 
+    /** 每日学习目标单词数 */
+    private Integer dailyGoal;
+
     /** 注册时间 */
     private LocalDateTime createdAt;
 

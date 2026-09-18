@@ -395,10 +395,20 @@ public class StudyService {
                         .eq(WordProgress::getUserId, userId)
                         .eq(WordProgress::getIsMastered, 1));
 
+        // 今日新学单词数（东八区今天 0 点转 UTC）
+        LocalDateTime todayStartUtc = TimeUtil.shanghaiMidnightToUtc(now.toLocalDate());
+        long todayLearned = progressMapper.selectCount(
+                new LambdaQueryWrapper<WordProgress>()
+                        .eq(WordProgress::getUserId, userId)
+                        .eq(WordProgress::getIsLearned, 1)
+                        .ge(WordProgress::getLearnedAt, todayStartUtc)
+                        .le(WordProgress::getLearnedAt, todayEnd));
+
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("due_review", dueReview);
         data.put("wrong_count", wrongCount);
         data.put("mastered_count", mastered);
+        data.put("today_learned", todayLearned);
         return data;
     }
 
