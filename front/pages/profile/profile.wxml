@@ -2,7 +2,7 @@
 <view class="container">
   <!-- 用户信息卡片 -->
   <view class="profile-header card">
-    <image class="profile-avatar" src="{{userInfo.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill" />
+    <image class="profile-avatar" src="{{userInfo.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill" lazy-load />
     <view class="profile-name mt-16">{{userInfo.nickname || '微信用户'}}</view>
     <view class="profile-stats mt-16">
       <text>已坚持打卡 <text class="text-primary">{{userInfo.total_days || 0}}</text> 天</text>

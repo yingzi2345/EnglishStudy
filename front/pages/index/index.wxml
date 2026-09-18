@@ -7,7 +7,7 @@
   <view class="header-card">
     <view class="header-bg-decor"></view>
     <view class="flex-row header-top">
-      <image class="avatar" src="{{userInfo.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill" />
+      <image class="avatar" src="{{userInfo.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill" lazy-load />
       <view class="flex-1 ml-16">
         <view class="nickname">{{userInfo.nickname || '微信用户'}}</view>
         <view class="sub-text mt-8">连续打卡 <text class="highlight">{{continuousDays}}</text> 天</view>

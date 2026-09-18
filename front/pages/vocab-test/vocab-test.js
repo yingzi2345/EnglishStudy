@@ -38,8 +38,8 @@ Page({
   selectOption(e) {
     const option = e.currentTarget.dataset.option;
     this.setData({ selectedOption: option });
-    // 延迟自动下一题
-    setTimeout(() => this.nextQuestion(), 300);
+    // 延迟自动下一题（缩短到200ms，更跟手）
+    setTimeout(() => this.nextQuestion(), 200);
   },
 
   nextQuestion() {

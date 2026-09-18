@@ -15,17 +15,19 @@ Page({
     reviewCount: 0,
     newCount: 0,
     total: 0,
-    // 音频
-    audioContext: null,
   },
+
+  // 音频实例放页面实例上，不进 data（避免 setData 序列化开销）
+  audioCtx: null,
 
   onLoad() {
     this.loadTasks();
   },
 
   onUnload() {
-    if (this.data.audioContext) {
-      this.data.audioContext.destroy();
+    if (this.audioCtx) {
+      this.audioCtx.destroy();
+      this.audioCtx = null;
     }
   },
 
@@ -63,18 +65,17 @@ Page({
     this.setData({ isFlipped: !this.data.isFlipped });
   },
 
-  // 发音
+  // 发音（复用同一个音频实例，不每次重建）
   playAudio() {
     const task = this.data.currentTask;
     if (!task) return;
     const url = task.audio_url || `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(task.word)}&type=0`;
-    if (this.data.audioContext) {
-      this.data.audioContext.destroy();
+    if (!this.audioCtx) {
+      this.audioCtx = wx.createInnerAudioContext();
     }
-    const ctx = wx.createInnerAudioContext();
-    ctx.src = url;
-    ctx.play();
-    this.setData({ audioContext: ctx });
+    this.audioCtx.stop();
+    this.audioCtx.src = url;
+    this.audioCtx.play();
   },
 
   // 认识

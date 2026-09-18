@@ -14,17 +14,19 @@ Page({
     spellingInput: '',
     // 结果
     result: null,
-    // 音频
-    audioContext: null,
   },
+
+  // 音频实例放页面实例上，不进 data
+  audioCtx: null,
 
   onLoad() {
     this.loadQuestions();
   },
 
   onUnload() {
-    if (this.data.audioContext) {
-      this.data.audioContext.destroy();
+    if (this.audioCtx) {
+      this.audioCtx.destroy();
+      this.audioCtx = null;
     }
   },
 
@@ -55,18 +57,17 @@ Page({
     }
   },
 
-  // 播放发音
+  // 播放发音（复用音频实例）
   playAudio() {
     const q = this.data.currentQuestion;
     if (!q) return;
     const url = q.audio_url || `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(q.word)}&type=0`;
-    if (this.data.audioContext) {
-      this.data.audioContext.destroy();
+    if (!this.audioCtx) {
+      this.audioCtx = wx.createInnerAudioContext();
     }
-    const ctx = wx.createInnerAudioContext();
-    ctx.src = url;
-    ctx.play();
-    this.setData({ audioContext: ctx });
+    this.audioCtx.stop();
+    this.audioCtx.src = url;
+    this.audioCtx.play();
   },
 
   // 选择题选择

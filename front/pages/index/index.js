@@ -19,8 +19,7 @@ Page({
   },
 
   onShow() {
-    this.loadUserInfo();
-    this.loadDailyWords();
+    // 只刷新会变化的数据，避免每次切回首页都发4个请求
     this.checkTodayStatus();
     this.loadStudyStats();
   },

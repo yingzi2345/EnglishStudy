@@ -13,6 +13,10 @@ Page({
     unlockedCount: 0,
   },
 
+  // 徽章缓存（3分钟内不重复请求，避免每次进入都全量计算）
+  _achievementCache: null,
+  _achievementCacheTime: 0,
+
   onShow() {
     this.loadUserInfo();
     this.loadAchievements();
@@ -29,12 +33,19 @@ Page({
     }
   },
 
-  // 加载徽章
+  // 加载徽章（带3分钟缓存）
   async loadAchievements() {
+    const now = Date.now();
+    if (this._achievementCache && now - this._achievementCacheTime < 3 * 60 * 1000) {
+      this.setData({ achievements: this._achievementCache, unlockedCount: this._achievementCache.filter(a => a.unlocked).length });
+      return;
+    }
     try {
       const res = await achievementApi.getUserAchievements();
       if (res.code === 200) {
         const list = res.data || [];
+        this._achievementCache = list;
+        this._achievementCacheTime = now;
         const unlocked = list.filter(a => a.unlocked).length;
         this.setData({ achievements: list, unlockedCount: unlocked });
       }
