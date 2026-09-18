@@ -7,6 +7,7 @@ Page({
     totalWords: 0,
     maxContinuous: 0,
     records: [],
+    loading: true,
   },
 
   onLoad() {
@@ -40,10 +41,11 @@ Page({
           r.month = parts[1] || '';
           return r;
         });
-        this.setData({ records });
+        this.setData({ records, loading: false });
       }
     } catch (err) {
       console.log('获取记录失败:', err);
+      this.setData({ loading: false });
     }
   },
 });

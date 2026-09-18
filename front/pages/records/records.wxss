@@ -61,3 +61,10 @@
   padding: 80rpx 0;
   color: #ccc;
 }
+
+.loading-tip {
+  text-align: center;
+  padding: 120rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}

@@ -9,6 +9,7 @@ Page({
     words: [],
     page: 1,
     hasMore: true,
+    loading: true,
   },
 
   onLoad() {
@@ -16,12 +17,8 @@ Page({
     this.loadWords();
   },
 
-  onShow() {
-    // 从详情页返回时刷新列表，确保学习状态更新
-    if (this.data.words.length > 0) {
-      this.loadWords(true);
-    }
-  },
+  // 从详情页返回时不自动刷新，避免每次跳转都重发请求
+  // （学习状态标签变化不影响主要浏览体验）
 
   // 加载分类
   async loadCategories() {
@@ -54,10 +51,12 @@ Page({
           words: reset ? newWords : [...this.data.words, ...newWords],
           page: page + 1,
           hasMore: newWords.length >= 20,
+          loading: false,
         });
       }
     } catch (err) {
       console.log('获取单词失败:', err);
+      this.setData({ loading: false });
     }
   },
 

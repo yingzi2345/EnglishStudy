@@ -5,6 +5,8 @@ Page({
   data: {
     word: null,
     accent: 'us',  // 'us' 美音 | 'uk' 英音
+    loading: true,
+    loadError: false,
   },
 
   onLoad(options) {
@@ -23,14 +25,14 @@ Page({
         word.synonymsList = word.synonyms ? word.synonyms.split(',').filter(s => s.trim()) : [];
         word.antonymsList = word.antonyms ? word.antonyms.split(',').filter(s => s.trim()) : [];
         word.formsList = word.word_forms ? word.word_forms.split(',').filter(s => s.trim()) : [];
-        this.setData({ word });
+        this.setData({ word, loading: false });
       } else {
         wx.showToast({ title: res.message || '获取单词失败', icon: 'none' });
-        this.setData({ loadError: true });
+        this.setData({ loadError: true, loading: false });
       }
     } catch (err) {
       wx.showToast({ title: '获取单词失败', icon: 'none' });
-      this.setData({ loadError: true });
+      this.setData({ loadError: true, loading: false });
     }
   },
 

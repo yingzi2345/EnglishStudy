@@ -34,9 +34,10 @@ Page({
     trendLabels: [],
   },
 
-  onShow() {
+  onLoad() {
     this.loadProgress();
-    this.loadAnalytics();
+    // 热力图+趋势图计算量大，延迟到首帧渲染后再算，避免跳转卡顿
+    setTimeout(() => this.loadAnalytics(), 50);
   },
 
   async loadProgress() {

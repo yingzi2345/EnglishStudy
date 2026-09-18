@@ -1,5 +1,11 @@
 <!-- 打卡记录页 — pages/records/records.wxml -->
 <view class="container">
+  <!-- 加载中 -->
+  <view class="loading-tip" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <block wx:else>
   <view class="card">
     <view class="card-title">学习统计</view>
     <view class="stats-grid mt-16">
@@ -40,4 +46,5 @@
       </view>
     </view>
   </view>
+  </block>
 </view>

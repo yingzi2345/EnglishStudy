@@ -16,7 +16,7 @@
   </scroll-view>
 
   <!-- 单词列表 -->
-  <view class="word-list mt-16">
+  <view class="word-list mt-16" wx:if="{{!loading}}">
     <view class="word-item card flex-between" wx:for="{{words}}" wx:key="id"
           bindtap="goToDetail" data-id="{{item.id}}">
       <view>
@@ -32,6 +32,14 @@
         </text>
       </view>
     </view>
+    <view class="empty-tip" wx:if="{{words.length === 0}}">
+      <text>暂无单词</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-tip" wx:else>
+    <text>加载中...</text>
   </view>
 
   <!-- 加载更多 -->

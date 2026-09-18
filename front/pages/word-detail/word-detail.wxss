@@ -1,5 +1,55 @@
 /* 单词详情页样式 — pages/word-detail/word-detail.wxss */
 
+/* 骨架屏 */
+.skeleton-card {
+  padding: 48rpx 24rpx;
+  background: linear-gradient(135deg, #7B9EB0, #A3BCC9);
+  border-radius: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.skeleton-line {
+  height: 24rpx;
+  background: rgba(255,255,255,0.2);
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-title {
+  width: 40%;
+  height: 48rpx;
+  margin: 0 auto 16rpx;
+}
+
+.skeleton-sub {
+  width: 30%;
+  margin: 0 auto 16rpx;
+}
+
+.skeleton-meaning {
+  width: 50%;
+  height: 32rpx;
+  margin: 24rpx auto;
+}
+
+.skeleton-block {
+  height: 120rpx;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12rpx;
+  margin: 24rpx 0;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-short {
+  width: 40%;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
 .word-hero {
   text-align: center;
   padding: 48rpx 24rpx;
