@@ -1,0 +1,42 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: english-checkin-backend
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/english_checkin?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    username: root
+    password: "YOUR_DB_PASSWORD"
+  jackson:
+    # 与 Django 侧一致：时间以 UTC 存储/返回（ISO-8601）
+    time-zone: UTC
+    # 字段命名统一为下划线风格（avatar_url / total_words / is_learned...），
+    # 与 Django DRF 序列化输出及小程序前端字段名完全兼容
+    property-naming-strategy: SNAKE_CASE
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 开发调试可打开 SQL 日志，生产关闭
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+
+# JWT 配置（access 2h / refresh 7d，与 Django SimpleJWT 对齐）
+jwt:
+  secret: "YOUR_JWT_SECRET"
+  access-token-expire-seconds: 7200
+  refresh-token-expire-seconds: 604800
+
+# 微信小程序配置（开发模式：调用失败时使用 mock openid，与 Django 侧行为一致）
+wechat:
+  appid: "YOUR_WECHAT_APPID"
+  secret: "YOUR_WECHAT_SECRET"
+
+logging:
+  level:
+    com.guet.englishcheckin: info

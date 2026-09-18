@@ -14,3 +14,8 @@ __pycache__/
 
 # 临时调试文件
 backend-java/error_screenshot.png
+
+# 敏感配置（含数据库密码、JWT secret、微信密钥），不纳入版本控制
+backend-java/src/main/resources/application.yml
+# 微信开发者工具本地私有配置（每个开发者本地不同）
+front/project.private.config.json
