@@ -28,26 +28,26 @@
     </view>
 
     <!-- 近义词 -->
-    <view class="enrich-box mt-16" wx:if="{{word.synonyms}}">
+    <view class="enrich-box mt-16" wx:if="{{word.synonymsList.length > 0}}">
       <view class="enrich-title">近义词</view>
       <view class="enrich-tags">
-        <text class="enrich-tag tag-synonym" wx:for="{{word.synonyms.split(',')}}" wx:key="*this">{{item}}</text>
+        <text class="enrich-tag tag-synonym" wx:for="{{word.synonymsList}}" wx:key="*this">{{item}}</text>
       </view>
     </view>
 
     <!-- 反义词 -->
-    <view class="enrich-box mt-16" wx:if="{{word.antonyms}}">
+    <view class="enrich-box mt-16" wx:if="{{word.antonymsList.length > 0}}">
       <view class="enrich-title">反义词</view>
       <view class="enrich-tags">
-        <text class="enrich-tag tag-antonym" wx:for="{{word.antonyms.split(',')}}" wx:key="*this">{{item}}</text>
+        <text class="enrich-tag tag-antonym" wx:for="{{word.antonymsList}}" wx:key="*this">{{item}}</text>
       </view>
     </view>
 
     <!-- 单词变形 -->
-    <view class="enrich-box mt-16" wx:if="{{word.word_forms}}">
+    <view class="enrich-box mt-16" wx:if="{{word.formsList.length > 0}}">
       <view class="enrich-title">单词变形</view>
       <view class="enrich-tags">
-        <text class="enrich-tag tag-form" wx:for="{{word.word_forms.split(',')}}" wx:key="*this">{{item}}</text>
+        <text class="enrich-tag tag-form" wx:for="{{word.formsList}}" wx:key="*this">{{item}}</text>
       </view>
     </view>
 

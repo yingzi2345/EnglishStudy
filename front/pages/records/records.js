@@ -33,7 +33,14 @@ Page({
     try {
       const res = await checkinApi.getRecords();
       if (res.code === 200) {
-        this.setData({ records: res.data });
+        // 预处理日期（wxml 不支持 split 方法调用）
+        const records = (res.data || []).map(r => {
+          const parts = (r.checkin_date || '').split('-');
+          r.day = parts[2] || '';
+          r.month = parts[1] || '';
+          return r;
+        });
+        this.setData({ records });
       }
     } catch (err) {
       console.log('获取记录失败:', err);

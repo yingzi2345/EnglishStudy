@@ -18,7 +18,12 @@ Page({
     try {
       const res = await wordApi.getWordDetail(id);
       if (res.code === 200) {
-        this.setData({ word: res.data });
+        const word = res.data;
+        // 预处理：逗号分隔字符串转数组（wxml 不支持 split 方法调用）
+        word.synonymsList = word.synonyms ? word.synonyms.split(',').filter(s => s.trim()) : [];
+        word.antonymsList = word.antonyms ? word.antonyms.split(',').filter(s => s.trim()) : [];
+        word.formsList = word.word_forms ? word.word_forms.split(',').filter(s => s.trim()) : [];
+        this.setData({ word });
       } else {
         wx.showToast({ title: res.message || '获取单词失败', icon: 'none' });
         this.setData({ loadError: true });
