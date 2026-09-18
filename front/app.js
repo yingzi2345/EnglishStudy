@@ -2,11 +2,20 @@
 // 英语学习打卡系统 — 微信小程序
 // app.js
 // ──────────────────────────────────────────────
+
+// 后端地址：开发者工具自动用 127.0.0.1，真机预览用局域网 IP
+// 换网络环境时只需改这里的 LAN_IP
+const LAN_IP = '192.168.9.175';
+const isDevTools = wx.getSystemInfoSync().platform === 'devtools';
+const BASE_URL = isDevTools
+  ? 'http://127.0.0.1:8000/api'
+  : `http://${LAN_IP}:8000/api`;
+
 App({
   globalData: {
     userInfo: null,
     token: null,
-    baseUrl: 'http://192.168.9.175:8000/api', // 后端API地址（真机预览用局域网IP，开发者工具可用127.0.0.1）
+    baseUrl: BASE_URL,
   },
 
   onLaunch() {
