@@ -45,6 +45,9 @@ public class WordProgress {
     /** 是否在错词本：0否,1是 */
     private Integer isWrong;
 
+    /** 是否收藏：0否,1是 */
+    private Integer isFavorite;
+
     /** 上次学习时间（UTC） */
     private LocalDateTime lastStudyAt;
 

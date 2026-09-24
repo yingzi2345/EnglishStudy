@@ -21,6 +21,9 @@ public class UserProfileVO {
     /** 每日学习目标单词数 */
     private Integer dailyGoal;
 
+    /** 学习模式：en2zh看英忆中, zh2en看中忆英 */
+    private String studyMode;
+
     /** 当前连续打卡天数（实时计算） */
     private Integer continuousDays;
 

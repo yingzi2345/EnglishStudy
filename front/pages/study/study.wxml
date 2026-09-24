@@ -11,20 +11,24 @@
     <view class="summary-title">本组学习完成</view>
     <view class="summary-stats">
       <view class="summary-item">
-        <view class="summary-num">{{total}}</view>
-        <view class="summary-label">总学习</view>
-      </view>
-      <view class="summary-item">
-        <view class="summary-num text-green">{{knownCount}}</view>
+        <view class="summary-num text-green">{{easyCount}}</view>
         <view class="summary-label">认识</view>
       </view>
       <view class="summary-item">
-        <view class="summary-num text-pink">{{unknownCount}}</view>
+        <view class="summary-num text-yellow">{{vagueCount}}</view>
+        <view class="summary-label">模糊</view>
+      </view>
+      <view class="summary-item">
+        <view class="summary-num text-pink">{{hardCount}}</view>
         <view class="summary-label">不认识</view>
       </view>
+      <view class="summary-item" wx:if="{{skipCount > 0}}">
+        <view class="summary-num text-gray">{{skipCount}}</view>
+        <view class="summary-label">跳过</view>
+      </view>
     </view>
-    <view class="summary-tip" wx:if="{{unknownCount > 0}}">
-      {{unknownCount}} 个不认识的词已加入错词本，明天会自动安排复习
+    <view class="summary-tip" wx:if="{{hardCount > 0}}">
+      {{hardCount}} 个不认识的词已加入错词本，明天会自动安排复习
     </view>
     <view class="summary-actions">
       <button class="btn-primary flex-1" bindtap="goQuiz">去测验</button>
@@ -35,6 +39,20 @@
 
   <!-- 学习卡片 -->
   <view class="study-content" wx:else>
+    <!-- 顶部工具栏 -->
+    <view class="study-toolbar flex-between">
+      <view class="mode-switch" bindtap="toggleMode">
+        <text>{{studyMode === 'en2zh' ? '英→中' : '中→英'}}</text>
+        <text class="mode-switch-hint">切换</text>
+      </view>
+      <view class="toolbar-right">
+        <view class="tool-icon favorite {{currentTask.is_favorite ? 'active' : ''}}" catchtap="toggleFavorite">
+          {{currentTask.is_favorite ? '★' : '☆'}}
+        </view>
+        <view class="tool-icon" bindtap="skipWord">跳过 ›</view>
+      </view>
+    </view>
+
     <!-- 进度条 -->
     <view class="progress-bar">
       <view class="progress-fill" style="width: {{(currentIndex / total) * 100}}%"></view>
@@ -44,35 +62,73 @@
     <!-- 卡片 -->
     <view class="card-wrap" bindtap="flipCard">
       <view class="flip-card {{isFlipped ? 'flipped' : ''}}">
-        <!-- 正面：单词 -->
-        <view class="card-face card-front">
-          <view class="task-tag {{currentTask.task_type === 'review' ? 'tag-review' : 'tag-new'}}">
-            {{currentTask.task_type === 'review' ? '复习' : '新词'}}
+        <!-- ═══ 看英文回忆中文模式 ═══ -->
+        <block wx:if="{{studyMode === 'en2zh'}}">
+          <!-- 正面：英文单词 -->
+          <view class="card-face card-front">
+            <view class="task-tag {{currentTask.task_type === 'review' ? 'tag-review' : 'tag-new'}}">
+              {{currentTask.task_type === 'review' ? '复习' : '新词'}}
+            </view>
+            <view class="word-big">{{currentTask.word}}</view>
+            <view class="phonetic">{{currentTask.phonetic}}</view>
+            <view class="audio-btn" catchtap="playAudio">
+              <text>🔊 发音</text>
+            </view>
+            <view class="flip-hint">点击卡片查看释义</view>
           </view>
-          <view class="word-big">{{currentTask.word}}</view>
-          <view class="phonetic">{{currentTask.phonetic}}</view>
-          <view class="audio-btn" catchtap="playAudio">
-            <text>🔊 发音</text>
+          <!-- 背面：释义+例句 -->
+          <view class="card-face card-back">
+            <view class="word-small">{{currentTask.word}}</view>
+            <view class="meaning-text">{{currentTask.meaning}}</view>
+            <view class="example-box" wx:if="{{currentTask.example_en}}">
+              <view class="example-en">{{currentTask.example_en}}</view>
+              <view class="example-zh">{{currentTask.example_zh}}</view>
+            </view>
+            <view class="flip-hint">点击卡片返回</view>
           </view>
-          <view class="flip-hint">点击卡片查看释义</view>
-        </view>
-        <!-- 背面：释义+例句 -->
-        <view class="card-face card-back">
-          <view class="word-small">{{currentTask.word}}</view>
-          <view class="meaning-text">{{currentTask.meaning}}</view>
-          <view class="example-box" wx:if="{{currentTask.example_en}}">
-            <view class="example-en">{{currentTask.example_en}}</view>
-            <view class="example-zh">{{currentTask.example_zh}}</view>
+        </block>
+
+        <!-- ═══ 看中文回忆英文模式 ═══ -->
+        <block wx:else>
+          <!-- 正面：中文释义 -->
+          <view class="card-face card-front">
+            <view class="task-tag {{currentTask.task_type === 'review' ? 'tag-review' : 'tag-new'}}">
+              {{currentTask.task_type === 'review' ? '复习' : '新词'}}
+            </view>
+            <view class="meaning-big">{{currentTask.meaning}}</view>
+            <view class="flip-hint">点击卡片查看英文</view>
           </view>
-          <view class="flip-hint">点击卡片返回</view>
-        </view>
+          <!-- 背面：英文单词+音标+例句 -->
+          <view class="card-face card-back">
+            <view class="word-big">{{currentTask.word}}</view>
+            <view class="phonetic">{{currentTask.phonetic}}</view>
+            <view class="audio-btn" catchtap="playAudio">
+              <text>🔊 发音</text>
+            </view>
+            <view class="example-box" wx:if="{{currentTask.example_en}}">
+              <view class="example-en">{{currentTask.example_en}}</view>
+              <view class="example-zh">{{currentTask.example_zh}}</view>
+            </view>
+            <view class="flip-hint">点击卡片返回</view>
+          </view>
+        </block>
       </view>
     </view>
 
-    <!-- 操作按钮 -->
-    <view class="action-buttons">
-      <button class="btn-unknown flex-1" bindtap="markUnknown">不认识</button>
-      <button class="btn-known flex-1" bindtap="markKnown">认识</button>
+    <!-- 三档操作按钮 -->
+    <view class="action-buttons three">
+      <button class="btn-grade btn-hard" bindtap="markHard">
+        <text class="grade-title">不认识</text>
+        <text class="grade-sub">高频复习</text>
+      </button>
+      <button class="btn-grade btn-vague" bindtap="markVague">
+        <text class="grade-title">模糊</text>
+        <text class="grade-sub">短期复习</text>
+      </button>
+      <button class="btn-grade btn-easy" bindtap="markEasy">
+        <text class="grade-title">认识</text>
+        <text class="grade-sub">延后复习</text>
+      </button>
     </view>
   </view>
 </view>

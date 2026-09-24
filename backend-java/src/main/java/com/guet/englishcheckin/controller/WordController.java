@@ -39,8 +39,9 @@ public class WordController {
     public ApiResponse<Map<String, Object>> list(@RequestParam(required = false) String category,
                                                  @RequestParam(required = false) String search,
                                                  @RequestParam(defaultValue = "1") long page,
-                                                 @RequestParam(name = "page_size", defaultValue = "20") long pageSize) {
-        return ApiResponse.success(wordService.list(category, search, page, pageSize));
+                                                 @RequestParam(name = "page_size", defaultValue = "20") long pageSize,
+                                                 HttpServletRequest request) {
+        return ApiResponse.success(wordService.list(category, search, page, pageSize, currentUserId(request)));
     }
 
     /** GET /api/words/{id}/ 单词详情 */

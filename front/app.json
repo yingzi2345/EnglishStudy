@@ -12,7 +12,9 @@
     "pages/study/study",
     "pages/quiz/quiz",
     "pages/wrong-words/wrong-words",
-    "pages/vocab-test/vocab-test"
+    "pages/vocab-test/vocab-test",
+    "pages/word-books/word-books",
+    "pages/word-book-detail/word-book-detail"
   ],
   "window": {
     "backgroundTextStyle": "dark",

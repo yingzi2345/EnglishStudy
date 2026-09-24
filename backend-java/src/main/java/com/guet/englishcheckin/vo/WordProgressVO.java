@@ -15,6 +15,7 @@ public class WordProgressVO {
     private Long word;
     private String wordName;
     private String wordMeaning;
+    private String phonetic;
     private Integer isLearned;
     private Integer isMastered;
     private LocalDateTime learnedAt;
@@ -25,6 +26,9 @@ public class WordProgressVO {
 
     /** 是否在错词本 */
     private Integer isWrong;
+
+    /** 是否收藏 */
+    private Integer isFavorite;
 
     /** 艾宾浩斯间隔等级 */
     private Integer intervalLevel;

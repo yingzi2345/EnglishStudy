@@ -112,7 +112,15 @@ Page({
     wx.navigateTo({ url: '/pages/wrong-words/wrong-words' });
   },
 
+  goToFavorites() {
+    wx.navigateTo({ url: '/pages/wrong-words/wrong-words?tab=favorite' });
+  },
+
   goToVocabTest() {
     wx.navigateTo({ url: '/pages/vocab-test/vocab-test' });
+  },
+
+  goToWordBooks() {
+    wx.navigateTo({ url: '/pages/word-books/word-books' });
   },
 });

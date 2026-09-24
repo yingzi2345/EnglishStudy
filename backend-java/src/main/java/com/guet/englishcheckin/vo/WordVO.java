@@ -38,5 +38,8 @@ public class WordVO {
     /** 当前用户是否已掌握 */
     private Boolean isMastered;
 
+    /** 当前用户是否已收藏 */
+    private Boolean isFavorite;
+
     private LocalDateTime createdAt;
 }

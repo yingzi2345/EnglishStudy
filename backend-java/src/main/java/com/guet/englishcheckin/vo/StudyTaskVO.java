@@ -19,4 +19,7 @@ public class StudyTaskVO {
     private String exampleEn;
     private String exampleZh;
     private String audioUrl;
+
+    /** 当前用户是否已收藏该词 */
+    private Boolean isFavorite;
 }

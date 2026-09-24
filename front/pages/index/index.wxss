@@ -224,13 +224,13 @@
 /* 快速入口 */
 .quick-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 16rpx;
 }
 
 .action-item {
   text-align: center;
-  padding: 36rpx 16rpx 28rpx;
+  padding: 28rpx 8rpx 22rpx;
   transition: transform 0.15s;
 }
 
@@ -239,10 +239,10 @@
 }
 
 .action-icon-circle {
-  width: 88rpx;
-  height: 88rpx;
+  width: 76rpx;
+  height: 76rpx;
   border-radius: 50%;
-  margin: 0 auto 16rpx;
+  margin: 0 auto 12rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,7 +261,7 @@
 
 .action-text {
   display: block;
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #6A6A6A;
   font-weight: 500;
 }

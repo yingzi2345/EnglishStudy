@@ -1,0 +1,138 @@
+<view class="page" wx:if="{{book}}">
+  <!-- 词书头部 -->
+  <view class="book-header">
+    <view class="book-icon-lg">{{book.icon}}</view>
+    <view class="book-header-info">
+      <view class="book-name-lg">{{book.name}}</view>
+      <view class="book-desc-lg">{{book.description}}</view>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-card">
+    <view class="stat-item">
+      <view class="stat-num">{{book.total_words}}</view>
+      <view class="stat-label">总词量</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-num">{{book.learned_words}}</view>
+      <view class="stat-label">已学</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-num">{{book.unlearned_words}}</view>
+      <view class="stat-label">未学</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-num">{{book.estimated_days}}</view>
+      <view class="stat-label">预计天数</view>
+    </view>
+  </view>
+
+  <!-- 进度条 -->
+  <view class="progress-section">
+    <view class="progress-text">学习进度 {{book.progress_percent}}%</view>
+    <view class="progress-bar-lg">
+      <view class="progress-fill-lg" style="width: {{book.progress_percent}}%"></view>
+    </view>
+  </view>
+
+  <!-- 操作区 -->
+  <view class="action-section">
+    <!-- 官方词书操作 -->
+    <block wx:if="{{!isCustom}}">
+      <view wx:if="{{!book.is_joined}}" class="action-btn primary" bindtap="joinBook">加入词书</view>
+      <view wx:elif="{{!book.is_current}}" class="action-btn primary" bindtap="selectBook">设为当前学习</view>
+      <view wx:else class="action-btn disabled">当前学习中 ✓</view>
+    </block>
+    <!-- 自定义词本操作 -->
+    <block wx:else>
+      <view class="custom-actions">
+        <view class="action-btn secondary" bindtap="showAddModal">➕ 添加单词</view>
+        <view class="action-btn secondary" bindtap="showImportModal">📋 粘贴导入</view>
+      </view>
+      <view wx:if="{{!book.is_current}}" class="action-btn primary" bindtap="selectBook" style="margin-top:16rpx;">设为当前学习</view>
+      <view wx:else class="action-btn disabled" style="margin-top:16rpx;">当前学习中 ✓</view>
+      <view class="action-btn danger" bindtap="deleteBook" style="margin-top:16rpx;">🗑 删除词本</view>
+    </block>
+  </view>
+
+  <!-- 单词列表 -->
+  <view class="word-section">
+    <view class="section-title">单词列表（{{book.total_words}}）</view>
+    <view class="word-list">
+      <view
+        wx:for="{{words}}"
+        wx:key="id"
+        class="word-item"
+        data-id="{{item.id}}"
+        bindtap="goWordDetail"
+      >
+        <view class="word-main">
+          <view class="word-text">{{item.word}}</view>
+          <view class="word-phonetic">{{item.phonetic}}</view>
+          <view class="word-meaning">{{item.meaning}}</view>
+        </view>
+        <view class="word-right">
+          <view class="word-status {{item.is_learned ? 'status-learned' : 'status-new'}}">
+            {{item.is_learned ? '已学' : '未学'}}
+          </view>
+          <view wx:if="{{isCustom}}" class="remove-btn" catchtap="removeWord" data-id="{{item.id}}" data-word="{{item.word}}">移除</view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{words.length === 0 && !loading}}" class="empty-tip">
+      {{isCustom ? '词本还是空的，点击上方添加单词或粘贴导入' : '该词书暂无单词'}}
+    </view>
+    <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+    <view wx:if="{{!hasMore && words.length > 0}}" class="loading-tip">没有更多了</view>
+  </view>
+
+  <!-- 添加单词弹层 -->
+  <view wx:if="{{showAdd}}" class="modal-mask" bindtap="hideAddModal">
+    <view class="modal" catchtap="">
+      <view class="modal-title">添加单词</view>
+      <view class="form-item">
+        <text class="form-label">单词 *</text>
+        <input class="form-input" placeholder="如：serendipity" value="{{addWord}}" data-field="addWord" bindinput="onAddInput" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">音标（选填）</text>
+        <input class="form-input" placeholder="/ˌserənˈdɪpəti/" value="{{addPhonetic}}" data-field="addPhonetic" bindinput="onAddInput" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">释义（选填）</text>
+        <input class="form-input" placeholder="n.意外发现美好事物的能力" value="{{addMeaning}}" data-field="addMeaning" bindinput="onAddInput" />
+      </view>
+      <view class="modal-tip">如果系统词库已存在该单词，会直接复用并加入词本</view>
+      <view class="modal-actions">
+        <view class="btn-cancel" bindtap="hideAddModal">取消</view>
+        <view class="btn-confirm" bindtap="confirmAdd">添加</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 粘贴导入弹层 -->
+  <view wx:if="{{showImport}}" class="modal-mask" bindtap="hideImportModal">
+    <view class="modal modal-lg" catchtap="">
+      <view class="modal-title">粘贴导入单词</view>
+      <view class="form-item">
+        <textarea
+          class="form-textarea"
+          placeholder="每行一个单词，支持格式：&#10;word,中文释义&#10;word - 中文释义&#10;word：中文释义&#10;word（仅单词）"
+          value="{{importText}}"
+          bindinput="onImportInput"
+          maxlength="5000"
+          auto-height
+        />
+      </view>
+      <view class="modal-tip">示例：&#10;abandon,放弃&#10;benefit - 利益&#10;challenge：挑战</view>
+      <view class="modal-actions">
+        <view class="btn-cancel" bindtap="hideImportModal">取消</view>
+        <view class="btn-confirm" bindtap="confirmImport">导入</view>
+      </view>
+    </view>
+  </view>
+</view>

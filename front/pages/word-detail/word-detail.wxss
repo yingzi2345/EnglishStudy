@@ -51,10 +51,25 @@
 }
 
 .word-hero {
+  position: relative;
   text-align: center;
   padding: 48rpx 24rpx;
   background: linear-gradient(135deg, #7B9EB0, #A3BCC9);
   color: #fff;
+}
+
+.hero-favorite {
+  position: absolute;
+  top: 20rpx;
+  right: 26rpx;
+  font-size: 52rpx;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1;
+  padding: 8rpx;
+}
+
+.hero-favorite.active {
+  color: #F0C987;
 }
 
 .word-main {
@@ -205,6 +220,12 @@
 .action-buttons .btn-undo {
   border-color: #D4A574;
   color: #D4A574;
+}
+
+.action-buttons .btn-favorited {
+  border-color: #D4A574;
+  color: #D4A574;
+  background: #FAF3E8;
 }
 
 .empty-state {

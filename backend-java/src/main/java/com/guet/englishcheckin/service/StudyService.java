@@ -4,9 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.guet.englishcheckin.common.BusinessException;
 import com.guet.englishcheckin.entity.User;
+import com.guet.englishcheckin.entity.UserBook;
 import com.guet.englishcheckin.entity.Word;
+import com.guet.englishcheckin.entity.WordBookItem;
 import com.guet.englishcheckin.entity.WordProgress;
+import com.guet.englishcheckin.mapper.UserBookMapper;
 import com.guet.englishcheckin.mapper.UserMapper;
+import com.guet.englishcheckin.mapper.WordBookItemMapper;
 import com.guet.englishcheckin.mapper.WordMapper;
 import com.guet.englishcheckin.mapper.WordProgressMapper;
 import com.guet.englishcheckin.util.TimeUtil;
@@ -40,6 +44,8 @@ public class StudyService {
     private final WordMapper wordMapper;
     private final WordProgressMapper progressMapper;
     private final UserMapper userMapper;
+    private final UserBookMapper userBookMapper;
+    private final WordBookItemMapper wordBookItemMapper;
 
     private final Random random = new Random();
 
@@ -71,14 +77,26 @@ public class StudyService {
                         .last("LIMIT " + Math.max(reviewLimit, 0)));
 
         // 2. 新词：用户没有 progress 记录的词
-        Set<Long> learnedIds = progressMapper.selectList(
+        List<WordProgress> allProgress = progressMapper.selectList(
                         new LambdaQueryWrapper<WordProgress>()
-                                .eq(WordProgress::getUserId, userId)
-                                .select(WordProgress::getWordId))
-                .stream().map(WordProgress::getWordId).collect(Collectors.toSet());
+                                .eq(WordProgress::getUserId, userId));
+        Set<Long> learnedIds = allProgress.stream()
+                .map(WordProgress::getWordId).collect(Collectors.toSet());
+        Map<Long, WordProgress> progressMap = allProgress.stream()
+                .collect(Collectors.toMap(WordProgress::getWordId, p -> p, (a, b) -> a));
 
-        List<Word> allWords = wordMapper.selectList(null);
-        List<Word> newWords = allWords.stream()
+        // 新词候选：优先取用户"当前学习词书"中未学的词；未选任何词书则回退到全部系统词
+        Set<Long> currentBookWordIds = getCurrentBookWordIds(userId);
+        List<Word> candidateWords;
+        if (currentBookWordIds == null) {
+            candidateWords = wordMapper.selectList(
+                    new LambdaQueryWrapper<Word>().eq(Word::getSource, "system"));
+        } else if (currentBookWordIds.isEmpty()) {
+            candidateWords = new ArrayList<>();
+        } else {
+            candidateWords = wordMapper.selectBatchIds(currentBookWordIds);
+        }
+        List<Word> newWords = candidateWords.stream()
                 .filter(w -> !learnedIds.contains(w.getId()))
                 .collect(Collectors.toList());
         Collections.shuffle(newWords, random);
@@ -87,10 +105,10 @@ public class StudyService {
 
         // 组装结果
         List<StudyTaskVO> reviewTasks = dueReviews.stream()
-                .map(p -> toStudyTask(p.getWordId(), "review"))
+                .map(p -> toStudyTask(p.getWordId(), "review", progressMap.get(p.getWordId())))
                 .collect(Collectors.toList());
         List<StudyTaskVO> newTasks = pickedNew.stream()
-                .map(w -> toStudyTask(w.getId(), "new"))
+                .map(w -> toStudyTask(w.getId(), "new", progressMap.get(w.getId())))
                 .collect(Collectors.toList());
 
         // 混合：复习在前，新词在后
@@ -111,14 +129,26 @@ public class StudyService {
     // ══════════════════════════════════════════════
 
     /**
-     * 提交单个单词的学习结果
-     * @param known true=认识，false=不认识
+     * 提交单个单词的学习结果（3档难度）
+     * @param grade easy=认识(简单,间隔+2), vague=模糊(间隔+1), hard=不认识(重置,加入错词本)
+     * 兼容旧参数 known：true→vague, false→hard
      */
     @Transactional
-    public Map<String, Object> submitStudyResult(Long userId, Long wordId, boolean known) {
+    public Map<String, Object> submitStudyResult(Long userId, Long wordId, String grade, Boolean known) {
         if (wordMapper.selectById(wordId) == null) {
             throw new BusinessException(404, "单词不存在");
         }
+        // 归一化评分
+        String g;
+        if (grade != null && !grade.isBlank()) {
+            g = grade.trim().toLowerCase();
+        } else {
+            g = Boolean.TRUE.equals(known) ? "vague" : "hard";
+        }
+        if (!g.equals("easy") && !g.equals("vague") && !g.equals("hard")) {
+            g = "vague";
+        }
+
         LocalDateTime now = TimeUtil.nowUtc();
 
         WordProgress progress = progressMapper.selectOne(
@@ -137,6 +167,7 @@ public class StudyService {
             progress.setIntervalLevel(0);
             progress.setWrongCount(0);
             progress.setIsWrong(0);
+            progress.setIsFavorite(0);
             progress.setCreatedAt(now);
             created = true;
         }
@@ -145,31 +176,38 @@ public class StudyService {
         progress.setReviewCount((progress.getReviewCount() == null ? 0 : progress.getReviewCount()) + 1);
 
         int level = progress.getIntervalLevel() == null ? 0 : progress.getIntervalLevel();
+        int maxLevel = INTERVAL_DAYS.length - 1;
 
-        if (known) {
-            // 认识：等级+1，计算下次复习时间
-            level = Math.min(level + 1, INTERVAL_DAYS.length - 1);
-            progress.setIntervalLevel(level);
-            progress.setNextReviewAt(now.plusDays(INTERVAL_DAYS[level]));
-            progress.setIsLearned(1);
-            if (progress.getLearnedAt() == null) {
-                progress.setLearnedAt(now);
-            }
-            // 达到最高等级标记为已掌握
-            if (level == INTERVAL_DAYS.length - 1) {
-                progress.setIsMastered(1);
-            }
-        } else {
-            // 不认识：重置等级，加入错词本，明天复习
-            level = 0;
-            progress.setIntervalLevel(0);
-            progress.setNextReviewAt(now.plusDays(1));
-            progress.setWrongCount((progress.getWrongCount() == null ? 0 : progress.getWrongCount()) + 1);
-            progress.setIsWrong(1);
-            progress.setIsLearned(1);
-            if (progress.getLearnedAt() == null) {
-                progress.setLearnedAt(now);
-            }
+        switch (g) {
+            case "easy":
+                // 认识（简单）：连升2级，很久不用复习
+                level = Math.min(level + 2, maxLevel);
+                progress.setIntervalLevel(level);
+                progress.setNextReviewAt(now.plusDays(INTERVAL_DAYS[level]));
+                break;
+            case "vague":
+                // 模糊：升1级，短周期复习
+                level = Math.min(level + 1, maxLevel);
+                progress.setIntervalLevel(level);
+                progress.setNextReviewAt(now.plusDays(INTERVAL_DAYS[level]));
+                break;
+            default:
+                // 不认识：重置等级，加入错词本，明天高频复习
+                level = 0;
+                progress.setIntervalLevel(0);
+                progress.setNextReviewAt(now.plusDays(1));
+                progress.setWrongCount((progress.getWrongCount() == null ? 0 : progress.getWrongCount()) + 1);
+                progress.setIsWrong(1);
+                break;
+        }
+
+        progress.setIsLearned(1);
+        if (progress.getLearnedAt() == null) {
+            progress.setLearnedAt(now);
+        }
+        // 达到最高等级标记为已掌握
+        if (level == maxLevel) {
+            progress.setIsMastered(1);
         }
 
         progress.setUpdatedAt(now);
@@ -184,11 +222,77 @@ public class StudyService {
 
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("word_id", wordId);
-        data.put("known", known);
+        data.put("grade", g);
         data.put("interval_level", progress.getIntervalLevel());
         data.put("next_review_at", progress.getNextReviewAt());
         data.put("is_mastered", progress.getIsMastered() == 1);
         data.put("is_wrong", progress.getIsWrong() == 1);
+        return data;
+    }
+
+    // ══════════════════════════════════════════════
+    //  收藏生词本
+    // ══════════════════════════════════════════════
+
+    /** 收藏 / 取消收藏单词 */
+    @Transactional
+    public Map<String, Object> toggleFavorite(Long userId, Long wordId) {
+        if (wordMapper.selectById(wordId) == null) {
+            throw new BusinessException(404, "单词不存在");
+        }
+        LocalDateTime now = TimeUtil.nowUtc();
+
+        WordProgress progress = progressMapper.selectOne(
+                new LambdaQueryWrapper<WordProgress>()
+                        .eq(WordProgress::getUserId, userId)
+                        .eq(WordProgress::getWordId, wordId));
+
+        boolean favorite;
+        if (progress == null) {
+            // 未学习过的单词，收藏时创建一条仅收藏记录
+            progress = new WordProgress();
+            progress.setUserId(userId);
+            progress.setWordId(wordId);
+            progress.setIsLearned(0);
+            progress.setIsMastered(0);
+            progress.setReviewCount(0);
+            progress.setIntervalLevel(0);
+            progress.setWrongCount(0);
+            progress.setIsWrong(0);
+            progress.setIsFavorite(1);
+            progress.setCreatedAt(now);
+            progress.setUpdatedAt(now);
+            progressMapper.insert(progress);
+            favorite = true;
+        } else {
+            favorite = !(progress.getIsFavorite() != null && progress.getIsFavorite() == 1);
+            progress.setIsFavorite(favorite ? 1 : 0);
+            progress.setUpdatedAt(now);
+            progressMapper.updateById(progress);
+        }
+
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("word_id", wordId);
+        data.put("is_favorite", favorite);
+        return data;
+    }
+
+    /** 收藏单词列表 */
+    public Map<String, Object> getFavoriteWords(Long userId, long page, long pageSize) {
+        Page<WordProgress> pageResult = progressMapper.selectPage(
+                new Page<>(page, pageSize),
+                new LambdaQueryWrapper<WordProgress>()
+                        .eq(WordProgress::getUserId, userId)
+                        .eq(WordProgress::getIsFavorite, 1)
+                        .orderByDesc(WordProgress::getUpdatedAt));
+
+        List<WordProgressVO> list = pageResult.getRecords().stream()
+                .map(this::toProgressVO)
+                .collect(Collectors.toList());
+
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("count", pageResult.getTotal());
+        data.put("results", list);
         return data;
     }
 
@@ -216,8 +320,11 @@ public class StudyService {
         Collections.shuffle(learned, random);
         List<WordProgress> picked = learned.subList(0, Math.min(count, learned.size()));
 
-        // 所有词用于生成干扰项
-        List<Word> allWords = wordMapper.selectList(null);
+        // 系统词 + 本人自定义词用于生成干扰项（不泄露他人自定义词）
+        List<Word> allWords = wordMapper.selectList(
+                new LambdaQueryWrapper<Word>()
+                        .eq(Word::getSource, "system")
+                        .or().eq(Word::getOwnerId, userId));
 
         List<QuizQuestionVO> questions = new ArrayList<>();
         String[] types = {"listening", "meaning", "spelling"};
@@ -416,11 +523,31 @@ public class StudyService {
     //  私有辅助
     // ══════════════════════════════════════════════
 
-    private StudyTaskVO toStudyTask(Long wordId, String type) {
+    /**
+     * 获取用户"当前学习词书"包含的单词 ID。
+     * @return null 表示用户未选择任何词书（调用方应回退到全部系统词）；空集合表示词书为空
+     */
+    public Set<Long> getCurrentBookWordIds(Long userId) {
+        UserBook current = userBookMapper.selectOne(
+                new LambdaQueryWrapper<UserBook>()
+                        .eq(UserBook::getUserId, userId)
+                        .eq(UserBook::getIsCurrent, 1)
+                        .last("LIMIT 1"));
+        if (current == null) {
+            return null;
+        }
+        List<WordBookItem> items = wordBookItemMapper.selectList(
+                new LambdaQueryWrapper<WordBookItem>()
+                        .eq(WordBookItem::getBookId, current.getBookId()));
+        return items.stream().map(WordBookItem::getWordId).collect(Collectors.toSet());
+    }
+
+    private StudyTaskVO toStudyTask(Long wordId, String type, WordProgress progress) {
         Word word = wordMapper.selectById(wordId);
         StudyTaskVO vo = new StudyTaskVO();
         vo.setWordId(wordId);
         vo.setTaskType(type);
+        vo.setIsFavorite(progress != null && progress.getIsFavorite() != null && progress.getIsFavorite() == 1);
         if (word != null) {
             vo.setWord(word.getWord());
             vo.setPhonetic(word.getPhonetic());
@@ -477,6 +604,7 @@ public class StudyService {
         vo.setReviewCount(p.getReviewCount());
         vo.setWrongCount(p.getWrongCount());
         vo.setIsWrong(p.getIsWrong());
+        vo.setIsFavorite(p.getIsFavorite());
         vo.setIntervalLevel(p.getIntervalLevel());
         vo.setCreatedAt(p.getCreatedAt());
         vo.setUpdatedAt(p.getUpdatedAt());
@@ -484,6 +612,7 @@ public class StudyService {
         if (word != null) {
             vo.setWordName(word.getWord());
             vo.setWordMeaning(word.getMeaning());
+            vo.setPhonetic(word.getPhonetic());
         }
         return vo;
     }

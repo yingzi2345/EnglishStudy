@@ -13,6 +13,52 @@
   color: #B5B0A8;
 }
 
+/* ────────── 顶部工具栏 ────────── */
+.study-toolbar {
+  margin-bottom: 8rpx;
+}
+
+.mode-switch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #E8EFF3;
+  color: #5C7A8A;
+  font-size: 26rpx;
+  font-weight: 600;
+  padding: 8rpx 24rpx;
+  border-radius: 16rpx;
+  line-height: 1.3;
+}
+
+.mode-switch-hint {
+  font-size: 18rpx;
+  color: #8FA8B5;
+  font-weight: 400;
+}
+
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.tool-icon {
+  font-size: 26rpx;
+  color: #8A8A8A;
+  padding: 8rpx 16rpx;
+}
+
+.tool-icon.favorite {
+  font-size: 40rpx;
+  color: #C5BFB5;
+  padding: 4rpx 8rpx;
+}
+
+.tool-icon.favorite.active {
+  color: #D4A574;
+}
+
 /* ────────── 进度条 ────────── */
 .progress-bar {
   height: 8rpx;
@@ -140,6 +186,16 @@
   margin-bottom: 28rpx;
 }
 
+/* 看中文回忆英文模式：正面中文释义大字 */
+.meaning-big {
+  font-size: 52rpx;
+  font-weight: 600;
+  color: #4A4A4A;
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 20rpx;
+}
+
 .example-box {
   background: rgba(255, 255, 255, 0.6);
   border-radius: 16rpx;
@@ -169,42 +225,61 @@
   color: #B5B0A8;
 }
 
-/* ────────── 操作按钮 ────────── */
+/* ────────── 三档操作按钮 ────────── */
 .action-buttons {
   display: flex;
-  gap: 24rpx;
+  gap: 16rpx;
 }
 
-.btn-known {
-  background: linear-gradient(135deg, #A8BBA0, #8BA084);
-  color: #fff;
-  border-radius: 48rpx;
-  font-size: 30rpx;
-  padding: 24rpx;
+.btn-grade {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20rpx;
+  padding: 20rpx 0;
+  line-height: 1.4;
   border: none;
-  box-shadow: 0 6rpx 20rpx rgba(155, 175, 155, 0.3);
 }
 
-.btn-known::after { border: none; }
+.btn-grade::after { border: none; }
 
-.btn-known:active {
+.btn-grade:active {
   opacity: 0.85;
   transform: scale(0.97);
 }
 
-.btn-unknown {
-  background: #fff;
-  color: #C9A9A6;
-  border: 2rpx solid #D4B8B5;
-  border-radius: 48rpx;
+.grade-title {
   font-size: 30rpx;
-  padding: 24rpx;
+  font-weight: 600;
 }
 
-.btn-unknown::after { border: none; }
+.grade-sub {
+  font-size: 20rpx;
+  opacity: 0.85;
+  margin-top: 4rpx;
+}
 
-.btn-unknown:active {
-  background: #F8F0EF;
+/* 不认识：莫兰迪粉 */
+.btn-hard {
+  background: linear-gradient(135deg, #D4B5B2, #C49A97);
+  color: #fff;
+  box-shadow: 0 6rpx 20rpx rgba(201, 169, 166, 0.3);
+}
+
+/* 模糊：莫兰迪黄 */
+.btn-vague {
+  background: linear-gradient(135deg, #DED0B0, #CEBC92);
+  color: #fff;
+  box-shadow: 0 6rpx 20rpx rgba(212, 197, 160, 0.3);
+}
+
+/* 认识：莫兰迪绿 */
+.btn-easy {
+  background: linear-gradient(135deg, #A8BBA0, #8BA084);
+  color: #fff;
+  box-shadow: 0 6rpx 20rpx rgba(155, 175, 155, 0.3);
 }
 
 /* ────────── 总结页 ────────── */
@@ -243,7 +318,9 @@
 }
 
 .summary-num.text-green { color: #9BAF9B; }
+.summary-num.text-yellow { color: #C9B47E; }
 .summary-num.text-pink { color: #C9A9A6; }
+.summary-num.text-gray { color: #B5B0A8; }
 
 .summary-label {
   font-size: 24rpx;

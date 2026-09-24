@@ -1,0 +1,66 @@
+<view class="page">
+  <!-- 顶部 -->
+  <view class="header">
+    <view class="title">词书库</view>
+    <view class="subtitle">选择适合你的词书，开始针对性学习</view>
+    <view class="create-btn" bindtap="showCreateModal">
+      <text class="plus">＋</text> 新建自定义词本
+    </view>
+  </view>
+
+  <!-- 分组列表 -->
+  <view wx:for="{{groups}}" wx:key="name" class="group">
+    <view class="group-title">{{item.name}}</view>
+    <view class="book-list">
+      <view
+        wx:for="{{item.books}}"
+        wx:for-item="book"
+        wx:key="id"
+        class="book-card"
+        data-id="{{book.id}}"
+        bindtap="goDetail"
+      >
+        <view class="book-icon">{{book.icon}}</view>
+        <view class="book-info">
+          <view class="book-name-row">
+            <text class="book-name">{{book.name}}</text>
+            <view class="book-tag {{book.is_current ? 'tag-current' : (book.is_joined ? 'tag-joined' : 'tag-none')}}">
+              {{book.is_current ? '学习中' : (book.is_joined ? '已加入' : '未加入')}}
+            </view>
+          </view>
+          <view class="book-desc">{{book.description}}</view>
+          <view class="book-meta">
+            <text>共 {{book.total_words}} 词</text>
+            <text>已学 {{book.learned_words}}</text>
+            <text wx:if="{{book.estimated_days > 0}}">约 {{book.estimated_days}} 天</text>
+          </view>
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{book.total_words > 0 ? (book.learned_words / book.total_words * 100) : 0}}%"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!loading && groups.length === 0}}" class="empty">暂无词书</view>
+
+  <!-- 新建词本弹层 -->
+  <view wx:if="{{showCreate}}" class="modal-mask" bindtap="hideCreateModal">
+    <view class="modal" catchtap="">
+      <view class="modal-title">新建自定义词本</view>
+      <view class="form-item">
+        <text class="form-label">词本名称</text>
+        <input class="form-input" placeholder="如：阅读生词本" value="{{newBookName}}" bindinput="onNameInput" maxlength="50" />
+      </view>
+      <view class="form-item">
+        <text class="form-label">描述（选填）</text>
+        <input class="form-input" placeholder="简单描述这个词本" value="{{newBookDesc}}" bindinput="onDescInput" maxlength="100" />
+      </view>
+      <view class="modal-tip">创建后自动设为当前学习词书，可手动添加或粘贴导入单词</view>
+      <view class="modal-actions">
+        <view class="btn-cancel" bindtap="hideCreateModal">取消</view>
+        <view class="btn-confirm" bindtap="confirmCreate">创建</view>
+      </view>
+    </view>
+  </view>
+</view>

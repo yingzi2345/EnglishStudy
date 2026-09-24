@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "词书详情",
+  "navigationBarBackgroundColor": "#F0EDE8",
+  "navigationBarTextStyle": "black",
+  "backgroundColor": "#F0EDE8",
+  "enablePullDownRefresh": false
+}

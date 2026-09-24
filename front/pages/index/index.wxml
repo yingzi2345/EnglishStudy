@@ -98,6 +98,12 @@
       </view>
       <text class="action-text">错词本</text>
     </view>
+    <view class="action-item card" bindtap="goToFavorites" hover-class="card-hover">
+      <view class="action-icon-circle bg-yellow">
+        <text class="action-icon">⭐</text>
+      </view>
+      <text class="action-text">生词本</text>
+    </view>
     <view class="action-item card" bindtap="goToCheckin" hover-class="card-hover">
       <view class="action-icon-circle bg-yellow">
         <text class="action-icon">📝</text>
@@ -121,6 +127,12 @@
         <text class="action-icon">📊</text>
       </view>
       <text class="action-text">词汇测试</text>
+    </view>
+    <view class="action-item card" bindtap="goToWordBooks" hover-class="card-hover">
+      <view class="action-icon-circle bg-green">
+        <text class="action-icon">📚</text>
+      </view>
+      <text class="action-text">词书库</text>
     </view>
   </view>
 </view>

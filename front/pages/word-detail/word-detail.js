@@ -1,5 +1,5 @@
 // 单词详情页 — pages/word-detail/word-detail.js
-const { wordApi } = require('../../utils/api');
+const { wordApi, studyApi } = require('../../utils/api');
 
 Page({
   data: {
@@ -89,6 +89,24 @@ Page({
         }
       },
     });
+  },
+
+  // 收藏 / 取消收藏
+  async toggleFavorite() {
+    if (!this.data.word) return;
+    const fav = !this.data.word.is_favorite;
+    this.setData({ 'word.is_favorite': fav }); // 乐观更新
+    try {
+      const res = await studyApi.toggleFavorite(this.data.word.id);
+      if (res.code === 200) {
+        wx.showToast({ title: fav ? '已加入生词本' : '已取消收藏', icon: 'none', duration: 1000 });
+      } else {
+        this.setData({ 'word.is_favorite': !fav });
+      }
+    } catch (err) {
+      this.setData({ 'word.is_favorite': !fav });
+      wx.showToast({ title: '操作失败', icon: 'none' });
+    }
   },
 
   // 播放发音：优先使用后台音频地址，兜底使用有道 TTS 在线发音

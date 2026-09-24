@@ -1,0 +1,261 @@
+.page {
+  min-height: 100vh;
+  background: #F0EDE8;
+  padding: 28rpx;
+  box-sizing: border-box;
+}
+
+/* 头部 */
+.book-header {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.book-icon-lg {
+  font-size: 72rpx;
+  margin-right: 24rpx;
+}
+.book-header-info { flex: 1; min-width: 0; }
+.book-name-lg {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #3D4F5F;
+}
+.book-desc-lg {
+  font-size: 24rpx;
+  color: #9AA8B2;
+  margin-top: 6rpx;
+}
+
+/* 统计卡片 */
+.stats-card {
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 16rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+.stat-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #7B9EB0;
+}
+.stat-label {
+  font-size: 22rpx;
+  color: #9AA8B2;
+  margin-top: 4rpx;
+}
+.stat-divider {
+  width: 1rpx;
+  background: #EDE9E3;
+  margin: 8rpx 0;
+}
+
+/* 进度 */
+.progress-section {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
+}
+.progress-text {
+  font-size: 24rpx;
+  color: #6B7C8A;
+  margin-bottom: 12rpx;
+}
+.progress-bar-lg {
+  height: 12rpx;
+  background: #EDE9E3;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+.progress-fill-lg {
+  height: 100%;
+  background: linear-gradient(90deg, #7B9EB0, #A8BBA0);
+  border-radius: 6rpx;
+}
+
+/* 操作区 */
+.action-section {
+  margin-bottom: 28rpx;
+}
+.action-btn {
+  text-align: center;
+  padding: 22rpx 0;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.action-btn.primary {
+  background: #7B9EB0;
+  color: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(123,158,176,0.25);
+}
+.action-btn.secondary {
+  flex: 1;
+  background: #fff;
+  color: #6B7C8A;
+  border: 1rpx solid #D8D2C8;
+}
+.action-btn.disabled {
+  background: #DDE5E0;
+  color: #6B8A7A;
+}
+.action-btn.danger {
+  background: #F0E0DE;
+  color: #C49A97;
+}
+.custom-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+/* 单词列表 */
+.word-section { margin-top: 8rpx; }
+.section-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #6B7C8A;
+  margin-bottom: 16rpx;
+  padding-left: 8rpx;
+}
+.word-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+.word-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 22rpx 24rpx;
+  box-shadow: 0 1rpx 8rpx rgba(0,0,0,0.03);
+}
+.word-main { flex: 1; min-width: 0; }
+.word-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #3D4F5F;
+}
+.word-phonetic {
+  font-size: 22rpx;
+  color: #9AA8B2;
+  margin-top: 2rpx;
+}
+.word-meaning {
+  font-size: 24rpx;
+  color: #6B7C8A;
+  margin-top: 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.word-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8rpx;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+.word-status {
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 16rpx;
+}
+.status-learned { background: #DDE5E0; color: #6B8A7A; }
+.status-new { background: #EDE9E3; color: #9AA8B2; }
+.remove-btn {
+  font-size: 22rpx;
+  color: #C49A97;
+  padding: 4rpx 10rpx;
+}
+
+.empty-tip, .loading-tip {
+  text-align: center;
+  color: #9AA8B2;
+  font-size: 26rpx;
+  padding: 48rpx 0;
+  line-height: 1.6;
+}
+
+/* 弹层 */
+.modal-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal {
+  width: 600rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx 36rpx 32rpx;
+}
+.modal-lg { width: 640rpx; }
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #3D4F5F;
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+.form-item { margin-bottom: 20rpx; }
+.form-label {
+  font-size: 24rpx;
+  color: #6B7C8A;
+  display: block;
+  margin-bottom: 10rpx;
+}
+.form-input {
+  background: #F5F2ED;
+  border-radius: 12rpx;
+  padding: 18rpx 20rpx;
+  font-size: 28rpx;
+  color: #3D4F5F;
+}
+.form-textarea {
+  background: #F5F2ED;
+  border-radius: 12rpx;
+  padding: 18rpx 20rpx;
+  font-size: 26rpx;
+  color: #3D4F5F;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 240rpx;
+}
+.modal-tip {
+  font-size: 22rpx;
+  color: #9AA8B2;
+  margin: 8rpx 0 24rpx;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+.modal-actions {
+  display: flex;
+  gap: 20rpx;
+}
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+.btn-cancel { background: #EDE9E3; color: #6B7C8A; }
+.btn-confirm { background: #7B9EB0; color: #fff; }

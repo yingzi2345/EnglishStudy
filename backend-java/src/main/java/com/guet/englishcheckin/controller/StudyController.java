@@ -37,7 +37,7 @@ public class StudyController {
         return ApiResponse.success(studyService.getTodayTasks(currentUserId(request), review_count, new_count));
     }
 
-    /** POST /api/study/record/ 提交学习结果 {word_id, known} */
+    /** POST /api/study/record/ 提交学习结果 {word_id, grade: easy/vague/hard}（兼容旧 known 字段） */
     @PostMapping("/record")
     public ApiResponse<Map<String, Object>> record(@RequestBody Map<String, Object> body,
                                                    HttpServletRequest request) {
@@ -46,8 +46,9 @@ public class StudyController {
             return ApiResponse.error(400, "参数错误：缺少 word_id");
         }
         Long wordId = Long.valueOf(wordIdObj.toString());
-        boolean known = body.get("known") != null && Boolean.parseBoolean(body.get("known").toString());
-        return ApiResponse.success(studyService.submitStudyResult(currentUserId(request), wordId, known));
+        String grade = body.get("grade") == null ? null : body.get("grade").toString();
+        Boolean known = body.get("known") == null ? null : Boolean.parseBoolean(body.get("known").toString());
+        return ApiResponse.success(studyService.submitStudyResult(currentUserId(request), wordId, grade, known));
     }
 
     /** GET /api/study/quiz/ 获取测验题目 */
@@ -88,6 +89,27 @@ public class StudyController {
         }
         Long wordId = Long.valueOf(wordIdObj.toString());
         return ApiResponse.success(studyService.removeWrongWord(currentUserId(request), wordId));
+    }
+
+    /** POST /api/study/favorite/ 收藏 / 取消收藏单词 {word_id} */
+    @PostMapping("/favorite")
+    public ApiResponse<Map<String, Object>> toggleFavorite(@RequestBody Map<String, Object> body,
+                                                           HttpServletRequest request) {
+        Object wordIdObj = body == null ? null : body.get("word_id");
+        if (wordIdObj == null) {
+            return ApiResponse.error(400, "参数错误：缺少 word_id");
+        }
+        Long wordId = Long.valueOf(wordIdObj.toString());
+        return ApiResponse.success(studyService.toggleFavorite(currentUserId(request), wordId));
+    }
+
+    /** GET /api/study/favorites/ 收藏单词列表 */
+    @GetMapping("/favorites")
+    public ApiResponse<Map<String, Object>> favorites(
+            @RequestParam(defaultValue = "1") long page,
+            @RequestParam(name = "page_size", defaultValue = "20") long pageSize,
+            HttpServletRequest request) {
+        return ApiResponse.success(studyService.getFavoriteWords(currentUserId(request), page, pageSize));
     }
 
     /** GET /api/study/stats/ 今日学习统计（待复习数/错词数/已掌握数） */

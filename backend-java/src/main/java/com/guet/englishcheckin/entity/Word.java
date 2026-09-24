@@ -41,6 +41,12 @@ public class Word {
     /** 分类标签：CET-4 / CET-6 等 */
     private String category;
 
+    /** 来源：system 系统词, custom 用户自定义词 */
+    private String source;
+
+    /** 自定义词归属用户 ID（系统词为 null） */
+    private Long ownerId;
+
     /** 词根词缀 */
     private String root;
 

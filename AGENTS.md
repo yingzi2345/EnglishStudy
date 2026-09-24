@@ -78,6 +78,24 @@ Admin (tb_admin) — 独立表，bcrypt 密码（实体映射：entity/ 包，Ma
 tb_system_config — 仅 SQL 层，无实体类
 ```
 
+## 词书库与自定义词本
+
+**统一模型**：官方词书与用户自定义词本共用 `tb_word_book`（`book_type` 区分 system/custom），自定义单词写入 `tb_word`（`source='custom'`, `owner_id=用户`），学习进度仍走 `tb_word_progress`，学习链路天然统一、支持多词书并行。
+
+```
+WordBook (tb_word_book)          — system官方(code唯一) / custom自定义(owner_id, code=NULL)
+ ├── 1:N → WordBookItem (tb_word_book_item)   unique(book_id, word_id)
+ └── 1:N → UserBook (tb_user_book)            unique(user_id, book_id), is_current标记当前学习词书
+
+Word (tb_word) 加 source/owner_id 字段 + uk_word 唯一索引（INSERT IGNORE 去重）
+```
+
+- **取词逻辑**：`StudyService.getTodayTasks` 新词从用户 `is_current=1` 词书的 items 中取无 progress 的词；用户未选任何词书时回退到全部 `source='system'` 词。复习词仍从用户全部到期 progress 取（跨书复习）。
+- **可见性**：自定义词仅属主可见（`WordService.applyVisibility` 统一过滤 `source='system' OR owner_id=userId`）；自定义词本仅 owner 可操作。
+- **词书数据**：9本官方词书（中考/高考/四级/六级/考研英一/考研英二/雅思/托福/日常），精选高频词约 600 词（`database/seed_book_*.sql`），跨书重复词靠 `uk_word` 去重。
+- **接口**：`/api/word-books/`（列表/详情/加入/设为当前）、`/api/word-books/custom/`（创建）、`/{id}/words/`（手动加词）、`/{id}/import/`（文本粘贴批量导入，支持 `word,释义` / `word - 释义` / `word：释义` / `word`）。
+- **迁移 SQL**：`database/migration_wordbook.sql`（建表+字段+索引），`database/seed_wordbook_meta.sql`（9本词书元数据）。
+
 ## API 设计规范
 
 ### 响应格式

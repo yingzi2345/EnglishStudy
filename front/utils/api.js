@@ -122,9 +122,9 @@ const studyApi = {
   getTodayTasks: (reviewCount = 10, newCount = 10) =>
     request(`/study/today/?review_count=${reviewCount}&new_count=${newCount}`),
 
-  /** 提交学习结果 */
-  submitRecord: (wordId, known) =>
-    request('/study/record/', 'POST', { word_id: wordId, known }),
+  /** 提交学习结果（grade: easy认识/vague模糊/hard不认识） */
+  submitRecord: (wordId, grade) =>
+    request('/study/record/', 'POST', { word_id: wordId, grade }),
 
   /** 获取测验题目 */
   getQuiz: (count = 10) => request(`/study/quiz/?count=${count}`),
@@ -139,6 +139,14 @@ const studyApi = {
   /** 从错词本移除 */
   removeWrongWord: (wordId) =>
     request('/study/wrong-words/remove/', 'POST', { word_id: wordId }),
+
+  /** 收藏 / 取消收藏单词 */
+  toggleFavorite: (wordId) =>
+    request('/study/favorite/', 'POST', { word_id: wordId }),
+
+  /** 收藏单词列表 */
+  getFavorites: (page = 1, pageSize = 20) =>
+    request(`/study/favorites?page=${page}&page_size=${pageSize}`),
 
   /** 今日学习统计 */
   getStudyStats: () => request('/study/stats/'),
@@ -158,6 +166,42 @@ const achievementApi = {
   getUserAchievements: () => request('/achievements/'),
 };
 
+// ──── 词书库 + 自定义词本 ────
+const wordBookApi = {
+  /** 词书库列表（官方 + 本人自定义） */
+  getBooks: () => request('/word-books/'),
+
+  /** 我的词书（已加入） */
+  getMyBooks: () => request('/word-books/mine/'),
+
+  /** 词书详情 + 单词分页 */
+  getBookDetail: (id, page = 1, pageSize = 20) =>
+    request(`/word-books/${id}/?page=${page}&page_size=${pageSize}`),
+
+  /** 加入词书 */
+  joinBook: (id) => request(`/word-books/${id}/join/`, 'POST'),
+
+  /** 设为当前学习词书 */
+  selectBook: (id) => request(`/word-books/${id}/select/`, 'POST'),
+
+  /** 创建自定义词本 */
+  createCustomBook: (name, description, icon) =>
+    request('/word-books/custom/', 'POST', { name, description, icon }),
+
+  /** 手动添加单词到自定义词本 */
+  addWord: (id, word, phonetic, meaning, exampleEn, exampleZh) =>
+    request(`/word-books/${id}/words/`, 'POST', { word, phonetic, meaning, example_en: exampleEn, example_zh: exampleZh }),
+
+  /** 文本粘贴批量导入 */
+  importWords: (id, text) => request(`/word-books/${id}/import/`, 'POST', { text }),
+
+  /** 删除自定义词本 */
+  deleteBook: (id) => request(`/word-books/${id}/`, 'DELETE'),
+
+  /** 从自定义词本移除单词 */
+  removeWord: (id, wordId) => request(`/word-books/${id}/words/${wordId}/`, 'DELETE'),
+};
+
 // ──── 工具函数 ────
 const buildQuery = (params) => {
   return Object.keys(params)
@@ -175,4 +219,5 @@ module.exports = {
   studyApi,
   achievementApi,
   vocabTestApi,
+  wordBookApi,
 };

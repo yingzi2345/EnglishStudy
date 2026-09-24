@@ -42,9 +42,11 @@ public class WordService {
 
     /**
      * 单词分页列表（支持 category 筛选与 search 关键词，对应 Django WordViewSet.list）
+     * 可见范围：系统词 + 本人自定义词
      */
-    public Map<String, Object> list(String category, String search, long page, long pageSize) {
+    public Map<String, Object> list(String category, String search, long page, long pageSize, Long userId) {
         LambdaQueryWrapper<Word> wrapper = new LambdaQueryWrapper<>();
+        applyVisibility(wrapper, userId);
         if (StringUtils.hasText(category)) {
             wrapper.eq(Word::getCategory, category);
         }
@@ -66,10 +68,14 @@ public class WordService {
 
     /**
      * 单词详情（附带当前用户学习状态）
+     * 自定义词仅本人可见
      */
     public WordVO retrieve(Long id, Long userId) {
         Word word = wordMapper.selectById(id);
         if (word == null) {
+            throw new BusinessException(404, "单词不存在");
+        }
+        if ("custom".equals(word.getSource()) && (userId == null || !userId.equals(word.getOwnerId()))) {
             throw new BusinessException(404, "单词不存在");
         }
         WordVO vo = toWordVO(word);
@@ -139,10 +145,11 @@ public class WordService {
     }
 
     /**
-     * 所有单词分类
+     * 所有单词分类（仅系统词）
      */
     public List<String> categories() {
         return wordMapper.selectList(new LambdaQueryWrapper<Word>()
+                        .eq(Word::getSource, "system")
                         .select(Word::getCategory))
                 .stream().map(Word::getCategory)
                 .filter(StringUtils::hasText)
@@ -152,9 +159,11 @@ public class WordService {
 
     /**
      * 随机获取一个单词（可筛选 level / category）
+     * 可见范围：系统词 + 本人自定义词
      */
     public WordVO randomWord(Integer level, String category, Long userId) {
         LambdaQueryWrapper<Word> wrapper = new LambdaQueryWrapper<>();
+        applyVisibility(wrapper, userId);
         if (level != null) {
             wrapper.eq(Word::getLevel, level);
         }
@@ -174,12 +183,15 @@ public class WordService {
 
     /**
      * 每日推荐单词（默认 10 个，优先未学习，对应 Django daily_words）
+     * 可见范围：系统词 + 本人自定义词
      */
     public List<WordVO> dailyWords(int count, Long userId) {
         if (count <= 0) {
             count = 10;
         }
-        long total = wordMapper.selectCount(null);
+        LambdaQueryWrapper<Word> visWrapper = new LambdaQueryWrapper<>();
+        applyVisibility(visWrapper, userId);
+        long total = wordMapper.selectCount(visWrapper);
         if (total == 0) {
             throw new BusinessException(404, "暂无单词数据");
         }
@@ -190,13 +202,17 @@ public class WordService {
                         .select(WordProgress::getWordId))
                 .stream().map(WordProgress::getWordId).collect(Collectors.toSet());
 
-        List<Word> unlearned = wordMapper.selectList(new LambdaQueryWrapper<Word>()
-                .notIn(!learnedIds.isEmpty(), Word::getId, learnedIds));
+        LambdaQueryWrapper<Word> unlearnedWrapper = new LambdaQueryWrapper<>();
+        applyVisibility(unlearnedWrapper, userId);
+        unlearnedWrapper.notIn(!learnedIds.isEmpty(), Word::getId, learnedIds);
+        List<Word> unlearned = wordMapper.selectList(unlearnedWrapper);
         List<Word> pool;
         if (unlearned.size() >= count) {
             pool = unlearned;
         } else {
-            pool = wordMapper.selectList(null);
+            LambdaQueryWrapper<Word> allWrapper = new LambdaQueryWrapper<>();
+            applyVisibility(allWrapper, userId);
+            pool = wordMapper.selectList(allWrapper);
         }
         Collections.shuffle(pool, random);
         List<Word> picked = pool.subList(0, Math.min(count, pool.size()));
@@ -291,9 +307,12 @@ public class WordService {
 
     /**
      * 我的学习进度（对应 Django my_progress）
+     * 总词量统计可见词（系统词 + 本人自定义词）
      */
     public Map<String, Object> myProgress(Long userId) {
-        long total = wordMapper.selectCount(null);
+        LambdaQueryWrapper<Word> visWrapper = new LambdaQueryWrapper<>();
+        applyVisibility(visWrapper, userId);
+        long total = wordMapper.selectCount(visWrapper);
         long learned = progressMapper.selectCount(new LambdaQueryWrapper<WordProgress>()
                 .eq(WordProgress::getUserId, userId)
                 .eq(WordProgress::getIsLearned, 1));
@@ -319,17 +338,32 @@ public class WordService {
 
     /**
      * 搜索单词（对应 Django search）
+     * 可见范围：系统词 + 本人自定义词
      */
     public List<WordVO> search(String keyword, Long userId) {
         if (!StringUtils.hasText(keyword)) {
             throw new BusinessException(400, "请输入搜索关键词");
         }
-        List<Word> words = wordMapper.selectList(new LambdaQueryWrapper<Word>()
-                .and(w -> w.like(Word::getWord, keyword).or().like(Word::getMeaning, keyword))
-                .last("LIMIT 20"));
+        LambdaQueryWrapper<Word> wrapper = new LambdaQueryWrapper<>();
+        applyVisibility(wrapper, userId);
+        wrapper.and(w -> w.like(Word::getWord, keyword).or().like(Word::getMeaning, keyword))
+                .last("LIMIT 20");
+        List<Word> words = wordMapper.selectList(wrapper);
         List<WordVO> result = words.stream().map(this::toWordVO).collect(Collectors.toList());
         result.forEach(vo -> fillUserStatus(vo, userId));
         return result;
+    }
+
+    /**
+     * 可见性过滤：系统词 + 本人自定义词（userId 为 null 时仅系统词）
+     */
+    private void applyVisibility(LambdaQueryWrapper<Word> wrapper, Long userId) {
+        wrapper.and(w -> {
+            w.eq(Word::getSource, "system");
+            if (userId != null) {
+                w.or().eq(Word::getOwnerId, userId);
+            }
+        });
     }
 
     // ──── 转换与辅助 ────
@@ -352,6 +386,7 @@ public class WordService {
         vo.setCreatedAt(word.getCreatedAt());
         vo.setIsLearned(false);
         vo.setIsMastered(false);
+        vo.setIsFavorite(false);
         return vo;
     }
 
@@ -365,6 +400,7 @@ public class WordService {
         if (p != null) {
             vo.setIsLearned(p.getIsLearned() != null && p.getIsLearned() == 1);
             vo.setIsMastered(p.getIsMastered() != null && p.getIsMastered() == 1);
+            vo.setIsFavorite(p.getIsFavorite() != null && p.getIsFavorite() == 1);
         }
     }
 
@@ -379,6 +415,7 @@ public class WordService {
         vo.setReviewCount(p.getReviewCount());
         vo.setWrongCount(p.getWrongCount());
         vo.setIsWrong(p.getIsWrong());
+        vo.setIsFavorite(p.getIsFavorite());
         vo.setIntervalLevel(p.getIntervalLevel());
         vo.setCreatedAt(p.getCreatedAt());
         vo.setUpdatedAt(p.getUpdatedAt());
@@ -386,6 +423,7 @@ public class WordService {
         if (word != null) {
             vo.setWordName(word.getWord());
             vo.setWordMeaning(word.getMeaning());
+            vo.setPhonetic(word.getPhonetic());
         }
         return vo;
     }
