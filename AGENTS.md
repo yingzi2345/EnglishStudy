@@ -3,7 +3,7 @@
 毕业设计项目：基于微信小程序的英语学习打卡系统设计与实现
 桂林电子科技大学 · 网络工程专业 · 导师：徐凯
 
-> **后端已迁移至 Java/Spring Boot：当前主后端为 `backend-java/`。`backend/` 是旧 Django 实现，仅保留作论文对照，不要再修改。** 详细说明见 `backend-java/README.md`。
+> **主后端为 Java/Spring Boot（`backend-java/`）。** 旧 Django 后端已移除，不再保留 Python 后端代码。
 
 ## 技术栈（当前主后端）
 
@@ -19,8 +19,8 @@
 ## 目录结构
 
 ```
-D:\yingzi\Documents\项目\毕业设计\
-├── backend-java/               # ★ 当前主后端（Spring Boot）
+D:\yingzi\Documents\项目\英语小程序\
+├── backend-java/               # ★ 主后端（Spring Boot）
 │   ├── pom.xml
 │   ├── src/main/java/com/guet/englishcheckin/
 │   │   ├── common/             # ApiResponse 统一响应 / BusinessException / 全局异常
@@ -28,26 +28,23 @@ D:\yingzi\Documents\项目\毕业设计\
 │   │   ├── security/           # JwtUtil / JwtAuthInterceptor / TrailingSlashFilter / IpUtil
 │   │   ├── entity/ mapper/ dto/ vo/ service/ controller/
 │   │   └── resources/application.yml   # 数据源 / JWT secret / Jackson(SNAKE_CASE) 配置
-│   ├── smoke_test.ps1          # 接口冒烟测试（28 个接口）
-│   └── detail_test.py          # 字段命名/编码/时区兼容性验证（需 venv Python + requests）
-├── backend/                    # 旧 Django 后端（论文对照，勿改）
+│   ├── smoke_test.ps1          # 接口冒烟测试（PowerShell 原生）
+│   └── detail_test.py          # 字段命名/编码/时区兼容性验证（标准库 Python，无需第三方包）
 ├── front/                      # 微信小程序
 ├── database/                   # SQL 建表 + 种子数据 + ER 图
-├── docs/ ppt/                  # 毕业论文 / 答辩 PPT
-└── .venv/                      # 已删除（原 Django 虚拟环境，不再使用）
+└── docs/ ppt/                  # 毕业论文 / 答辩 PPT
 ```
 
 ## 构建与启动（主后端）
 
 ```bash
-cd D:\yingzi\Documents\项目\毕业设计\backend-java
+cd D:\yingzi\Documents\项目\英语小程序\backend-java
 mvn package -DskipTests
 java -jar target\english-checkin-backend-1.0.0.jar    # 监听 8000，与小程序 baseUrl 一致
 ```
 
 - 改代码后快速检查：`mvn -q compile`
-- 改接口后跑 `smoke_test.ps1`（PowerShell 原生）或 `detail_test.py`（标准库，`D:\python\python3.12.4\python.exe`，无需第三方包）验证；测试会创建临时 mock 用户，验证后须清理（参照 `cleanup_test_data.sql`）
-- 旧 Django 版启动（如需）：`backend\.venv\Scripts\python.exe manage.py runserver 0.0.0.0:8000`（两版端口冲突，勿同时运行）
+- 改接口后跑 `smoke_test.ps1`（PowerShell 原生）或 `detail_test.py`（`D:\python\python3.12.4\python.exe`，无需第三方包）验证；测试会创建临时 mock 用户，验证后须清理（参照 `cleanup_test_data.sql`）
 
 ## 数据库
 
@@ -138,7 +135,6 @@ Word (tb_word) 加 source/owner_id 字段 + uk_word 唯一索引（INSERT IGNORE
 ## Windows 环境注意事项
 
 - Java 命令：`java -version` / `mvn`（本机 JDK 21 + Maven 3.9.16）
-- 中文路径：Python 脚本处理中文路径文件（如 Pillow）可能失败，先存临时目录再拷贝
 - 杀进程：`taskkill /PID` 在 Git Bash 下可能乱码失败，用 `powershell -Command "Stop-Process -Id PID -Force"`
 
 ## 依赖（backend-java/pom.xml）
